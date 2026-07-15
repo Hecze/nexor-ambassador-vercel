@@ -378,42 +378,42 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
     <div className="flex flex-col text-left" id="simulator-section">
       
       {/* 1. LOBBY PRE-LLAMADA (Estilo Google Meet pre-join) */}
-      {simulationState === "lobby" && selectedSim && (
+      {simulationState === "lobby" && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden h-[calc(100vh-140px)]">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.02)_0%,rgba(0,0,0,0)_70%)] pointer-events-none" />
 
           {/* Panel Izquierdo: Vista previa + botón Unirse */}
           <div className="lg:col-span-7 flex flex-col items-center justify-center h-full relative z-10 space-y-8">
-            <div className="text-center space-y-1">
-              <h3 className="text-sm font-black text-white">Estás a punto de unirte</h3>
-              <p className="text-[10px] text-neutral-400">Simulación de llamada comercial con IA</p>
-            </div>
+            {selectedSim ? (
+              <>
+                <div className="text-center space-y-1">
+                  <h3 className="text-sm font-black text-white">Estás a punto de unirte</h3>
+                  <p className="text-[10px] text-neutral-400">Simulación de llamada comercial con IA</p>
+                </div>
 
-            {/* Avatar grande con pulso */}
-            <div className="relative">
-              <div className="h-28 w-28 rounded-full bg-[#3c4043] flex items-center justify-center border-2 border-neutral-700 text-white font-black text-4xl shadow-xl">
-                {selectedSim.clientName.substring(0, 1).toUpperCase()}
-              </div>
-              <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-emerald-500 rounded-full border-2 border-[#111] animate-pulse" />
-            </div>
+                <div className="relative">
+                  <div className="h-28 w-28 rounded-full bg-[#3c4043] flex items-center justify-center border-2 border-neutral-700 text-white font-black text-4xl shadow-xl">
+                    {selectedSim.clientName.substring(0, 1).toUpperCase()}
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-emerald-500 rounded-full border-2 border-[#111] animate-pulse" />
+                </div>
 
-            <div className="text-center space-y-1.5">
-              <h4 className="text-lg font-black text-white">{selectedSim.clientName}</h4>
-              <p className="text-sm text-neutral-400 font-medium">{selectedSim.role}</p>
-              <p className="text-xs text-neutral-500">{selectedSim.companyName} · {selectedSim.industry} · {selectedSim.employeeCount}</p>
-            </div>
+                <div className="text-center space-y-1.5">
+                  <h4 className="text-lg font-black text-white">{selectedSim.clientName}</h4>
+                  <p className="text-sm text-neutral-400 font-medium">{selectedSim.role}</p>
+                  <p className="text-xs text-neutral-500">{selectedSim.companyName} · {selectedSim.industry} · {selectedSim.employeeCount}</p>
+                </div>
 
-            {/* Botón Unirse (Google Meet style) */}
-            <button
-              type="button"
-              onClick={() => {
-                setSimulationState("calling");
-                setDialogue([{ role: "client", text: selectedSim.initialPrompt }]);
-                setCurrentGoalProgress(new Array(selectedSim.goals.length).fill(false));
-                setTimeLeft(240);
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSimulationState("calling");
+                    setDialogue([{ role: "client", text: selectedSim.initialPrompt }]);
+                    setCurrentGoalProgress(new Array(selectedSim.goals.length).fill(false));
+                    setTimeLeft(240);
 
-                if (vapiInstance && vapiAssistantId) {
-                  const systemPrompt = `Eres un prospecto comercial difícil y escéptico de llamarte ${selectedSim.clientName}, con el cargo de ${selectedSim.role} en la empresa '${selectedSim.companyName}' que opera en la industria de ${selectedSim.industry} con un tamaño aproximado de ${selectedSim.employeeCount}.
+                    if (vapiInstance && vapiAssistantId) {
+                      const systemPrompt = `Eres un prospecto comercial difícil y escéptico de llamarte ${selectedSim.clientName}, con el cargo de ${selectedSim.role} en la empresa '${selectedSim.companyName}' que opera en la industria de ${selectedSim.industry} con un tamaño aproximado de ${selectedSim.employeeCount}.
 Te ha contactado un vendedor (partner) de la startup de IA 'Nexor'.
 Tu empresa actualmente tiene pérdidas por leads de ventas no atendidos y un equipo comercial saturado.
 Tu principal competidor en el radar es 'Vambe', pero el vendedor de Nexor te está llamando para convencerte de que implementes los agentes de voz de Nexor.
@@ -430,27 +430,36 @@ Reglas de comportamiento:
 3. Si el vendedor ofrece un descuento rápido, muéstrate escéptico o pierde el interés.
 4. Si el vendedor es convincente, te propone agendar un paso siguiente claro (reunión de 45 min) y demuestra el valor, accede de forma profesional.`;
 
-                  vapiInstance.start(vapiAssistantId, {
-                    model: {
-                      messages: [{ role: "system", content: systemPrompt }],
-                    },
-                    firstMessage: selectedSim.initialPrompt,
-                  } as any);
-                }
-              }}
-              className="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-black uppercase tracking-wider transition-all active:scale-95 shadow-lg shadow-emerald-900/30 flex items-center space-x-2 cursor-pointer"
-            >
-              <Phone className="h-4 w-4" />
-              <span>Unirse a la llamada</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSimulationState("lobby")}
-              className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors cursor-pointer"
-            >
-              Volver al configurador
-            </button>
+                      vapiInstance.start(vapiAssistantId, {
+                        model: {
+                          messages: [{ role: "system", content: systemPrompt }],
+                        },
+                        firstMessage: selectedSim.initialPrompt,
+                      } as any);
+                    }
+                  }}
+                  className="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-black uppercase tracking-wider transition-all active:scale-95 shadow-lg shadow-emerald-900/30 flex items-center space-x-2 cursor-pointer"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>Unirse a la llamada</span>
+                </button>
+              </>
+            ) : (
+              <div className="text-center space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-sm font-black text-white">Simulador de Ventas</h3>
+                  <p className="text-xs text-neutral-500 max-w-xs">Selecciona un cliente de tu cartera o crea uno nuevo para iniciar una simulación de llamada.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowCustomForm(true)}
+                  className="px-8 py-3 rounded-xl border border-neutral-700 hover:border-neutral-500 text-neutral-300 hover:text-white text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 mx-auto"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  <span>Crear primer cliente</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Panel Derecho: Selector de cliente + info */}
