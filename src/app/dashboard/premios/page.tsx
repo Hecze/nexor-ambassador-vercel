@@ -371,9 +371,9 @@ export default function PremiosPage() {
                   <div className="flex items-center gap-2.5">
                     <div
                       className="w-[38px] h-[38px] rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: completed ? "#ECFDF5" : isClaimed ? "#F4F4F5" : "#F4F4F5" }}
+                      style={{ background: "#F4F4F5" }}
                     >
-                      <Icon className="h-[17px] w-[17px]" style={{ color: completed ? "#059669" : isClaimed ? "#A1A1AA" : "#71717A" }} />
+                      <Icon className="h-[17px] w-[17px]" style={{ color: completed && isClaimed ? "#A1A1AA" : "#71717A" }} />
                     </div>
                     <div className="min-w-0">
                       <div className="text-[12.5px] font-extrabold truncate">{mision.titulo}</div>
@@ -385,7 +385,7 @@ export default function PremiosPage() {
                     <div className="flex-1 h-[7px] bg-[#F4F4F5] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${pct}%`, background: completed ? "#10B981" : "#111113" }}
+                        style={{ width: `${pct}%`, background: completed ? "#FBBF24" : "#111113" }}
                       />
                     </div>
                     <span className="text-[10px] font-bold font-mono text-[#71717A]">
@@ -397,7 +397,9 @@ export default function PremiosPage() {
                     <span className="text-[10px] font-bold text-[#71717A]">
                       {mision.recompensa}
                     </span>
-                    {ready ? (
+                    {completed && isClaimed ? (
+                      <span className="text-[10.5px] font-bold text-[#A1A1AA]">Reclamado</span>
+                    ) : ready ? (
                       <button
                         onClick={() => handleReclamar(mision.id)}
                         className="text-[11px] font-extrabold text-white bg-[#111113] hover:bg-[#27272A] rounded-xl px-4 py-2 transition-colors cursor-pointer"
@@ -405,8 +407,8 @@ export default function PremiosPage() {
                         Reclamar
                       </button>
                     ) : (
-                      <span className="text-[10.5px] font-bold" style={{ color: completed ? "#059669" : "#A1A1AA" }}>
-                        {completed ? "Completado" : `Te faltan ${meta - actual}`}
+                      <span className="text-[10.5px] font-bold text-[#A1A1AA]">
+                        Te faltan {meta - actual}
                       </span>
                     )}
                   </div>
