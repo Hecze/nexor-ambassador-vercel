@@ -647,14 +647,13 @@ Reglas de comportamiento:
           </div>
 
           {/* Panel Derecho: Selector de cliente + info */}
-          <div className="lg:col-span-5 flex flex-col justify-center h-full relative z-10 border-l border-neutral-850 pl-8 space-y-6">
-            <div className="space-y-3">
+          <div className="lg:col-span-5 flex flex-col h-full relative z-10 border-l border-neutral-850 pl-8 space-y-4">
+            <div className="space-y-2">
               <h4 className="text-xs font-black text-white uppercase tracking-widest">Seleccionar cliente</h4>
-              <p className="text-[10px] text-neutral-500">Elige de tu cartera antes de iniciar la simulación.</p>
             </div>
 
             {prospects.length > 0 && (
-              <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1">
+              <div className="space-y-2 overflow-y-auto pr-1 flex-1 min-h-0">
                 {prospects.map((p) => {
                   const isActive = selectedSim?.clientName === p.name && selectedSim?.companyName === p.company;
                   return (
@@ -701,24 +700,6 @@ Reglas de comportamiento:
               </div>
             )}
 
-            <div className="bg-neutral-900 border border-neutral-850 rounded-2xl p-4.5 space-y-3">
-              <span className="text-[9px] uppercase tracking-wider text-neutral-400 font-bold block">Detalles del escenario</span>
-              <div className="flex items-center space-x-2 text-xs">
-                <span className="text-neutral-400">Industria:</span>
-                <span className="text-white font-bold">{selectedSim.industry}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-xs">
-                <span className="text-neutral-400">Dificultad:</span>
-                <span className="text-white font-bold">{selectedSim.difficulty}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-xs">
-                <span className="text-neutral-400">Duración:</span>
-                <span className="text-white font-bold">4 minutos</span>
-              </div>
-              <p className="text-[10px] text-neutral-500 leading-relaxed pt-1 border-t border-neutral-850">
-                Objetivos: {selectedSim.goals.length} metas tácticas durante la conversación.
-              </p>
-            </div>
           </div>
         </div>
       )}
