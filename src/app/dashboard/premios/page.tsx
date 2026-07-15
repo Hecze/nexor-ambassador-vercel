@@ -385,7 +385,7 @@ export default function PremiosPage() {
                     <div className="flex-1 h-[7px] bg-[#F4F4F5] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${pct}%`, background: completed ? "#FBBF24" : "#111113" }}
+                        style={{ width: `${pct}%`, background: completed && isClaimed ? "#D4D4D8" : ready ? "#D97706" : "#111113" }}
                       />
                     </div>
                     <span className="text-[10px] font-bold font-mono text-[#71717A]">
