@@ -1527,7 +1527,7 @@ En representación de ${companyName}`
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in text-left" id="multichannel-inbox-view">
 
                   {/* Sidebar de Leads (Izquierda) */}
-                  <div className="lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-5 shadow-sm flex flex-col h-[850px]">
+                  <div className="lg:col-span-12 bg-white border border-gray-200 rounded-3xl p-5 shadow-sm flex flex-col h-[850px]">
                     <div className="pb-3 border-b border-gray-100 mb-3 flex-shrink-0 space-y-3">
                       <div>
                         <h3 className="text-sm font-black text-gray-900">Bandeja de Leads</h3>
@@ -1648,27 +1648,40 @@ En representación de ${companyName}`
                     </div>
                   </div>
 
-                  {/* Contenido Detalle Multicanal (Derecha) */}
-                  <div className="lg:col-span-8 bg-white border border-gray-200 rounded-3xl p-6 shadow-sm flex flex-col h-[850px] justify-between">
-                    {(() => {
-                      const currentLeads = leadsByProspect[selectedProspectId] || [];
-                      const activeLead = selectedLeadId ? currentLeads.find((l) => l.id === selectedLeadId) : null;
+                </div>
+              )}
 
-                      if (!activeLead) {
-                        return (
-                          <div className="flex flex-col items-center justify-center h-full text-center text-gray-400 space-y-3">
-                            <MessageSquare className="h-12 w-12 stroke-1 animate-pulse text-neutral-300" />
-                            <h3 className="text-sm font-bold text-gray-700">Ningún Lead Seleccionado</h3>
-                            <p className="text-xs text-gray-500 max-w-sm">
-                              Selecciona uno de los leads en la bandeja de la izquierda para desplegar sus llamadas, hilos de correos y chats automatizados con IA.
-                            </p>
+              {/* Contenido Detalle Multicanal (Derecha) - Drawer Overlay */}
+              {selectedLeadId && (() => {
+                const currentLeads = leadsByProspect[selectedProspectId] || [];
+                const activeLead = currentLeads.find((l) => l.id === selectedLeadId);
+                if (!activeLead) return null;
+                const activeLeadChannelData = getChannelData(activeLead, activeChannelTab);
+                return (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40 bg-black/50"
+                      onClick={() => setSelectedLeadId(null)}
+                    />
+                    <div className="fixed inset-y-0 right-0 z-50 w-[420px] bg-white border-l border-gray-200 shadow-2xl flex flex-col h-full">
+                      <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 flex-shrink-0">
+                        <div className="flex items-center space-x-3">
+                          <div className="h-9 w-9 rounded-full bg-neutral-950 text-white flex items-center justify-center text-xs font-black uppercase flex-shrink-0">
+                            {activeLead.name.substring(0, 2)}
                           </div>
-                        );
-                      }
-
-                      const activeLeadChannelData = getChannelData(activeLead, activeChannelTab);
-
-                      return (
+                          <div>
+                            <h4 className="text-xs font-black text-gray-900">{activeLead.name}</h4>
+                            <p className="text-[10px] text-gray-400">{activeLead.phoneOrUser}</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSelectedLeadId(null)}
+                          className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="flex-1 overflow-y-auto p-5">
                         <div className="flex flex-col h-full justify-between space-y-4">
 
                           {/* Sub-Header de Lead */}
@@ -2096,12 +2109,11 @@ En representación de ${companyName}`
 
 
                         </div>
-                      );
-                    })()}
-                  </div>
-
-                </div>
-              )}
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </>)}
 
           {/* SECCIÓN 2: ALCANCÍA DE LEADS (PREPAGO) */}
