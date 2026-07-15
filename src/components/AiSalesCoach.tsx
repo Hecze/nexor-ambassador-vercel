@@ -54,7 +54,7 @@ export default function AiSalesCoach({
               className={`max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed ${
                 msg.sender === "user"
                   ? "bg-neutral-900 text-white rounded-tr-none"
-                  : "bg-gray-50 text-gray-800 border border-gray-150 rounded-tl-none"
+                  : "bg-gray-100 text-gray-900 border border-gray-200 rounded-tl-none"
               }`}
             >
               {/* Formateo de Markdown para respuestas elegantes del Coach */}
@@ -76,7 +76,7 @@ export default function AiSalesCoach({
                         parts.push(text.substring(lastIndex, match.index));
                       }
                       parts.push(
-                        <strong key={match.index} className="font-extrabold text-neutral-950 dark:text-neutral-900">
+                        <strong key={match.index} className="font-extrabold text-neutral-900">
                           {match[1]}
                         </strong>
                       );
@@ -95,7 +95,7 @@ export default function AiSalesCoach({
                     if (trimmed.startsWith("* ") || trimmed.startsWith("- ")) {
                       const cleanText = trimmed.substring(2);
                       listItems.push(
-                        <li key={`li-${idx}`} className="list-disc list-inside ml-3 pl-1 text-xs text-gray-700 leading-relaxed">
+                        <li key={`li-${idx}`} className="list-disc list-inside ml-3 pl-1 text-xs text-gray-800 leading-relaxed">
                           {parseInlineMarkdown(cleanText)}
                         </li>
                       );
@@ -116,7 +116,7 @@ export default function AiSalesCoach({
                         renderedBlocks.push(<div key={`space-${idx}`} className="h-2" />);
                       } else {
                         renderedBlocks.push(
-                          <p key={`p-${idx}`} className="text-xs leading-relaxed text-gray-700">
+                          <p key={`p-${idx}`} className="text-xs leading-relaxed text-gray-800">
                             {parseInlineMarkdown(line)}
                           </p>
                         );

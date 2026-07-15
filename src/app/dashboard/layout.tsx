@@ -8,7 +8,9 @@ import {
   Users, DollarSign, BookOpen,
   Sparkles, Phone, LifeBuoy,
   LogOut, Menu, X, Trophy,
+  User, Receipt, Gift,
 } from "lucide-react";
+import FloatingChatbot from "@/components/FloatingChatbot";
 import { TIERS } from "@/lib/data";
 import Link from "next/link";
 
@@ -20,6 +22,9 @@ const navItems = [
   { id: "/dashboard/coach", label: "Coach de Ventas (Sofía)", icon: Sparkles },
   { id: "/dashboard/simulator", label: "Simulador de Ventas", icon: Phone },
   { id: "/dashboard/support", label: "Soporte", icon: LifeBuoy },
+  { id: "/dashboard/facturacion", label: "Facturación", icon: Receipt },
+  { id: "/dashboard/premios", label: "Premios", icon: Gift },
+  { id: "/dashboard/perfil", label: "Perfil", icon: User },
 ];
 
 const tierNames: Record<string, string> = {
@@ -30,6 +35,9 @@ const tierNames: Record<string, string> = {
   "/dashboard/coach": "Asistente Sofía AI",
   "/dashboard/simulator": "Simulador de Ventas",
   "/dashboard/support": "Soporte con Nexor Raíz",
+  "/dashboard/facturacion": "Facturación y Métricas",
+  "/dashboard/premios": "Premios y Misiones",
+  "/dashboard/perfil": "Mi Perfil",
 };
 
 export default function DashboardLayout({
@@ -196,6 +204,7 @@ export default function DashboardLayout({
         </main>
       </div>
     </div>
+      <FloatingChatbot />
     </DashboardProvider>
   );
 }

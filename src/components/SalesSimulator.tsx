@@ -45,8 +45,10 @@ if (vapiApiKey) {
 
 export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
   // Navigation: list, calling, analyzing, feedback
-  const [simulationState, setSimulationState] = useState<"list" | "calling" | "analyzing" | "feedback">("list");
+  const [simulationState, setSimulationState] = useState<"list" | "calling" | "analyzing" | "feedback">("calling");
   const [selectedSim, setSelectedSim] = useState<Simulation | null>(null);
+  const [showClientPanel, setShowClientPanel] = useState(false);
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
   
   // Custom generator fields
   const [customIndustry, setCustomIndustry] = useState("Automotriz & Concesionarias");
@@ -98,6 +100,33 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
       }
     }
   ]);
+
+  useEffect(() => {
+    if (hasAutoStarted) return;
+    if (prospects.length > 0) {
+      setHasAutoStarted(true);
+      const p = prospects[0];
+      const sim: Simulation = {
+        id: "auto-" + p.id,
+        clientName: p.name,
+        role: "Gerente Comercial",
+        industry: p.industry,
+        difficulty: "Medio",
+        companyName: p.company,
+        employeeCount: "50-200 empleados",
+        goals: ["Usar la Técnica del Eco", "Preguntar por su stack de herramientas", "Evidenciar ROI en menos de 60 segundos", "Evitar descuentos prematuros", "Cerrar agenda de demo"],
+        objections: ["El servicio de Nexor parece costoso", "Nos preocupa la calidez de la voz IA"],
+        initialPrompt: `Hola, habla ${p.name} de ${p.company}. Me dijeron que eres partner de Nexor AI. La verdad estamos evaluando opciones. ¿Por qué deberíamos elegirlos a ustedes?`,
+      };
+      setSelectedSim(sim);
+      setDialogue([{ role: "client", text: sim.initialPrompt }]);
+      setCurrentGoalProgress(new Array(sim.goals.length).fill(false));
+      setTimeLeft(240);
+    } else if (prospects.length === 0 && prospects !== undefined) {
+      setHasAutoStarted(true);
+      setSimulationState("list");
+    }
+  }, [prospects, hasAutoStarted]);
 
   // Live call states
   const [dialogue, setDialogue] = useState<{ role: "client" | "user"; text: string }[]>([]);
@@ -820,6 +849,38 @@ Reglas de comportamiento:
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Selector de Cliente */}
+            <div className="space-y-2">
+              <span className="text-[9px] uppercase tracking-wider text-neutral-400 font-bold block">Cliente Simulado</span>
+              {prospects.length > 0 && (
+                <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1">
+                  {prospects.map((p) => {
+                    const isActive = selectedSim?.clientName === p.name && selectedSim?.companyName === p.company;
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => {
+                          handleSelectProspect(p);
+                          setShowClientPanel(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer truncate ${
+                          isActive ? "bg-amber-500/20 text-amber-400 border border-amber-500/30" : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-800 border border-transparent"
+                        }`}
+                      >
+                        {p.company} ({p.name})
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+              <button
+                onClick={() => { handleEndCall(); setSimulationState("list"); }}
+                className="w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold transition-all cursor-pointer"
+              >
+                + Nuevo cliente personalizado
+              </button>
             </div>
 
             {/* Información del Cliente */}

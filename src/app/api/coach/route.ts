@@ -53,7 +53,7 @@ Cuando el embajador te pregunte sobre cómo pitchear a una empresa de cierto sec
 Usa un tono profesional, inspirador, estratégico y sumamente comercial. Responde en español de forma estructurada usando Markdown con emojis sutiles.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.1-flash-lite",
       contents,
       config: {
         systemInstruction,
