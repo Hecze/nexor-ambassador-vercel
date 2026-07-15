@@ -1660,10 +1660,10 @@ En representación de ${companyName}`
                 return (
                   <>
                     <div
-                      className="fixed inset-0 z-40 bg-black/50"
+                      className="fixed inset-0 z-40 bg-black/50 animate-fade-in"
                       onClick={() => setSelectedLeadId(null)}
                     />
-                    <div className="fixed inset-y-0 right-0 z-50 w-[420px] bg-white border-l border-gray-200 shadow-2xl flex flex-col h-full">
+                    <div className="fixed inset-y-0 right-0 z-50 w-[420px] bg-white border-l border-gray-200 shadow-2xl flex flex-col h-full animate-slide-in-right">
                       <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 flex-shrink-0">
                         <div className="flex items-center space-x-3">
                           <div className="h-9 w-9 rounded-full bg-neutral-950 text-white flex items-center justify-center text-xs font-black uppercase flex-shrink-0">
