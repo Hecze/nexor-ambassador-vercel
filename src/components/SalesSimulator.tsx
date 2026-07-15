@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Sparkles, Trophy, BookOpen, User, Phone, CheckCircle, XCircle, Send, ChevronRight, ArrowLeft, Building, Users, Search, HelpCircle, Volume2, Mic, Check, PhoneOff, Video, MessageSquare, Hand, MoreVertical, ChevronUp } from "lucide-react";
+import { Play, Sparkles, Trophy, BookOpen, User, Phone, CheckCircle, XCircle, X, Send, ChevronRight, ArrowLeft, Building, Users, Search, HelpCircle, Volume2, Mic, Check, PhoneOff, Video, MessageSquare, Hand, MoreVertical, ChevronUp, Plus } from "lucide-react";
 import { Prospect } from "@/lib/types";
 
 import Vapi from "@vapi-ai/web";
@@ -45,7 +45,7 @@ if (vapiApiKey) {
 
 export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
   // Navigation: list, lobby, calling, analyzing, feedback
-  const [simulationState, setSimulationState] = useState<"list" | "lobby" | "calling" | "analyzing" | "feedback">("lobby");
+  const [simulationState, setSimulationState] = useState<"lobby" | "calling" | "analyzing" | "feedback">("lobby");
   const [selectedSim, setSelectedSim] = useState<Simulation | null>(null);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
   
@@ -57,6 +57,7 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
   const [customName, setCustomName] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [isScraping, setIsScraping] = useState(false);
+  const [showCustomForm, setShowCustomForm] = useState(false);
 
   // Audio configuration states (Google Meet layout controls)
   const [selectedMic, setSelectedMic] = useState("Micrófono Predeterminado");
@@ -120,7 +121,6 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
       setSelectedSim(sim);
     } else if (prospects.length === 0) {
       setHasAutoStarted(true);
-      setSimulationState("list");
     }
   }, [prospects, hasAutoStarted]);
 
@@ -285,15 +285,6 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
     }
   };
 
-  // Populate from existing CRM lead
-  const handleSelectProspect = (prospect: Prospect) => {
-    setCustomName(prospect.name || "Contacto");
-    setCustomCompany(prospect.company || "Empresa Clave");
-    setCustomIndustry(prospect.industry || "General");
-    setCustomRole("Gerente General (Decision Maker)");
-    setCustomEmployees("50-200 empleados");
-  };
-
   const handleStartCustomCall = () => {
     const finalName = customName.trim() || "Marcus Reyes";
     const finalCompany = customCompany.trim() || "Northwind Logistics";
@@ -386,176 +377,7 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
   return (
     <div className="flex flex-col text-left" id="simulator-section">
       
-      {/* 1. CONFIGURADOR DINÁMICO DE ESCENARIO */}
-      {simulationState === "list" && (
-        <div className="space-y-6">
-          <div className="flex items-center space-x-3 pb-4 border-b border-gray-150">
-            <div className="p-2.5 bg-neutral-900 text-white rounded-xl">
-              <Sparkles className="h-5 w-5 animate-pulse" />
-            </div>
-            <div>
-              <h3 className="text-sm font-black text-gray-900">Simulador de Ventas Nexor</h3>
-              <p className="text-xs text-gray-400 mt-0.5">Define las características de tu prospecto o impórtalo desde tu cartera de clientes.</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Formulario de Configuración (Izquierda) */}
-            <div className="lg:col-span-7 space-y-5">
-              <div className="space-y-4">
-                <h4 className="text-xs font-black text-gray-900 uppercase tracking-wider">Parámetros del Cliente</h4>
-                
-                {/* Seleccionar de cartera de clientes */}
-                {prospects.length > 0 && (
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase text-gray-400">Importar Cliente Cartera</label>
-                    <div className="flex flex-wrap gap-2">
-                      {prospects.map((p) => (
-                        <button
-                          key={p.id}
-                          type="button"
-                          onClick={() => handleSelectProspect(p)}
-                          className="px-3 py-1.5 rounded-lg border border-gray-200 hover:border-neutral-900 bg-gray-50 text-[11px] font-bold text-gray-700 hover:text-neutral-900 transition-all cursor-pointer"
-                        >
-                          💼 {p.company} ({p.name})
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* LinkedIn Scrape / Apify */}
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-gray-400">Extraer datos con Apify (LinkedIn)</label>
-                  <div className="flex space-x-2">
-                    <input
-                      type="text"
-                      placeholder="Pega el link de LinkedIn del prospecto..."
-                      value={linkedinUrl}
-                      onChange={(e) => setLinkedinUrl(e.target.value)}
-                      className="flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-xs outline-none focus:border-neutral-900 bg-white"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleApifyScrape}
-                      disabled={isScraping}
-                      className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center space-x-1.5 cursor-pointer shrink-0"
-                    >
-                      {isScraping ? (
-                        <span className="animate-spin h-3.5 w-3.5 border-2 border-white border-t-transparent rounded-full" />
-                      ) : (
-                        <Search className="h-3.5 w-3.5" />
-                      )}
-                      <span>Scrapear</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-gray-400">Nombre del Lead</label>
-                    <input
-                      type="text"
-                      value={customName}
-                      onChange={(e) => setCustomName(e.target.value)}
-                      placeholder="Ej. Marcus Reyes"
-                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-xs outline-none focus:border-neutral-900 bg-white"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-gray-400">Empresa</label>
-                    <input
-                      type="text"
-                      value={customCompany}
-                      onChange={(e) => setCustomCompany(e.target.value)}
-                      placeholder="Ej. Northwind Logistics"
-                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-xs outline-none focus:border-neutral-900 bg-white"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-gray-400">Industria</label>
-                    <select
-                      value={customIndustry}
-                      onChange={(e) => setCustomIndustry(e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 p-2.5 text-xs outline-none focus:border-neutral-900 bg-white"
-                    >
-                      <option value="Automotriz & Concesionarias">Automotriz</option>
-                      <option value="Inmobiliaria & Preventa">Inmobiliaria</option>
-                      <option value="SaaS & Software B2B">SaaS / B2B</option>
-                      <option value="Salud & Clínicas">Salud / Estética</option>
-                    </select>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-gray-400">Cargo / Rol</label>
-                    <select
-                      value={customRole}
-                      onChange={(e) => setCustomRole(e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 p-2.5 text-xs outline-none focus:border-neutral-900 bg-white"
-                    >
-                      <option value="Gerente Comercial">Gerente Comercial</option>
-                      <option value="VP de Ingeniería (CTO)">VP de Ingeniería / CTO</option>
-                      <option value="Director General (CEO)">Director General / CEO</option>
-                      <option value="Gerente de Compras">Gerente de Compras</option>
-                    </select>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-gray-400">Tamaño Empresa</label>
-                    <select
-                      value={customEmployees}
-                      onChange={(e) => setCustomEmployees(e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 p-2.5 text-xs outline-none focus:border-neutral-900 bg-white"
-                    >
-                      <option value="10-50 empleados (PyME)">10-50 (PyME)</option>
-                      <option value="50-200 empleados">50-200</option>
-                      <option value="200-1000 empleados">200-1000 (Corporativo)</option>
-                      <option value="1000+ empleados (Enterprise)">1000+ (Enterprise)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleStartCustomCall}
-                className="w-full py-4 rounded-2xl bg-neutral-950 hover:bg-neutral-900 text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95 shadow-md flex items-center justify-center space-x-2 cursor-pointer"
-              >
-                <Phone className="h-4 w-4" />
-                <span>Iniciar Simulación Conectada</span>
-              </button>
-            </div>
-
-            {/* Historial de Prácticas (Derecha) */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="border border-gray-150 rounded-2xl p-5 bg-gray-50/50">
-                <h4 className="text-xs font-black text-gray-900 uppercase tracking-wider mb-3">Tu Historial de Práctica</h4>
-                <div className="space-y-3">
-                  {history.map((h) => (
-                    <div key={h.id} className="border border-gray-200 bg-white rounded-xl p-3 flex justify-between items-center shadow-3xs">
-                      <div>
-                        <p className="text-xs font-bold text-gray-800">{h.clientName}</p>
-                        <p className="text-[9px] text-gray-400 font-semibold">{h.industry}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-mono font-bold text-gray-900">{h.score}/100</span>
-                        <span className={`block text-[8px] font-bold uppercase tracking-wider ${
-                          h.status === "Aprobado" ? "text-emerald-600" : "text-rose-600"
-                        }`}>{h.status}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 2. LOBBY PRE-LLAMADA (Estilo Google Meet pre-join) */}
+      {/* 1. LOBBY PRE-LLAMADA (Estilo Google Meet pre-join) */}
       {simulationState === "lobby" && selectedSim && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden h-[calc(100vh-140px)]">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.02)_0%,rgba(0,0,0,0)_70%)] pointer-events-none" />
@@ -579,21 +401,6 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
               <h4 className="text-lg font-black text-white">{selectedSim.clientName}</h4>
               <p className="text-sm text-neutral-400 font-medium">{selectedSim.role}</p>
               <p className="text-xs text-neutral-500">{selectedSim.companyName} · {selectedSim.industry} · {selectedSim.employeeCount}</p>
-            </div>
-
-            {/* Barras de audio previas */}
-            <div className="flex items-end justify-center space-x-0.5 h-8">
-              {Array.from({ length: 14 }).map((_, i) => (
-                <span
-                  key={i}
-                  className="w-0.5 bg-neutral-500 rounded-full animate-pulse"
-                  style={{
-                    height: `${Math.floor(Math.random() * 20) + 6}px`,
-                    animationDelay: `${i * 0.1}s`,
-                    animationDuration: "1.2s",
-                  }}
-                />
-              ))}
             </div>
 
             {/* Botón Unirse (Google Meet style) */}
@@ -639,7 +446,7 @@ Reglas de comportamiento:
 
             <button
               type="button"
-              onClick={() => setSimulationState("list")}
+              onClick={() => setSimulationState("lobby")}
               className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors cursor-pointer"
             >
               Volver al configurador
@@ -652,54 +459,175 @@ Reglas de comportamiento:
               <h4 className="text-xs font-black text-white uppercase tracking-widest">Seleccionar cliente</h4>
             </div>
 
-            {prospects.length > 0 && (
-              <div className="space-y-2 overflow-y-auto pr-1 flex-1 min-h-0">
-                {prospects.map((p) => {
-                  const isActive = selectedSim?.clientName === p.name && selectedSim?.companyName === p.company;
-                  return (
-                    <button
-                      key={p.id}
-                      onClick={() => {
-                        const sim: Simulation = {
-                          id: "sel-" + p.id,
-                          clientName: p.name,
-                          role: "Gerente Comercial",
-                          industry: p.industry,
-                          difficulty: "Medio",
-                          companyName: p.company,
-                          employeeCount: "50-200 empleados",
-                          goals: ["Usar la Técnica del Eco", "Preguntar por su stack de herramientas", "Evidenciar ROI en menos de 60 segundos", "Evitar descuentos prematuros", "Cerrar agenda de demo"],
-                          objections: ["El servicio de Nexor parece costoso", "Nos preocupa la calidez de la voz IA"],
-                          initialPrompt: `Hola, habla ${p.name} de ${p.company}. Me dijeron que eres partner de Nexor AI. La verdad estamos evaluando opciones. ¿Por qué deberíamos elegirlos a ustedes?`,
-                        };
-                        setSelectedSim(sim);
-                      }}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                        isActive
-                          ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                          : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-800 border border-transparent"
-                      }`}
-                    >
-                      <span className="block truncate">{p.company}</span>
-                      <span className="text-[9px] text-neutral-500 font-medium">{p.name} · {p.industry}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
+            {showCustomForm ? (
+              <div className="flex-1 overflow-y-auto space-y-3 pr-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-neutral-400 uppercase">Nuevo cliente personalizado</span>
+                  <button
+                    type="button"
+                    onClick={() => setShowCustomForm(false)}
+                    className="text-neutral-500 hover:text-white cursor-pointer"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
 
-            {prospects.length === 0 && (
-              <div className="bg-neutral-900 border border-neutral-850 rounded-2xl p-5 text-center">
-                <p className="text-xs text-neutral-400">No tienes clientes en tu cartera aún.</p>
+                <div className="space-y-2.5">
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-neutral-500 uppercase">Nombre</label>
+                    <input
+                      type="text"
+                      value={customName}
+                      onChange={(e) => setCustomName(e.target.value)}
+                      placeholder="Ej. Marcus Reyes"
+                      className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-white outline-none focus:border-neutral-600"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-neutral-500 uppercase">Empresa</label>
+                    <input
+                      type="text"
+                      value={customCompany}
+                      onChange={(e) => setCustomCompany(e.target.value)}
+                      placeholder="Ej. Northwind Logistics"
+                      className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-white outline-none focus:border-neutral-600"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-neutral-500 uppercase">Industria</label>
+                    <select
+                      value={customIndustry}
+                      onChange={(e) => setCustomIndustry(e.target.value)}
+                      className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-2.5 py-2 text-xs text-white outline-none focus:border-neutral-600"
+                    >
+                      <option value="Automotriz & Concesionarias">Automotriz</option>
+                      <option value="Inmobiliaria & Preventa">Inmobiliaria</option>
+                      <option value="SaaS & Software B2B">SaaS / B2B</option>
+                      <option value="Salud & Clínicas">Salud / Estética</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-neutral-500 uppercase">Cargo</label>
+                    <select
+                      value={customRole}
+                      onChange={(e) => setCustomRole(e.target.value)}
+                      className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-2.5 py-2 text-xs text-white outline-none focus:border-neutral-600"
+                    >
+                      <option value="Gerente Comercial">Gerente Comercial</option>
+                      <option value="VP de Ingeniería (CTO)">VP Ingeniería</option>
+                      <option value="Director General (CEO)">CEO</option>
+                      <option value="Gerente de Compras">Gerente Compras</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-neutral-500 uppercase">Tamaño</label>
+                  <select
+                    value={customEmployees}
+                    onChange={(e) => setCustomEmployees(e.target.value)}
+                    className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-2.5 py-2 text-xs text-white outline-none focus:border-neutral-600"
+                  >
+                    <option value="10-50 empleados (PyME)">10-50 (PyME)</option>
+                    <option value="50-200 empleados">50-200</option>
+                    <option value="200-1000 empleados">200-1000</option>
+                    <option value="1000+ empleados (Enterprise)">1000+ (Enterprise)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-neutral-500 uppercase">LinkedIn (opcional)</label>
+                  <div className="flex space-x-1.5">
+                    <input
+                      type="text"
+                      value={linkedinUrl}
+                      onChange={(e) => setLinkedinUrl(e.target.value)}
+                      placeholder="Link del perfil..."
+                      className="flex-1 rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-white outline-none focus:border-neutral-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApifyScrape}
+                      disabled={isScraping}
+                      className="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-[10px] font-bold transition-all disabled:opacity-50 cursor-pointer shrink-0"
+                    >
+                      {isScraping ? (
+                        <span className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full block" />
+                      ) : (
+                        <Search className="h-3 w-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
                 <button
-                  onClick={() => setSimulationState("list")}
-                  className="mt-3 text-xs text-emerald-400 font-bold hover:underline cursor-pointer"
+                  type="button"
+                  onClick={() => {
+                    handleStartCustomCall();
+                    setShowCustomForm(false);
+                  }}
+                  className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer"
                 >
-                  Crear un cliente personalizado
+                  Crear y seleccionar
                 </button>
               </div>
-            )}
+            ) : (
+              <>
+                {prospects.length > 0 && (
+                  <div className="space-y-2 overflow-y-auto pr-1 flex-1 min-h-0">
+                    {prospects.map((p) => {
+                      const isActive = selectedSim?.clientName === p.name && selectedSim?.companyName === p.company;
+                      return (
+                        <button
+                          key={p.id}
+                          onClick={() => {
+                            const sim: Simulation = {
+                              id: "sel-" + p.id,
+                              clientName: p.name,
+                              role: "Gerente Comercial",
+                              industry: p.industry,
+                              difficulty: "Medio",
+                              companyName: p.company,
+                              employeeCount: "50-200 empleados",
+                              goals: ["Usar la Técnica del Eco", "Preguntar por su stack de herramientas", "Evidenciar ROI en menos de 60 segundos", "Evitar descuentos prematuros", "Cerrar agenda de demo"],
+                              objections: ["El servicio de Nexor parece costoso", "Nos preocupa la calidez de la voz IA"],
+                              initialPrompt: `Hola, habla ${p.name} de ${p.company}. Me dijeron que eres partner de Nexor AI. La verdad estamos evaluando opciones. ¿Por qué deberíamos elegirlos a ustedes?`,
+                            };
+                            setSelectedSim(sim);
+                          }}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                            isActive
+                              ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                              : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-800 border border-transparent"
+                          }`}
+                        >
+                          <span className="block truncate">{p.company}</span>
+                          <span className="text-[9px] text-neutral-500 font-medium">{p.name} · {p.industry}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
+                {prospects.length === 0 && (
+                  <div className="flex-1 flex items-center justify-center">
+                    <p className="text-xs text-neutral-500">No tienes clientes en cartera aún.</p>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setShowCustomForm(true)}
+                  className="w-full py-2.5 rounded-xl border border-neutral-800 hover:border-neutral-600 text-neutral-400 hover:text-white text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1.5 flex-shrink-0"
+                >
+                  <Plus className="h-3 w-3" />
+                  <span>Nuevo cliente personalizado</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -1048,7 +976,7 @@ Reglas de comportamiento:
 
           <div className="flex justify-center space-x-4 pt-2">
             <button
-              onClick={() => setSimulationState("list")}
+              onClick={() => setSimulationState("lobby")}
               className="px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-900 text-gray-700 font-bold text-xs transition-all cursor-pointer"
             >
               Volver al Temario
