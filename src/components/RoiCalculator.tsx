@@ -143,23 +143,28 @@ export default function RoiCalculator() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
-                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#A1A1AA] mb-3">Hoy, sin Nexor</div>
-                <div className="space-y-2.5">
-                  <div className="flex justify-between text-xs"><span className="text-[#52525B] font-semibold">Leads atendidos</span><strong className="font-mono">~35%</strong></div>
-                  <div className="flex justify-between text-xs"><span className="text-[#52525B] font-semibold">Ventas al mes</span><strong className="font-mono">{ventasSinNexor}</strong></div>
-                  <div className="flex justify-between text-xs"><span className="text-[#52525B] font-semibold">Revenue mensual</span><strong className="font-mono">${(ventasSinNexor * clientTicket).toLocaleString()}</strong></div>
-                </div>
+            <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4 space-y-3">
+              <div className="text-xs font-extrabold">Cálculo mensual</div>
+              <div className="flex items-center gap-2 text-[11px] text-[#52525B] font-mono">
+                <span>{clientLeads} leads</span>
+                <span className="text-[#A1A1AA]">×</span>
+                <span>{tasaIncrementada.toFixed(0)}% conversión</span>
+                <span className="text-[#A1A1AA]">×</span>
+                <span>${clientTicket} ticket</span>
+                <span className="text-[#A1A1AA]">=</span>
+                <strong className="text-[#111113] text-sm">{ventasConNexor} ventas</strong>
               </div>
-              <div className="bg-white border-[1.5px] border-[#A7F3D0] rounded-2xl p-4 relative">
-                <span className="absolute -top-2 right-3 bg-[#059669] text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-full px-2 py-1">Con Nexor</span>
-                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#059669] mb-3">Con agentes de IA</div>
-                <div className="space-y-2.5">
-                  <div className="flex justify-between text-xs"><span className="text-[#52525B] font-semibold">Leads atendidos</span><strong className="font-mono text-[#059669]">100%</strong></div>
-                  <div className="flex justify-between text-xs"><span className="text-[#52525B] font-semibold">Ventas al mes</span><strong className="font-mono text-[#059669]">{ventasConNexor}</strong></div>
-                  <div className="flex justify-between text-xs"><span className="text-[#52525B] font-semibold">Revenue mensual</span><strong className="font-mono text-[#059669]">${(ventasConNexor * clientTicket).toLocaleString()}</strong></div>
-                </div>
+              <div className="flex justify-between text-xs pt-2 border-t border-[#F0F0F2]">
+                <span className="text-[#71717A]">Costo Nexor ({clientLeads} × ${nexorLeadRate})</span>
+                <strong className="font-mono text-[#111113]">${costoNexor.toLocaleString()}/mes</strong>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-[#71717A]">Revenue proyectado</span>
+                <strong className="font-mono text-[#059669]">${(ventasConNexor * clientTicket).toLocaleString()}/mes</strong>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-[#71717A]">ROI</span>
+                <strong className="font-mono text-[#111113]">{roi}x</strong>
               </div>
             </div>
 

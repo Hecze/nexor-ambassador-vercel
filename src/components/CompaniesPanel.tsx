@@ -32,7 +32,7 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
   ).length;
 
   return (
-    <div className="w-[272px] min-w-[272px] bg-white border-r border-[#E8E8EA] flex flex-col h-full">
+    <div className="w-[272px] min-w-[272px] bg-white border-r border-[#D4D4D8] flex flex-col h-full shadow-[1px_0_4px_rgba(0,0,0,0.04)]">
       <div className="px-3.5 py-3.5 flex items-center justify-between">
         <span className="text-[10px] font-extrabold uppercase tracking-[1.2px] text-[#71717A]">
           Empresas · {prospects.length}

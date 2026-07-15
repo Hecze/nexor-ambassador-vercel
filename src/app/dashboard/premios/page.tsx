@@ -464,7 +464,7 @@ export default function PremiosPage() {
       <div className="w-full lg:w-[330px] flex-shrink-0 flex flex-col gap-3.5">
 
         {/* ── LIGA ZAFIRO ── */}
-        <div className="bg-white rounded-2xl overflow-hidden border border-[#E8E8EA]">
+        <div className="flex-1 bg-white rounded-2xl overflow-hidden border border-[#E8E8EA] flex flex-col min-h-0">
           <div className="p-4 text-white" style={{ background: "linear-gradient(160deg, #1E2A5E, #101018)" }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
