@@ -25,15 +25,22 @@ export default function FloatingChatbot() {
   }, [messages]);
 
   useEffect(() => {
-    if (pathname === "/dashboard/support" && !isOpen) {
-      setTimeout(() => {
+    if (pathname === "/dashboard/support") {
+      const timer = setTimeout(() => {
         setIsOpen(true);
         setIsMinimized(false);
         setMessages((prev) => {
           if (prev.some((m) => m.text.includes("quizás yo pueda resolver tu problema"))) return prev;
-          return [...prev, { role: "model", text: "Hola, quizás yo pueda resolver tu problema. Cuéntame qué necesitas y te ayudo al instante. Si no logro solucionarlo, te ayudaré a crear un ticket de soporte." }];
+          return [
+            ...prev,
+            {
+              role: "model",
+              text: "Hola, quizás yo pueda resolver tu problema. Cuéntame qué necesitas y te ayudo al instante. Si no logro solucionarlo, te ayudaré a crear un ticket de soporte.",
+            },
+          ];
         });
-      }, 1500);
+      }, 800); // Reducido a 800ms para una reacción más rápida
+      return () => clearTimeout(timer);
     }
   }, [pathname]);
 
