@@ -178,7 +178,7 @@ export default function PremiosPage() {
   const ringCircumference = 2 * Math.PI * ringRadius;
 
   return (
-    <div className="flex flex-col lg:flex-row lg:items-stretch gap-4 text-left animate-fade-in" style={{ fontFamily: "Inter, sans-serif", color: "#111113" }}>
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_330px] gap-4 text-left animate-fade-in" style={{ fontFamily: "Inter, sans-serif", color: "#111113" }}>
 
       {/* ──────────────── LEFT COLUMN ──────────────── */}
       <div className="flex-1 min-w-0 flex flex-col gap-4">
@@ -365,33 +365,15 @@ export default function PremiosPage() {
               return (
                 <div
                   key={mision.id}
-                  className="bg-white rounded-2xl p-3.5 relative transition-all"
-                  style={{
-                    border: ready ? "1.5px solid #FBBF24" : "1px solid #E8E8EA",
-                    boxShadow: ready ? "0 4px 14px rgba(245,158,11,0.12)" : undefined,
-                    opacity: completed && isClaimed ? 0.85 : 1,
-                  }}
+                  className="bg-white rounded-2xl p-3.5 border border-[#E8E8EA]"
+                  style={{ opacity: completed && isClaimed ? 0.6 : 1 }}
                 >
-                  {ready && (
-                    <span
-                      className="absolute -top-2 right-3 text-white text-[8.5px] font-extrabold uppercase tracking-[1px] rounded-full px-2 py-0.5"
-                      style={{ background: "#F59E0B" }}
-                    >
-                      Lista para reclamar
-                    </span>
-                  )}
-
                   <div className="flex items-center gap-2.5">
                     <div
                       className="w-[38px] h-[38px] rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{
-                        background: completed ? "#FEF3C7" : isClaimed ? "#ECFDF5" : "#EEF2FF",
-                      }}
+                      style={{ background: completed ? "#ECFDF5" : isClaimed ? "#F4F4F5" : "#F4F4F5" }}
                     >
-                      <Icon
-                        className="h-[17px] w-[17px]"
-                        style={{ color: completed ? "#D97706" : isClaimed ? "#059669" : "#4F46E5" }}
-                      />
+                      <Icon className="h-[17px] w-[17px]" style={{ color: completed ? "#059669" : isClaimed ? "#A1A1AA" : "#71717A" }} />
                     </div>
                     <div className="min-w-0">
                       <div className="text-[12.5px] font-extrabold truncate">{mision.titulo}</div>
@@ -403,53 +385,28 @@ export default function PremiosPage() {
                     <div className="flex-1 h-[7px] bg-[#F4F4F5] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
-                        style={{
-                          width: `${pct}%`,
-                          background: completed ? "#10B981" : "linear-gradient(90deg, #F59E0B, #FBBF24)",
-                        }}
+                        style={{ width: `${pct}%`, background: completed ? "#10B981" : "#111113" }}
                       />
                     </div>
-                    <span
-                      className="text-[10px] font-bold"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: completed ? "#065F46" : "#B45309" }}
-                    >
+                    <span className="text-[10px] font-bold font-mono text-[#71717A]">
                       {actual.toLocaleString()}/{meta.toLocaleString()}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between mt-2.5">
-                    <span
-                      className="text-[10px] font-bold rounded-lg px-2 py-1 border"
-                      style={{
-                        color: completed || ready ? "#92400E" : "#52525B",
-                        background: completed || ready ? "#FFFBEB" : "#FAFAFA",
-                        borderColor: completed || ready ? "#FDE68A" : "#E8E8EA",
-                      }}
-                    >
+                    <span className="text-[10px] font-bold text-[#71717A]">
                       {mision.recompensa}
                     </span>
-
-                    {completed ? (
-                      isClaimed ? (
-                        <button
-                          disabled
-                          className="rounded-xl px-4 py-2 text-[11px] font-extrabold cursor-not-allowed"
-                          style={{ background: "#F4F4F5", color: "#A1A1AA", border: "1px solid #E8E8EA" }}
-                        >
-                          Reclamado ✓
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleReclamar(mision.id)}
-                          className="rounded-xl px-4 py-2 text-[11px] font-extrabold text-white cursor-pointer active:scale-95 transition-transform"
-                          style={{ background: "linear-gradient(180deg, #F59E0B, #D97706)", border: "none", animation: "glowPulse 2s infinite" }}
-                        >
-                          Reclamar
-                        </button>
-                      )
+                    {ready ? (
+                      <button
+                        onClick={() => handleReclamar(mision.id)}
+                        className="text-[11px] font-extrabold text-white bg-[#111113] hover:bg-[#27272A] rounded-xl px-4 py-2 transition-colors cursor-pointer"
+                      >
+                        Reclamar
+                      </button>
                     ) : (
-                      <span className="text-[10.5px] font-bold text-[#B45309]">
-                        {meta - actual > 0 ? `Te faltan ${(meta - actual).toLocaleString()} ${actual === 0 ? "" : "más"}` : ""}
+                      <span className="text-[10.5px] font-bold" style={{ color: completed ? "#059669" : "#A1A1AA" }}>
+                        {completed ? "Completado" : `Te faltan ${meta - actual}`}
                       </span>
                     )}
                   </div>
@@ -461,7 +418,7 @@ export default function PremiosPage() {
       </div>
 
       {/* ──────────────── RIGHT PANEL ──────────────── */}
-      <div className="w-full lg:w-[330px] flex-shrink-0 flex flex-col gap-3.5 lg:self-stretch">
+      <div className="flex flex-col gap-3.5 h-full min-h-0">
 
         {/* ── LIGA ZAFIRO ── */}
         <div className="flex-1 bg-white rounded-2xl overflow-hidden border border-[#E8E8EA] flex flex-col min-h-0">
