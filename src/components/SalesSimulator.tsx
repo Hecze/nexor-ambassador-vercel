@@ -44,10 +44,9 @@ if (vapiApiKey) {
 }
 
 export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
-  // Navigation: list, calling, analyzing, feedback
-  const [simulationState, setSimulationState] = useState<"list" | "calling" | "analyzing" | "feedback">("calling");
+  // Navigation: list, lobby, calling, analyzing, feedback
+  const [simulationState, setSimulationState] = useState<"list" | "lobby" | "calling" | "analyzing" | "feedback">("lobby");
   const [selectedSim, setSelectedSim] = useState<Simulation | null>(null);
-  const [showClientPanel, setShowClientPanel] = useState(false);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
   
   // Custom generator fields
@@ -119,10 +118,7 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
         initialPrompt: `Hola, habla ${p.name} de ${p.company}. Me dijeron que eres partner de Nexor AI. La verdad estamos evaluando opciones. ¿Por qué deberíamos elegirlos a ustedes?`,
       };
       setSelectedSim(sim);
-      setDialogue([{ role: "client", text: sim.initialPrompt }]);
-      setCurrentGoalProgress(new Array(sim.goals.length).fill(false));
-      setTimeLeft(240);
-    } else if (prospects.length === 0 && prospects !== undefined) {
+    } else if (prospects.length === 0) {
       setHasAutoStarted(true);
       setSimulationState("list");
     }
@@ -336,44 +332,7 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
     };
 
     setSelectedSim(sim);
-    setDialogue([{ role: "client", text: sim.initialPrompt }]);
-    setCurrentGoalProgress(new Array(sim.goals.length).fill(false));
-    setTimeLeft(240);
-    setSimulationState("calling");
-
-    // Launch Vapi calling WebRTC connection with assistant overrides
-    if (vapiInstance && vapiAssistantId) {
-      const systemPrompt = `Eres un prospecto comercial difícil y escéptico de llamarte ${sim.clientName}, con el cargo de ${sim.role} en la empresa '${sim.companyName}' que opera en la industria de ${sim.industry} con un tamaño aproximado de ${sim.employeeCount}.
-Te ha contactado un vendedor (partner) de la startup de IA 'Nexor'.
-Tu empresa actualmente tiene pérdidas por leads de ventas no atendidos y un equipo comercial saturado.
-Tu principal competidor en el radar es 'Vambe', pero el vendedor de Nexor te está llamando para convencerte de que implementes los agentes de voz de Nexor.
-
-Tus objeciones son:
-- Dudar de la efectividad del agente conversacional de Nexor.
-- Que el costo de Nexor es alto (el ticket promedio de Nexor es 6 veces más alto que el de Vambe).
-- En caso de tecnología: preocupaciones técnicas de integración.
-- En caso de inmobiliaria/B2C: preocupaciones de empatía con los clientes finales.
-
-Reglas de comportamiento:
-1. Responde de manera corta, al grano y directa, tal como respondería un ejecutivo ocupado en una llamada telefónica (1 o 2 frases máximo).
-2. Si el vendedor te presiona de forma correcta usando datos del ROI, pregunta por la integración o muestra interés de forma sutil.
-3. Si el vendedor ofrece un descuento rápido, muéstrate escéptico o pierde el interés.
-4. Si el vendedor es convincente, te propone agendar un paso siguiente claro (reunión de 45 min) y demuestra el valor, accede de forma profesional.`;
-
-      vapiInstance.start(vapiAssistantId, {
-        model: {
-          messages: [
-            {
-              role: "system",
-              content: systemPrompt
-            }
-          ]
-        },
-        firstMessage: sim.initialPrompt
-      } as any);
-    } else {
-      console.warn("Vapi.ai credentials missing in environment. Running local voice recognition mock.");
-    }
+    setSimulationState("lobby");
   };
 
   const handleEndCall = () => {
@@ -596,7 +555,175 @@ Reglas de comportamiento:
         </div>
       )}
 
-      {/* 2. LLAMADA EN VIVO (Premium - Estilo Google Meet Exacto con Altura Fluida) */}
+      {/* 2. LOBBY PRE-LLAMADA (Estilo Google Meet pre-join) */}
+      {simulationState === "lobby" && selectedSim && (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden h-[calc(100vh-140px)]">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.02)_0%,rgba(0,0,0,0)_70%)] pointer-events-none" />
+
+          {/* Panel Izquierdo: Vista previa + botón Unirse */}
+          <div className="lg:col-span-7 flex flex-col items-center justify-center h-full relative z-10 space-y-8">
+            <div className="text-center space-y-1">
+              <h3 className="text-sm font-black text-white">Estás a punto de unirte</h3>
+              <p className="text-[10px] text-neutral-400">Simulación de llamada comercial con IA</p>
+            </div>
+
+            {/* Avatar grande con pulso */}
+            <div className="relative">
+              <div className="h-28 w-28 rounded-full bg-[#3c4043] flex items-center justify-center border-2 border-neutral-700 text-white font-black text-4xl shadow-xl">
+                {selectedSim.clientName.substring(0, 1).toUpperCase()}
+              </div>
+              <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-emerald-500 rounded-full border-2 border-[#111] animate-pulse" />
+            </div>
+
+            <div className="text-center space-y-1.5">
+              <h4 className="text-lg font-black text-white">{selectedSim.clientName}</h4>
+              <p className="text-sm text-neutral-400 font-medium">{selectedSim.role}</p>
+              <p className="text-xs text-neutral-500">{selectedSim.companyName} · {selectedSim.industry} · {selectedSim.employeeCount}</p>
+            </div>
+
+            {/* Barras de audio previas */}
+            <div className="flex items-end justify-center space-x-0.5 h-8">
+              {Array.from({ length: 14 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="w-0.5 bg-neutral-500 rounded-full animate-pulse"
+                  style={{
+                    height: `${Math.floor(Math.random() * 20) + 6}px`,
+                    animationDelay: `${i * 0.1}s`,
+                    animationDuration: "1.2s",
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Botón Unirse (Google Meet style) */}
+            <button
+              type="button"
+              onClick={() => {
+                setSimulationState("calling");
+                setDialogue([{ role: "client", text: selectedSim.initialPrompt }]);
+                setCurrentGoalProgress(new Array(selectedSim.goals.length).fill(false));
+                setTimeLeft(240);
+
+                if (vapiInstance && vapiAssistantId) {
+                  const systemPrompt = `Eres un prospecto comercial difícil y escéptico de llamarte ${selectedSim.clientName}, con el cargo de ${selectedSim.role} en la empresa '${selectedSim.companyName}' que opera en la industria de ${selectedSim.industry} con un tamaño aproximado de ${selectedSim.employeeCount}.
+Te ha contactado un vendedor (partner) de la startup de IA 'Nexor'.
+Tu empresa actualmente tiene pérdidas por leads de ventas no atendidos y un equipo comercial saturado.
+Tu principal competidor en el radar es 'Vambe', pero el vendedor de Nexor te está llamando para convencerte de que implementes los agentes de voz de Nexor.
+
+Tus objeciones son:
+- Dudar de la efectividad del agente conversacional de Nexor.
+- Que el costo de Nexor es alto (el ticket promedio de Nexor es 6 veces más alto que el de Vambe).
+- En caso de tecnología: preocupaciones técnicas de integración.
+- En caso de inmobiliaria/B2C: preocupaciones de empatía con los clientes finales.
+
+Reglas de comportamiento:
+1. Responde de manera corta, al grano y directa, tal como respondería un ejecutivo ocupado en una llamada telefónica (1 o 2 frases máximo).
+2. Si el vendedor te presiona de forma correcta usando datos del ROI, pregunta por la integración o muestra interés de forma sutil.
+3. Si el vendedor ofrece un descuento rápido, muéstrate escéptico o pierde el interés.
+4. Si el vendedor es convincente, te propone agendar un paso siguiente claro (reunión de 45 min) y demuestra el valor, accede de forma profesional.`;
+
+                  vapiInstance.start(vapiAssistantId, {
+                    model: {
+                      messages: [{ role: "system", content: systemPrompt }],
+                    },
+                    firstMessage: selectedSim.initialPrompt,
+                  } as any);
+                }
+              }}
+              className="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-black uppercase tracking-wider transition-all active:scale-95 shadow-lg shadow-emerald-900/30 flex items-center space-x-2 cursor-pointer"
+            >
+              <Phone className="h-4 w-4" />
+              <span>Unirse a la llamada</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSimulationState("list")}
+              className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors cursor-pointer"
+            >
+              Volver al configurador
+            </button>
+          </div>
+
+          {/* Panel Derecho: Selector de cliente + info */}
+          <div className="lg:col-span-5 flex flex-col justify-center h-full relative z-10 border-l border-neutral-850 pl-8 space-y-6">
+            <div className="space-y-3">
+              <h4 className="text-xs font-black text-white uppercase tracking-widest">Seleccionar cliente</h4>
+              <p className="text-[10px] text-neutral-500">Elige de tu cartera antes de iniciar la simulación.</p>
+            </div>
+
+            {prospects.length > 0 && (
+              <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1">
+                {prospects.map((p) => {
+                  const isActive = selectedSim?.clientName === p.name && selectedSim?.companyName === p.company;
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => {
+                        const sim: Simulation = {
+                          id: "sel-" + p.id,
+                          clientName: p.name,
+                          role: "Gerente Comercial",
+                          industry: p.industry,
+                          difficulty: "Medio",
+                          companyName: p.company,
+                          employeeCount: "50-200 empleados",
+                          goals: ["Usar la Técnica del Eco", "Preguntar por su stack de herramientas", "Evidenciar ROI en menos de 60 segundos", "Evitar descuentos prematuros", "Cerrar agenda de demo"],
+                          objections: ["El servicio de Nexor parece costoso", "Nos preocupa la calidez de la voz IA"],
+                          initialPrompt: `Hola, habla ${p.name} de ${p.company}. Me dijeron que eres partner de Nexor AI. La verdad estamos evaluando opciones. ¿Por qué deberíamos elegirlos a ustedes?`,
+                        };
+                        setSelectedSim(sim);
+                      }}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        isActive
+                          ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                          : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-800 border border-transparent"
+                      }`}
+                    >
+                      <span className="block truncate">{p.company}</span>
+                      <span className="text-[9px] text-neutral-500 font-medium">{p.name} · {p.industry}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {prospects.length === 0 && (
+              <div className="bg-neutral-900 border border-neutral-850 rounded-2xl p-5 text-center">
+                <p className="text-xs text-neutral-400">No tienes clientes en tu cartera aún.</p>
+                <button
+                  onClick={() => setSimulationState("list")}
+                  className="mt-3 text-xs text-emerald-400 font-bold hover:underline cursor-pointer"
+                >
+                  Crear un cliente personalizado
+                </button>
+              </div>
+            )}
+
+            <div className="bg-neutral-900 border border-neutral-850 rounded-2xl p-4.5 space-y-3">
+              <span className="text-[9px] uppercase tracking-wider text-neutral-400 font-bold block">Detalles del escenario</span>
+              <div className="flex items-center space-x-2 text-xs">
+                <span className="text-neutral-400">Industria:</span>
+                <span className="text-white font-bold">{selectedSim.industry}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-xs">
+                <span className="text-neutral-400">Dificultad:</span>
+                <span className="text-white font-bold">{selectedSim.difficulty}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-xs">
+                <span className="text-neutral-400">Duración:</span>
+                <span className="text-white font-bold">4 minutos</span>
+              </div>
+              <p className="text-[10px] text-neutral-500 leading-relaxed pt-1 border-t border-neutral-850">
+                Objetivos: {selectedSim.goals.length} metas tácticas durante la conversación.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3. LLAMADA EN VIVO (Premium - Estilo Google Meet Exacto con Altura Fluida) */}
       {simulationState === "calling" && selectedSim && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden h-[calc(100vh-140px)]">
           {/* Fondo Radial de Nexor */}
@@ -851,38 +978,6 @@ Reglas de comportamiento:
               </div>
             </div>
 
-            {/* Selector de Cliente */}
-            <div className="space-y-2">
-              <span className="text-[9px] uppercase tracking-wider text-neutral-400 font-bold block">Cliente Simulado</span>
-              {prospects.length > 0 && (
-                <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1">
-                  {prospects.map((p) => {
-                    const isActive = selectedSim?.clientName === p.name && selectedSim?.companyName === p.company;
-                    return (
-                      <button
-                        key={p.id}
-                        onClick={() => {
-                          handleSelectProspect(p);
-                          setShowClientPanel(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer truncate ${
-                          isActive ? "bg-amber-500/20 text-amber-400 border border-amber-500/30" : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-800 border border-transparent"
-                        }`}
-                      >
-                        {p.company} ({p.name})
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-              <button
-                onClick={() => { handleEndCall(); setSimulationState("list"); }}
-                className="w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold transition-all cursor-pointer"
-              >
-                + Nuevo cliente personalizado
-              </button>
-            </div>
-
             {/* Información del Cliente */}
             <div className="bg-neutral-900 border border-neutral-850 rounded-2xl p-4.5 space-y-3 flex-shrink-0">
               <span className="text-[9px] uppercase tracking-wider text-neutral-400 font-bold block">Business Information</span>
@@ -978,7 +1073,7 @@ Reglas de comportamiento:
               Volver al Temario
             </button>
             <button
-              onClick={handleStartCustomCall}
+              onClick={() => setSimulationState("lobby")}
               className="px-6 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-xs transition-all cursor-pointer active:scale-95 shadow-md"
             >
               Repetir Simulación
