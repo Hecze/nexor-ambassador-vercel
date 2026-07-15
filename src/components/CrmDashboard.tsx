@@ -30,6 +30,8 @@ import { db, doc, setDoc, onSnapshot } from "@/lib/firebase";
 
 interface CrmDashboardProps {
   prospects: Prospect[];
+  selectedProspectId: string | null;
+  onClearSelection: () => void;
   onAddProspect: (prospect: Omit<Prospect, "id" | "createdAt">) => void;
   onUpdateStatus: (id: string, status: Prospect["status"]) => void;
   onUpdateProspect?: (id: string, updatedFields: Partial<Prospect>) => void;
@@ -88,6 +90,8 @@ const getMessageDirection = (message: string): "inbound" | "outbound" => {
 
 export default function CrmDashboard({
   prospects,
+  selectedProspectId,
+  onClearSelection,
   onAddProspect,
   onUpdateStatus,
   onUpdateProspect,
@@ -97,11 +101,9 @@ export default function CrmDashboard({
   readonlyMode = false,
   onBackToSharedList,
 }: CrmDashboardProps) {
-  // Estado para el Prospecto seleccionado (Ver Leads Kanban)
-  const [selectedProspectId, setSelectedProspectId] = useState<string | null>(null);
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [leadsByProspect, setLeadsByProspect] = useState<Record<string, SimulatedLead[]>>({});
   const [simulationActive, setSimulationActive] = useState(true);
-  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
 
   // Estados de navegación interna del cliente y recargas de alcancía
   const [detailTab, setDetailTab] = useState<"leads" | "alcancia" | "invoices">("leads");
@@ -123,10 +125,10 @@ export default function CrmDashboard({
 
   // Auto-cargar prospecto si está en modo solo lectura y hay uno solo
   useEffect(() => {
-    if (prospects.length === 1 && readonlyMode) {
-      setSelectedProspectId(prospects[0].id);
+    if (prospects.length === 1 && readonlyMode && !selectedProspectId) {
+      // parent handles selection via onClearSelection flow
     }
-  }, [prospects, readonlyMode]);
+  }, [prospects, readonlyMode, selectedProspectId]);
 
   // Suscribirse a los correos compartidos en tiempo real
   useEffect(() => {
@@ -665,10 +667,6 @@ export default function CrmDashboard({
     }
   };
 
-  // Métricas calculadas para la cartera
-  const totalValue = prospects.reduce((acc, curr) => acc + curr.estimatedValue, 0);
-  const activeCount = prospects.filter((p) => p.status === "Generando comisiones" || p.status === "Cuenta activada").length;
-
   // Icono del canal de comunicación con colores según dirección
   const renderChannelIcon = (channel: SimulatedLead["channel"], direction: "inbound" | "outbound") => {
     const iconColor = direction === "inbound" ? "text-blue-600 animate-pulse" : "text-emerald-600";
@@ -1116,41 +1114,6 @@ En representación de ${companyName}`
   return (
     <div className="space-y-8" id="crm-section">
 
-      {/* Resumen de Métricas de la Cartera */}
-      {!selectedProspectId && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 animate-fade-in">
-          <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-xs flex items-center space-x-4">
-            <div className="p-3 bg-neutral-900 text-white rounded-xl">
-              <Users className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Empresas en Cartera</p>
-              <p className="text-2xl font-black text-gray-900 mt-1">{prospects.length}</p>
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-xs flex items-center space-x-4">
-            <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl">
-              <CheckCircle2 className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Cuentas Activas</p>
-              <p className="text-2xl font-black text-emerald-700 mt-1">{activeCount}</p>
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-xs flex items-center space-x-4">
-            <div className="p-3 bg-neutral-50 text-neutral-800 rounded-xl">
-              <DollarSign className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Facturación Estimada de Leads</p>
-              <p className="text-2xl font-black text-neutral-900 mt-1">${totalValue.toLocaleString()} USD</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* VISTA DETALLE DE LEADS (KANBAN) */}
       {selectedProspectId && activeProspectDetails ? (
         <div className="space-y-6 animate-fade-in">
@@ -1163,7 +1126,7 @@ En representación de ${companyName}`
                 if (readonlyMode && onBackToSharedList) {
                   onBackToSharedList();
                 } else {
-                  setSelectedProspectId(null);
+                  onClearSelection();
                   setSelectedLeadId(null);
                 }
               }}
