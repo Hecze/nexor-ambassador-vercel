@@ -289,9 +289,10 @@ export default function FacturacionPage() {
               <div className="px-4 py-6 text-xs text-[#71717A] text-center">No hay facturas registradas</div>
             ) : (
               recentInvoices.map((inv) => {
-                const invDate = new Date(inv.date);
-                const day = invDate.getDate();
-                const shortMonth = MESES[invDate.getMonth()].slice(0, 3);
+                const invDate = inv.date ? new Date(inv.date) : new Date();
+                const monthIdx = isNaN(invDate.getTime()) ? 0 : invDate.getMonth();
+                const day = isNaN(invDate.getTime()) ? 1 : invDate.getDate();
+                const shortMonth = (MESES[monthIdx] || "ene").slice(0, 3);
                 const isPending = inv.status === "Pendiente";
 
                 return (
@@ -343,9 +344,10 @@ export default function FacturacionPage() {
             ) : (
               <div className="flex flex-col gap-[9px]">
                 {paidInvoices.map((inv) => {
-                  const invDate = new Date(inv.date);
-                  const day = invDate.getDate();
-                  const month = MESES[invDate.getMonth()].slice(0, 3);
+                  const invDate = inv.date ? new Date(inv.date) : new Date();
+                  const monthIdx = isNaN(invDate.getTime()) ? 0 : invDate.getMonth();
+                  const day = isNaN(invDate.getTime()) ? 1 : invDate.getDate();
+                  const month = (MESES[monthIdx] || "ene").slice(0, 3);
                   const year = invDate.getFullYear();
 
                   return (
