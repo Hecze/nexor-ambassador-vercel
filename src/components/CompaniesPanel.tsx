@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Prospect } from "@/lib/types";
+import { Plus, X } from "lucide-react";
 
 interface CompaniesPanelProps {
   prospects: Prospect[];
   selectedProspectId: string | null;
   onSelect: (id: string) => void;
+  onAddProspect: (prospect: Omit<Prospect, "id" | "createdAt">) => void;
 }
 
 const statusConfig: Record<string, { bg: string; text: string; border: string; label: string }> = {
@@ -26,10 +28,35 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
-export default function CompaniesPanel({ prospects, selectedProspectId, onSelect }: CompaniesPanelProps) {
+export default function CompaniesPanel({ prospects, selectedProspectId, onSelect, onAddProspect }: CompaniesPanelProps) {
+  const [showForm, setShowForm] = useState(false);
+  const [cName, setCName] = useState("");
+  const [cCompany, setCCompany] = useState("");
+  const [cIndustry, setCIndustry] = useState("Automotriz");
+
   const activeCompanies = prospects.filter(
     (p) => p.status === "Generando comisiones" || p.status === "Cuenta activada"
   ).length;
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!cName.trim() || !cCompany.trim()) return;
+    onAddProspect({
+      name: cName,
+      company: cCompany,
+      email: "",
+      industry: cIndustry,
+      estimatedValue: 0,
+      status: "Link enviado",
+      leadsBalance: 0,
+      leadsConsumed: 0,
+      invoices: [],
+    } as any);
+    setCName("");
+    setCCompany("");
+    setCIndustry("Automotriz");
+    setShowForm(false);
+  };
 
   return (
     <div className="w-[272px] min-w-[272px] bg-white border-r border-[#D4D4D8] flex flex-col h-full shadow-[1px_0_4px_rgba(0,0,0,0.04)]">
@@ -37,12 +64,58 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
         <span className="text-[10px] font-extrabold uppercase tracking-[1.2px] text-[#71717A]">
           Empresas · {prospects.length}
         </span>
-        {activeCompanies > 0 && (
-          <span className="text-[10px] font-bold text-[#059669] bg-[#ECFDF5] rounded-full px-2 py-0.5">
-            {activeCompanies} activas
-          </span>
-        )}
+        <div className="flex items-center gap-1.5">
+          {activeCompanies > 0 && (
+            <span className="text-[10px] font-bold text-[#059669] bg-[#ECFDF5] rounded-full px-2 py-0.5">
+              {activeCompanies} activas
+            </span>
+          )}
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="p-1 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+          >
+            {showForm ? <X className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+          </button>
+        </div>
       </div>
+
+      {showForm && (
+        <form onSubmit={handleAdd} className="px-3.5 pb-2 space-y-2 animate-fade-in">
+          <input
+            type="text"
+            required
+            value={cName}
+            onChange={(e) => setCName(e.target.value)}
+            placeholder="Nombre del contacto"
+            className="w-full rounded-lg border border-gray-200 px-3 py-1.5 text-[11px] font-bold focus:border-neutral-900 outline-none"
+          />
+          <input
+            type="text"
+            required
+            value={cCompany}
+            onChange={(e) => setCCompany(e.target.value)}
+            placeholder="Nombre de la empresa"
+            className="w-full rounded-lg border border-gray-200 px-3 py-1.5 text-[11px] font-bold focus:border-neutral-900 outline-none"
+          />
+          <select
+            value={cIndustry}
+            onChange={(e) => setCIndustry(e.target.value)}
+            className="w-full rounded-lg border border-gray-200 px-3 py-1.5 text-[11px] font-bold focus:border-neutral-900 outline-none cursor-pointer"
+          >
+            <option value="Automotriz">Automotriz</option>
+            <option value="Inmobiliaria">Inmobiliaria</option>
+            <option value="SaaS">SaaS / Software</option>
+            <option value="Salud/Estética">Salud o Estética</option>
+            <option value="Servicios B2B">Servicios B2B</option>
+          </select>
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white py-1.5 text-[11px] font-extrabold transition-colors cursor-pointer"
+          >
+            Registrar
+          </button>
+        </form>
+      )}
       <div className="flex-1 overflow-y-auto px-2.5 pb-3.5 space-y-1.5">
         {prospects.map((prospect) => {
           const isSelected = selectedProspectId === prospect.id;

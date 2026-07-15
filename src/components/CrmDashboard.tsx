@@ -3,15 +3,10 @@ import {
   Users,
   Plus,
   X,
-  Trash2,
   Play,
   Send,
   DollarSign,
-  TrendingUp,
-  Target,
   CheckCircle2,
-  Trophy,
-  Briefcase,
   ArrowLeft,
   MessageSquare,
   Phone,
@@ -21,11 +16,6 @@ import {
   Pause,
   RotateCcw,
   Sparkles,
-  Calendar,
-  AlertCircle,
-  ChevronRight,
-  User,
-  Building,
   Volume2,
   Share2,
   Copy,
@@ -34,9 +24,6 @@ import {
   Lock,
   PiggyBank,
   Receipt,
-  Coins,
-  Wallet,
-  Search
 } from "lucide-react";
 import { Prospect } from "@/lib/types";
 import { db, doc, setDoc, onSnapshot } from "@/lib/firebase";
@@ -110,14 +97,6 @@ export default function CrmDashboard({
   readonlyMode = false,
   onBackToSharedList,
 }: CrmDashboardProps) {
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
-  const [industry, setIndustry] = useState("Automotriz");
-  const [estimatedValue, setEstimatedValue] = useState(500);
-  const [status, setStatus] = useState<Prospect["status"]>("Link enviado");
-
   // Estado para el Prospecto seleccionado (Ver Leads Kanban)
   const [selectedProspectId, setSelectedProspectId] = useState<string | null>(null);
   const [leadsByProspect, setLeadsByProspect] = useState<Record<string, SimulatedLead[]>>({});
@@ -251,8 +230,7 @@ export default function CrmDashboard({
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
-  // Nuevos estados para Inbox unificado y Canales de Interacción IA
-  const [viewType, setViewType] = useState<"kanban" | "inbox">("kanban");
+  // Estados para canales de interacción IA (inline chat)
   const [activeChannelTab, setActiveChannelTab] = useState<"whatsapp" | "instagram" | "email" | "phone">("whatsapp");
   const [whatsappInput, setWhatsappInput] = useState("");
   const [instagramInput, setInstagramInput] = useState("");
@@ -262,10 +240,6 @@ export default function CrmDashboard({
   const [isBotTypingInstagram, setIsBotTypingInstagram] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [audioTime, setAudioTime] = useState(0);
-
-  // Filtros y Buscador para la Bandeja de Leads del Inbox
-  const [leadsSearch, setLeadsSearch] = useState("");
-  const [channelFilter, setChannelFilter] = useState<"all" | "whatsapp" | "instagram" | "email" | "phone">("all");
 
   // Efecto del reproductor de llamadas de voz de Nexor IA
   useEffect(() => {
@@ -689,28 +663,6 @@ export default function CrmDashboard({
         [selectedProspectId]: getInitialLeads(activeProspect)
       }));
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim() || !company.trim()) return;
-    onAddProspect({
-      name,
-      company,
-      email: email || "contacto@empresa.com",
-      industry,
-      estimatedValue: 0, // Facturación real inicial en 0
-      status,
-      leadsBalance: 0,
-      leadsConsumed: 0,
-      invoices: []
-    } as any);
-    setName("");
-    setCompany("");
-    setEmail("");
-    setIndustry("Automotriz");
-    setStatus("Link enviado");
-    setShowAddForm(false);
   };
 
   // Métricas calculadas para la cartera
@@ -1223,80 +1175,8 @@ En representación de ${companyName}`
             </button>
           </div>
 
-          {/* Header del detalle */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100">
-              <div className="space-y-2">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h2 className="text-xl md:text-2xl font-black text-gray-900">{activeProspectDetails.company}</h2>
-                  <span className="rounded-full bg-neutral-100 text-neutral-800 px-3 py-0.5 text-xs font-semibold">
-                    {activeProspectDetails.industry}
-                  </span>
-                </div>
-                <p className="text-xs text-gray-400">
-                  Contacto: <strong className="text-gray-700 font-bold">{activeProspectDetails.name}</strong> · {activeProspectDetails.email} · Registrado el {activeProspectDetails.createdAt}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                {/* Selector de estado del trato de la empresa en este detalle */}
-                <div className="relative inline-block">
-                  <span className="block text-[10px] text-gray-400 font-bold uppercase mb-1">Estado comercial</span>
-                  <select
-                    value={activeProspectDetails.status}
-                    disabled={readonlyMode}
-                    onChange={(e) => onUpdateStatus(activeProspectDetails.id, e.target.value as Prospect["status"])}
-                    className="block rounded-xl border border-gray-200 bg-white py-2 px-3 text-xs font-bold focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 cursor-pointer outline-none disabled:opacity-75 disabled:cursor-not-allowed"
-                    id={`detail-select-status-${activeProspectDetails.id}`}
-                  >
-                    <option value="Link enviado">🔗 Link enviado</option>
-                    <option value="Reunión programada">📅 Reunión</option>
-                    <option value="Demo creada">🤖 Demo creada</option>
-                    <option value="Cuenta activada">✅ Cuenta activada</option>
-                    <option value="Generando comisiones">💸 Comisionando</option>
-                  </select>
-                </div>
-
-                <div className="relative inline-block text-right">
-                  <span className="block text-[10px] text-gray-400 font-bold uppercase mb-1">Valor Contrato</span>
-                  <p className="text-sm font-mono font-bold text-gray-900 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-xl">
-                    ${activeProspectDetails.estimatedValue} USD
-                  </p>
-                </div>
-
-                {/* Acciones principales de la empresa */}
-                <div className="flex items-end space-x-2 pt-5">
-                  {!readonlyMode && (
-                    <button
-                      onClick={() => setSharingProspect(activeProspectDetails)}
-                      className="inline-flex items-center space-x-2 justify-center rounded-xl border border-neutral-250 bg-white px-4 py-2.5 text-neutral-800 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-all active:scale-95 shadow-2xs cursor-pointer"
-                      title="Compartir Dashboard"
-                    >
-                      <Share2 className="h-3.5 w-3.5" />
-                      <span className="text-xs font-bold">Compartir</span>
-                    </button>
-                  )}
-
-                  {!readonlyMode && (
-                    <button
-                      onClick={() => {
-                        onDeleteProspect(activeProspectDetails.id);
-                        setSelectedProspectId(null);
-                        setSelectedLeadId(null);
-                      }}
-                      className="inline-flex items-center justify-center rounded-xl border border-red-100 bg-white p-2.5 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all active:scale-95 shadow-xs cursor-pointer"
-                      title="Eliminar de la cartera"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* NAVBAR INTERNO DEL CLIENTE: Leads, Alcancía, Invoices */}
-          <div className="flex border-b border-gray-200 mt-4 overflow-x-auto">
+          <div className="flex border-b border-gray-200 overflow-x-auto">
             <button
               onClick={() => setDetailTab("leads")}
               className={`flex items-center space-x-2 py-3 px-5 border-b-2 font-bold text-xs transition-all cursor-pointer whitespace-nowrap ${detailTab === "leads"
@@ -1345,49 +1225,17 @@ En representación de ${companyName}`
           </div>
 
           {detailTab === "leads" && (
-            <>
-              {/* Selector de Vista (Kanban vs Inbox Multicanal) */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-2 flex items-center space-x-2 shadow-sm" id="leads-view-selector-tabs">
-                <button
-                  onClick={() => {
-                    setViewType("kanban");
-                  }}
-                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center space-x-2 rounded-xl px-5 py-3 text-xs font-bold transition-all cursor-pointer ${viewType === "kanban"
-                      ? "bg-neutral-900 text-white shadow-sm"
-                      : "bg-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                    }`}
-                >
-                  <span>📋 Tablero Kanban</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setViewType("inbox");
-                    const currentLeads = leadsByProspect[selectedProspectId] || [];
-                    if (!selectedLeadId && currentLeads.length > 0) {
-                      setSelectedLeadId(currentLeads[0].id);
-                      setActiveChannelTab(currentLeads[0].channel);
-                    }
-                  }}
-                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center space-x-2 rounded-xl px-5 py-3 text-xs font-bold transition-all cursor-pointer ${viewType === "inbox"
-                      ? "bg-neutral-900 text-white shadow-sm"
-                      : "bg-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                    }`}
-                >
-                  <span>💬 Inbox Multicanal</span>
-                  <span className="bg-emerald-500 h-2 w-2 rounded-full animate-pulse"></span>
-                </button>
-              </div>
-
-              {viewType === "kanban" ? (
-                <div className="space-y-6">
-                  {/* TABLERO KANBAN DE LEADS */}
+            <div className="space-y-6">
+              {/* TABLERO KANBAN DE LEADS */}
+              {!selectedLeadId && (
+                <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 overflow-x-auto pb-4" id="kanban-board">
                     {[
-                      { status: "nuevo", title: "Leads Nuevos 📥", color: "bg-blue-100 text-blue-800 border-blue-200" },
-                      { status: "caliente", title: "Leads Calientes 🔥", color: "bg-rose-100 text-rose-800 border-rose-200" },
-                      { status: "humano", title: "Traspaso Humano 🤝", color: "bg-purple-100 text-purple-800 border-purple-200" },
-                      { status: "cerrado", title: "Agendados / Cerrados 🎉", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-                      { status: "frio", title: "Leads Fríos ❄️", color: "bg-slate-100 text-slate-800 border-slate-200" }
+                      { status: "nuevo", title: "Leads Nuevos", color: "bg-blue-100 text-blue-800 border-blue-200" },
+                      { status: "caliente", title: "Leads Calientes", color: "bg-rose-100 text-rose-800 border-rose-200" },
+                      { status: "humano", title: "Traspaso Humano", color: "bg-purple-100 text-purple-800 border-purple-200" },
+                      { status: "cerrado", title: "Agendados / Cerrados", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
+                      { status: "frio", title: "Leads Fríos", color: "bg-slate-100 text-slate-800 border-slate-200" }
                     ].map((column) => {
                       const currentLeads = leadsByProspect[selectedProspectId] || [];
                       const leadsInCol = currentLeads.filter(
@@ -1396,7 +1244,6 @@ En representación de ${companyName}`
 
                       return (
                         <div key={column.status} className="flex flex-col bg-gray-50/70 border border-gray-150 rounded-2xl p-3 min-h-[450px]">
-                          {/* Titulo de columna */}
                           <div className="flex items-center justify-between pb-3 border-b border-gray-200 mb-3">
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${column.color}`}>
                               {column.title}
@@ -1406,7 +1253,6 @@ En representación de ${companyName}`
                             </span>
                           </div>
 
-                          {/* Tarjetas de leads */}
                           <div className="flex-1 space-y-3 overflow-y-auto max-h-[500px] pr-1">
                             {leadsInCol.length === 0 ? (
                               <div className="flex items-center justify-center h-28 border border-dashed border-gray-200 rounded-xl">
@@ -1418,8 +1264,9 @@ En representación de ${companyName}`
                                   key={lead.id}
                                   onClick={() => {
                                     setSelectedLeadId(lead.id);
-                                    setViewType("inbox");
                                     setActiveChannelTab(lead.channel);
+                                    setIsAudioPlaying(false);
+                                    setAudioTime(0);
                                   }}
                                   className={`bg-white border rounded-xl p-3.5 space-y-2.5 shadow-2xs transition-all duration-300 text-left cursor-pointer hover:shadow-md hover:-translate-y-0.5 ${lead.lastActive === "Justo ahora ⚡"
                                       ? "border-emerald-400 ring-1 ring-emerald-400/30 scale-[1.01]"
@@ -1444,7 +1291,6 @@ En representación de ${companyName}`
                                     </div>
                                   </div>
 
-                                  {/* Preview del mensaje conversacional */}
                                   <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 space-y-1">
                                     <span className="text-[8px] font-bold text-neutral-400 uppercase tracking-wider block">Último contacto:</span>
                                     <p className="text-[10px] text-gray-700 leading-relaxed italic">
@@ -1474,7 +1320,7 @@ En representación de ${companyName}`
                         <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-400">Panel de Control de la Simulación</h3>
                         <h4 className="text-base font-bold text-gray-950 mt-1">Simular comportamiento del Embudo</h4>
                         <p className="text-xs text-gray-500 mt-1">
-                          Controla la velocidad del flujo de leads. Puedes forzar la entrada de nuevos leads o reiniciar el simulador para hacer demostraciones rápidas.
+                          Controla la velocidad del flujo de leads. Puedes forzar la entrada de nuevos leads o reiniciar el simulador.
                         </p>
                       </div>
 
@@ -1506,7 +1352,7 @@ En representación de ${companyName}`
                           id="btn-force-lead"
                         >
                           <Plus className="h-3.5 w-3.5 text-neutral-900 animate-pulse" />
-                          <span>Forzar Nuevo Lead ⚡</span>
+                          <span>Forzar Nuevo Lead</span>
                         </button>
 
                         <button
@@ -1521,300 +1367,195 @@ En representación de ${companyName}`
                       </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                /* VISTA INBOX MULTICANAL */
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in text-left" id="multichannel-inbox-view">
-
-                  {/* Sidebar de Leads (Izquierda) */}
-                  <div className="lg:col-span-12 bg-white border border-gray-200 rounded-3xl p-5 shadow-sm flex flex-col h-[850px]">
-                    <div className="pb-3 border-b border-gray-100 mb-3 flex-shrink-0 space-y-3">
-                      <div>
-                        <h3 className="text-sm font-black text-gray-900">Bandeja de Leads</h3>
-                        <p className="text-[11px] text-gray-400 mt-0.5">Filtra y selecciona un lead para ver la conversación.</p>
-                      </div>
-
-                      {/* Buscador de Leads */}
-                      <div className="relative">
-                        <input
-                          type="text"
-                          placeholder="Buscar lead por nombre..."
-                          value={leadsSearch}
-                          onChange={(e) => setLeadsSearch(e.target.value)}
-                          className="w-full pl-8 pr-3 py-2 text-xs rounded-xl border border-gray-200 outline-none focus:border-neutral-900 bg-gray-50/50"
-                        />
-                        <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-gray-400" />
-                      </div>
-
-                      {/* Filtro Simple de Canales */}
-                      <div className="flex flex-wrap gap-1">
-                        {[
-                          { key: "all", label: "Todos" },
-                          { key: "whatsapp", label: "WhatsApp" },
-                          { key: "instagram", label: "Instagram" },
-                          { key: "email", label: "Email" },
-                          { key: "phone", label: "Llamada" }
-                        ].map((filt) => (
-                          <button
-                            key={filt.key}
-                            onClick={() => setChannelFilter(filt.key as any)}
-                            className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase transition-all cursor-pointer ${channelFilter === filt.key
-                                ? "bg-neutral-900 text-white shadow-3xs"
-                                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                              }`}
-                          >
-                            {filt.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
-                      {(() => {
-                        const currentLeads = leadsByProspect[selectedProspectId] || [];
-
-                        // Filter leads by search query and channel filter
-                        const filteredLeads = currentLeads.filter((lead) => {
-                          const matchesSearch = lead.name.toLowerCase().includes(leadsSearch.toLowerCase());
-                          const matchesChannel = channelFilter === "all" || lead.channel === channelFilter;
-                          return matchesSearch && matchesChannel;
-                        });
-
-                        if (filteredLeads.length === 0) {
-                          return (
-                            <div className="flex flex-col items-center justify-center h-full text-center text-gray-400 p-4">
-                              <AlertCircle className="h-8 w-8 mb-2 stroke-1" />
-                              <p className="text-xs font-semibold">No se encontraron leads.</p>
-                            </div>
-                          );
-                        }
-                        return filteredLeads.map((lead) => {
-                          const isSelected = selectedLeadId === lead.id;
-                          return (
-                            <div
-                              key={lead.id}
-                              onClick={() => {
-                                setSelectedLeadId(lead.id);
-                                setActiveChannelTab(lead.channel);
-                                // Detener audio si cambian de lead
-                                setIsAudioPlaying(false);
-                                setAudioTime(0);
-                              }}
-                              className={`p-3 rounded-2xl border transition-all text-left cursor-pointer flex items-start space-x-3 ${isSelected
-                                  ? "bg-neutral-50 border-neutral-900 ring-1 ring-neutral-900 border-l-4 border-l-neutral-900"
-                                  : "bg-white border-gray-150 hover:bg-gray-50 hover:border-gray-300"
-                                }`}
-                            >
-                              <div className={`h-9 w-9 rounded-full flex items-center justify-center text-xs font-black text-white flex-shrink-0 ${isSelected ? "bg-neutral-900" : "bg-gray-200 text-gray-600"
-                                }`}>
-                                {lead.name.substring(0, 2).toUpperCase()}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between">
-                                  <p className={`text-xs font-bold truncate ${isSelected ? "text-neutral-900" : "text-gray-900"}`}>
-                                    {lead.name}
-                                  </p>
-                                  <span className="text-[9px] text-gray-400 whitespace-nowrap ml-1">{lead.lastActive}</span>
-                                </div>
-                                <p className="text-[10px] text-gray-400 truncate mt-0.5">{lead.phoneOrUser}</p>
-                                <div className="flex items-center space-x-1.5 mt-2">
-                                  <span className={`inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase border ${getMessageDirection(lead.latestMessage) === "inbound"
-                                      ? "bg-blue-50 text-blue-700 border-blue-100"
-                                      : "bg-emerald-50 text-emerald-700 border-emerald-100"
-                                    }`}>
-                                    {renderChannelIcon(lead.channel, getMessageDirection(lead.latestMessage))}
-                                    <span>{lead.channel}</span>
-                                  </span>
-
-                                  {/* Premium Emojis & Badges instead of simple text */}
-                                  <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold ${lead.status === "nuevo" ? "bg-blue-50 text-blue-600 border border-blue-100" :
-                                      lead.status === "caliente" ? "bg-orange-50 text-orange-600 border border-orange-100 font-extrabold" :
-                                        lead.status === "humano" ? "bg-purple-50 text-purple-600 border border-purple-100" :
-                                          lead.status === "cerrado" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" :
-                                            "bg-slate-50 text-slate-500 border border-slate-100"
-                                    }`}>
-                                    {lead.status === "nuevo" ? "📥 Nuevo" :
-                                      lead.status === "caliente" ? "🔥 Caliente" :
-                                        lead.status === "humano" ? "⚠️ Requiere Humano" :
-                                          lead.status === "cerrado" ? "🎉 Cerrado" :
-                                            "❄️ Frío"}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        });
-                      })()}
-                    </div>
-                  </div>
-
-                </div>
+                </>
               )}
 
-              {/* Contenido Detalle Multicanal (Derecha) - Drawer Overlay */}
+              {/* ──────────────── LEAD DETAIL (inline, replaces drawer) ──────────────── */}
               {selectedLeadId && (() => {
                 const currentLeads = leadsByProspect[selectedProspectId] || [];
                 const activeLead = currentLeads.find((l) => l.id === selectedLeadId);
-                if (!activeLead) return null;
+                if (!activeLead) {
+                  setSelectedLeadId(null);
+                  return null;
+                }
                 const activeLeadChannelData = getChannelData(activeLead, activeChannelTab);
+                const pct = (() => {
+                  if (activeLead.status === "cerrado") return 100;
+                  if (activeLead.status === "caliente") return Math.floor(Math.random() * 30) + 55;
+                  if (activeLead.status === "humano") return Math.floor(Math.random() * 30) + 40;
+                  if (activeLead.status === "frio") return Math.floor(Math.random() * 20) + 5;
+                  return Math.floor(Math.random() * 30) + 15;
+                })();
+                const stageLabels: Record<string, string> = { nuevo: "Nuevo", caliente: "Caliente", cerrado: "Cerrado", humano: "Con humano", frio: "Frío" };
+                const stageColors: Record<string, { bg: string; text: string; border: string }> = {
+                  nuevo: { bg: "#E0F2FE", text: "#0369A1", border: "#0284C7" },
+                  caliente: { bg: "#FEF3C7", text: "#92400E", border: "#F59E0B" },
+                  cerrado: { bg: "#D1FAE5", text: "#065F46", border: "#10B981" },
+                  humano: { bg: "#E0E7FF", text: "#4338CA", border: "#6366F1" },
+                  frio: { bg: "#F4F4F5", text: "#52525B", border: "#A1A1AA" },
+                };
+                const sc = stageColors[activeLead.status] || stageColors.nuevo;
+                const amount = (() => {
+                  const amounts = [28500, 41200, 22900, 19400, 26700];
+                  const idx = activeLead.id.charCodeAt(activeLead.id.length - 1) % amounts.length;
+                  return amounts[idx];
+                })();
+                const interest = activeLead.productOfInterest || "Servicio Nexor";
+
+                const [leadTab, setLeadTab] = React.useState<"detalles" | "conversacion">("detalles");
+
                 return (
-                  <>
-                    <div
-                      className="fixed inset-0 z-40 bg-black/50 animate-fade-in"
-                      onClick={() => setSelectedLeadId(null)}
-                    />
-                    <div className="fixed inset-y-0 right-0 z-50 w-[420px] bg-white border-l border-gray-200 shadow-2xl flex flex-col h-full animate-slide-in-right">
-                      <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 flex-shrink-0">
-                        <div className="flex items-center space-x-3">
-                          <div className="h-9 w-9 rounded-full bg-neutral-950 text-white flex items-center justify-center text-xs font-black uppercase flex-shrink-0">
+                  <div className="space-y-4 animate-fade-in">
+                    <button
+                      onClick={() => { setSelectedLeadId(null); setIsAudioPlaying(false); setAudioTime(0); }}
+                      className="inline-flex items-center space-x-2 text-xs font-bold text-gray-500 hover:text-gray-950 cursor-pointer transition-colors bg-white hover:bg-gray-50 border border-gray-150 px-4 py-2.5 rounded-xl shadow-2xs"
+                    >
+                      <ArrowLeft className="h-3.5 w-3.5 text-gray-400" />
+                      <span>Volver al Embudo</span>
+                    </button>
+
+                    <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100">
+                        <div className="flex items-center gap-3">
+                          <div className="h-12 w-12 rounded-full bg-neutral-950 text-white flex items-center justify-center text-sm font-black uppercase flex-shrink-0">
                             {activeLead.name.substring(0, 2)}
                           </div>
                           <div>
-                            <h4 className="text-xs font-black text-gray-900">{activeLead.name}</h4>
-                            <p className="text-[10px] text-gray-400">{activeLead.phoneOrUser}</p>
+                            <h2 className="text-xl font-black text-gray-900">{activeLead.name}</h2>
+                            <p className="text-xs text-gray-400">
+                              {activeLead.phoneOrUser} · {activeLead.channel === "whatsapp" ? "WhatsApp" : activeLead.channel === "instagram" ? "Instagram" : activeLead.channel === "email" ? "Email" : "Llamada"} · <span className="font-bold" style={{ color: sc.text }}>{stageLabels[activeLead.status]}</span>
+                            </p>
                           </div>
                         </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-[10px] font-bold text-gray-400 uppercase">Valor estimado</span>
+                          <span className="text-lg font-black font-mono text-gray-900">${amount.toLocaleString()}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex border-b border-gray-200 mt-4">
                         <button
-                          onClick={() => setSelectedLeadId(null)}
-                          className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                          onClick={() => setLeadTab("detalles")}
+                          className={`flex items-center space-x-2 py-3 px-5 border-b-2 font-bold text-xs transition-all cursor-pointer ${leadTab === "detalles"
+                              ? "border-neutral-900 text-neutral-950"
+                              : "border-transparent text-gray-400 hover:text-gray-900"
+                            }`}
                         >
-                          <X className="h-4 w-4" />
+                          <Users className="h-4 w-4" />
+                          <span>Detalles</span>
+                        </button>
+                        <button
+                          onClick={() => setLeadTab("conversacion")}
+                          className={`flex items-center space-x-2 py-3 px-5 border-b-2 font-bold text-xs transition-all cursor-pointer ${leadTab === "conversacion"
+                              ? "border-neutral-900 text-neutral-950"
+                              : "border-transparent text-gray-400 hover:text-gray-900"
+                            }`}
+                        >
+                          <MessageSquare className="h-4 w-4" />
+                          <span>Conversación</span>
                         </button>
                       </div>
-                      <div className="flex-1 overflow-y-auto p-5">
-                        <div className="flex flex-col h-full justify-between space-y-4">
 
-                          {/* Sub-Header de Lead */}
-                          <div className="space-y-3 flex-shrink-0">
-
-                            {/* Ficha rápida */}
-                            <div className="flex flex-wrap items-center justify-between gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-150">
-                              <div className="flex items-center space-x-3">
-                                <div className="h-10 w-10 rounded-full bg-neutral-950 text-white flex items-center justify-center text-xs font-black uppercase flex-shrink-0">
-                                  {activeLead.name.substring(0, 2)}
-                                </div>
-                                <div>
-                                  <h4 className="text-xs font-black text-gray-900">{activeLead.name}</h4>
-                                  <p className="text-[10px] text-gray-400 font-mono">{activeLead.phoneOrUser}</p>
-                                </div>
-                              </div>
-
+                      {leadTab === "detalles" ? (
+                        <div className="py-5 space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold text-gray-400 uppercase">Probabilidad de cierre</p>
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-gray-400 font-semibold">Interés: <strong className="text-gray-700 font-bold">{activeLead.productOfInterest || "Folleto"}</strong></span>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${activeLead.status === "nuevo" ? "bg-blue-100 text-blue-800" :
-                                    activeLead.status === "caliente" ? "bg-orange-100 text-orange-800" :
-                                      activeLead.status === "humano" ? "bg-purple-100 text-purple-800" :
-                                        activeLead.status === "cerrado" ? "bg-emerald-100 text-emerald-800" :
-                                          "bg-slate-100 text-slate-800"
-                                  }`}>
-                                  {activeLead.status === "nuevo" ? "📥 Nuevo" :
-                                    activeLead.status === "caliente" ? "🔥 Caliente" :
-                                      activeLead.status === "humano" ? "⚠️ Traspaso Humano" :
-                                        activeLead.status === "cerrado" ? "🎉 Cerrado" :
-                                          "❄️ Frío"}
-                                </span>
+                                <div className="flex-1 h-2 bg-[#F0F0F2] rounded-full overflow-hidden">
+                                  <div className="h-full rounded-full" style={{ width: `${pct}%`, background: pct >= 70 ? "#10B981" : pct >= 40 ? "#F59E0B" : "#0284C7" }} />
+                                </div>
+                                <span className="text-lg font-black font-mono">{pct}%</span>
                               </div>
                             </div>
-
-                            {/* PESTAÑAS SECUNDARIAS DE CANALES (Solo muestra el tab si corresponde al canal nativo del lead) */}
-                            <div className="flex justify-start bg-gray-100 p-1 rounded-2xl border border-gray-200 w-fit">
-                              {activeLead.channel === "whatsapp" && (
-                                <button
-                                  onClick={() => {
-                                    setActiveChannelTab("whatsapp");
-                                    setIsAudioPlaying(false);
-                                  }}
-                                  className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "whatsapp"
-                                      ? "bg-white text-emerald-700 shadow-3xs"
-                                      : "text-gray-500 hover:text-gray-900"
-                                    }`}
-                                >
-                                  <WhatsAppIcon className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
-                                  <span>WhatsApp</span>
-                                  <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full"></span>
-                                </button>
-                              )}
-
-                              {activeLead.channel === "instagram" && (
-                                <button
-                                  onClick={() => {
-                                    setActiveChannelTab("instagram");
-                                    setIsAudioPlaying(false);
-                                  }}
-                                  className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "instagram"
-                                      ? "bg-white text-rose-600 shadow-3xs"
-                                      : "text-gray-500 hover:text-gray-900"
-                                    }`}
-                                >
-                                  <Instagram className="h-3.5 w-3.5 text-rose-500 flex-shrink-0" />
-                                  <span>Instagram</span>
-                                  <span className="h-1.5 w-1.5 bg-rose-500 rounded-full"></span>
-                                </button>
-                              )}
-
-                              {activeLead.channel === "email" && (
-                                <button
-                                  onClick={() => {
-                                    setActiveChannelTab("email");
-                                    setIsAudioPlaying(false);
-                                  }}
-                                  className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "email"
-                                      ? "bg-white text-blue-600 shadow-3xs"
-                                      : "text-gray-500 hover:text-gray-900"
-                                    }`}
-                                >
-                                  <Mail className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
-                                  <span>Email</span>
-                                  <span className="h-1.5 w-1.5 bg-blue-500 rounded-full"></span>
-                                </button>
-                              )}
-
-                              {activeLead.channel === "phone" && (
-                                <button
-                                  onClick={() => {
-                                    setActiveChannelTab("phone");
-                                  }}
-                                  className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "phone"
-                                      ? "bg-white text-violet-700 shadow-3xs"
-                                      : "text-gray-500 hover:text-gray-900"
-                                    }`}
-                                >
-                                  <Phone className="h-3.5 w-3.5 text-violet-500 flex-shrink-0" />
-                                  <span>Llamada IA</span>
-                                  <span className="h-1.5 w-1.5 bg-violet-500 rounded-full"></span>
-                                </button>
-                              )}
+                            <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold text-gray-400 uppercase">Producto de interés</p>
+                              <p className="text-sm font-extrabold">{interest}</p>
+                            </div>
+                            <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold text-gray-400 uppercase">Canal de origen</p>
+                              <div className="flex items-center gap-1.5">
+                                {renderChannelIcon(activeLead.channel, "inbound")}
+                                <span className="text-sm font-extrabold capitalize">{activeLead.channel}</span>
+                              </div>
                             </div>
                           </div>
 
-                          {/* AREA DE RENDERIZACIÓN SEGÚN CANAL ACTIVO */}
-                          <div className="flex-1 overflow-y-auto min-h-0 py-2 pr-1">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold text-gray-400 uppercase">Estado actual</p>
+                              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold" style={{ background: sc.bg, color: sc.text, border: `1px solid ${sc.border}` }}>
+                                {stageLabels[activeLead.status]}
+                              </span>
+                            </div>
+                            <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold text-gray-400 uppercase">Último contacto</p>
+                              <p className="text-sm font-extrabold">{activeLead.lastActive}</p>
+                            </div>
+                          </div>
 
-                            {/* 1. WHATSAPP */}
+                          <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4 space-y-1">
+                            <p className="text-[10px] font-bold text-gray-400 uppercase">Último mensaje</p>
+                            <p className="text-sm text-gray-700 italic">"{activeLead.latestMessage}"</p>
+                          </div>
+                        </div>
+                      ) : (
+                        /* ── CONVERSACIÓN TAB ── */
+                        <div className="py-4 space-y-4">
+                          <div className="flex justify-start bg-gray-100 p-1 rounded-2xl border border-gray-200 w-fit">
+                            {activeLead.channel === "whatsapp" && (
+                              <button
+                                onClick={() => { setActiveChannelTab("whatsapp"); setIsAudioPlaying(false); }}
+                                className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "whatsapp"
+                                    ? "bg-white text-emerald-700 shadow-3xs"
+                                    : "text-gray-500 hover:text-gray-900"
+                                  }`}
+                              >
+                                <WhatsAppIcon className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
+                                <span>WhatsApp</span>
+                              </button>
+                            )}
+                            {activeLead.channel === "instagram" && (
+                              <button
+                                onClick={() => { setActiveChannelTab("instagram"); setIsAudioPlaying(false); }}
+                                className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "instagram"
+                                    ? "bg-white text-rose-600 shadow-3xs"
+                                    : "text-gray-500 hover:text-gray-900"
+                                  }`}
+                              >
+                                <Instagram className="h-3.5 w-3.5 text-rose-500 flex-shrink-0" />
+                                <span>Instagram</span>
+                              </button>
+                            )}
+                            {activeLead.channel === "email" && (
+                              <button
+                                onClick={() => { setActiveChannelTab("email"); setIsAudioPlaying(false); }}
+                                className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "email"
+                                    ? "bg-white text-blue-600 shadow-3xs"
+                                    : "text-gray-500 hover:text-gray-900"
+                                  }`}
+                              >
+                                <Mail className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                                <span>Email</span>
+                              </button>
+                            )}
+                            {activeLead.channel === "phone" && (
+                              <button
+                                onClick={() => { setActiveChannelTab("phone"); }}
+                                className={`py-2 px-4 text-center rounded-xl text-[10px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${activeChannelTab === "phone"
+                                    ? "bg-white text-violet-700 shadow-3xs"
+                                    : "text-gray-500 hover:text-gray-900"
+                                  }`}
+                              >
+                                <Phone className="h-3.5 w-3.5 text-violet-500 flex-shrink-0" />
+                                <span>Llamada IA</span>
+                              </button>
+                            )}
+                          </div>
+
+                          <div className="min-h-[400px]">
                             {activeChannelTab === "whatsapp" && (
-                              <div className="space-y-4 flex flex-col h-full justify-between min-h-[400px]">
-                                {/* Chat Header WhatsApp Web Style */}
-                                <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2.5 rounded-t-2xl">
-                                  <div className="flex items-center space-x-3">
-                                    <div className="h-9 w-9 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold uppercase">
-                                      {activeLead.name.substring(0, 2).toUpperCase()}
-                                    </div>
-                                    <div>
-                                      <p className="text-xs font-bold text-gray-900">{activeLead.name}</p>
-                                      <p className="text-[10px] text-gray-500 font-semibold">
-                                        {activeLead.phoneOrUser} · En línea
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center space-x-2.5">
-                                    <button className="p-1.5 rounded-full hover:bg-gray-200 text-gray-500 cursor-pointer" title="Llamar">
-                                      <Phone className="h-3.5 w-3.5" />
-                                    </button>
-                                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                  </div>
-                                </div>
-
-                                {/* Historial de chat WhatsApp con Fondo y Estructura */}
+                              <div className="space-y-4 flex flex-col h-full justify-between">
                                 <div
                                   className="flex-1 overflow-y-auto space-y-3 p-4 rounded-2xl border border-[#e3ded6] max-h-[500px] min-h-[420px] relative"
                                   style={{
@@ -1825,22 +1566,19 @@ En representación de ${companyName}`
                                   }}
                                 >
                                   <div className="bg-emerald-100/80 text-emerald-800 border border-emerald-200/50 p-2 rounded-xl text-[9px] font-bold text-center uppercase tracking-wider mx-auto max-w-[85%] shadow-3xs backdrop-blur-xs">
-                                    🔒 Chat cifrado · Agente conversacional Nexor IA activo.
+                                    Chat cifrado · Agente conversacional Nexor IA activo.
                                   </div>
-
                                   {(customWhatsAppChats[activeLead.id] || (activeLeadChannelData as any[])).map((msg, idx) => {
                                     const isBot = msg.sender === "bot";
                                     return (
                                       <div
                                         key={idx}
-                                        className={`flex flex-col max-w-[78%] ${isBot ? "mr-auto items-start" : "ml-auto items-end"
-                                          }`}
+                                        className={`flex flex-col max-w-[78%] ${isBot ? "mr-auto items-start" : "ml-auto items-end"}`}
                                       >
                                         <div className={`p-3 rounded-xl text-xs leading-relaxed shadow-3xs relative ${isBot
                                             ? "bg-white text-gray-800 rounded-tl-none border border-gray-200"
                                             : "bg-[#d9fdd3] text-gray-800 rounded-tr-none border border-[#c1f2b6]"
                                           }`}>
-                                          {/* WhatsApp Formatting */}
                                           <p className="whitespace-pre-wrap">
                                             {msg.text.split(/(\*[^*]+\*|_[^_]+_)/g).map((part, pIdx) => {
                                               if (part.startsWith("*") && part.endsWith("*")) {
@@ -1854,66 +1592,51 @@ En representación de ${companyName}`
                                           </p>
                                           <div className="flex justify-end items-center space-x-1 mt-1 text-[8px] text-gray-400 font-bold">
                                             <span>{msg.time}</span>
-                                            {!isBot && (
-                                              <span className="text-emerald-500 font-bold text-[9px]">✓✓</span>
-                                            )}
+                                            {!isBot && <span className="text-emerald-500 font-bold text-[9px]">✓✓</span>}
                                           </div>
                                         </div>
                                       </div>
                                     );
                                   })}
-
                                   {isBotTypingWhatsApp && (
                                     <div className="text-[10px] text-emerald-800 animate-pulse font-bold bg-[#d9fdd3] border border-[#c1f2b6] px-3.5 py-2 rounded-xl inline-block mr-auto shadow-3xs rounded-tl-none">
                                       <span>{activeProspectDetails?.company || "IA"} escribiendo...</span>
                                     </div>
                                   )}
                                 </div>
-
-                                {/* Caja de simulación de respuesta (WhatsApp Composer Style) */}
                                 <div className="flex items-center space-x-2 pt-2 border-t border-gray-150 bg-gray-50 p-2.5 rounded-b-2xl">
                                   <div className="flex-1 flex items-center space-x-2 bg-white rounded-full px-4 py-2 border border-gray-200 shadow-3xs">
-                                    <span className="text-gray-400 text-xs hover:text-gray-600 cursor-pointer" title="Emoji (Simulado)">
-                                      😀
-                                    </span>
                                     <input
                                       type="text"
                                       value={whatsappInput}
                                       onChange={(e) => setWhatsappInput(e.target.value)}
                                       onKeyDown={(e) => e.key === "Enter" && handleSendWhatsApp(activeLead)}
-                                      placeholder="Escribe para simular la conversación de WhatsApp con el bot..."
+                                      placeholder="Simular conversación de WhatsApp..."
                                       className="flex-1 text-xs outline-none bg-transparent"
                                     />
-                                    <span className="text-gray-400 text-xs hover:text-gray-600 cursor-pointer" title="Adjuntar (Simulado)">
-                                      📎
-                                    </span>
                                   </div>
                                   <button
                                     onClick={() => handleSendWhatsApp(activeLead)}
                                     className="rounded-full bg-[#00a884] p-3 text-white hover:bg-[#06cf9c] transition-all active:scale-95 cursor-pointer shadow-sm flex items-center justify-center shrink-0"
                                   >
-                                    <Send className="h-4 w-4 transform rotate-0" />
+                                    <Send className="h-4 w-4" />
                                   </button>
                                 </div>
                               </div>
                             )}
 
-                            {/* 2. INSTAGRAM */}
                             {activeChannelTab === "instagram" && (
-                              <div className="space-y-4 flex flex-col h-full justify-between min-h-[300px]">
-                                {/* DM de Instagram */}
+                              <div className="space-y-4 flex flex-col h-full justify-between">
                                 <div className="flex-1 overflow-y-auto space-y-3.5 p-3.5 bg-gray-50 rounded-2xl border border-gray-100 max-h-[440px] min-h-[350px]">
                                   <div className="bg-gray-100 text-gray-500 p-2 rounded-xl text-[9px] font-bold text-center uppercase tracking-wider mx-auto max-w-[85%]">
-                                    📸 Instagram Direct Messages · Canal conectado a Nexor IA
+                                    Instagram Direct Messages · Canal conectado a Nexor IA
                                   </div>
-
                                   {(customInstagramChats[activeLead.id] || (activeLeadChannelData as any[])).map((msg, idx) => {
                                     const isBot = msg.sender === "bot";
                                     return (
                                       <div
                                         key={idx}
-                                        className={`flex flex-col max-w-[78%] ${isBot ? "mr-auto items-start" : "ml-auto items-end"
-                                          }`}
+                                        className={`flex flex-col max-w-[78%] ${isBot ? "mr-auto items-start" : "ml-auto items-end"}`}
                                       >
                                         <div className={`p-3 rounded-2xl text-xs leading-relaxed shadow-3xs ${isBot
                                             ? "bg-white text-gray-800 rounded-tl-none border border-gray-200"
@@ -1925,22 +1648,19 @@ En representación de ${companyName}`
                                       </div>
                                     );
                                   })}
-
                                   {isBotTypingInstagram && (
                                     <div className="text-[10px] text-rose-600 animate-pulse font-bold bg-white px-3 py-1.5 rounded-full inline-block mr-auto border border-rose-100">
                                       Respondiendo por Instagram Direct...
                                     </div>
                                   )}
                                 </div>
-
-                                {/* Caja de simulación de respuesta */}
                                 <div className="flex items-center space-x-2 pt-2 border-t border-gray-100">
                                   <input
                                     type="text"
                                     value={instagramInput}
                                     onChange={(e) => setInstagramInput(e.target.value)}
                                     onKeyDown={(e) => e.key === "Enter" && handleSendInstagram(activeLead)}
-                                    placeholder="Escribe un mensaje de prueba para Instagram DM..."
+                                    placeholder="Escribe un mensaje para simular Instagram DM..."
                                     className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 text-xs focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none"
                                   />
                                   <button
@@ -1953,14 +1673,12 @@ En representación de ${companyName}`
                               </div>
                             )}
 
-                            {/* 3. EMAIL */}
                             {activeChannelTab === "email" && (
                               <div className="space-y-4 max-h-[500px] overflow-y-auto">
                                 {(() => {
                                   const mail = activeLeadChannelData as { subject: string; senderEmail: string; body: string; reply: string };
                                   return (
                                     <div className="space-y-4 text-left">
-                                      {/* Correo del Lead */}
                                       <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-3xs space-y-3">
                                         <div className="flex items-start justify-between border-b border-gray-100 pb-2.5">
                                           <div>
@@ -1973,14 +1691,11 @@ En representación de ${companyName}`
                                         </div>
                                         <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap bg-gray-50/50 p-3 rounded-xl border border-gray-100 font-mono text-[11px]">{mail.body}</p>
                                       </div>
-
-                                      {/* Auto-Respuesta de la IA */}
                                       <div className="bg-blue-50/40 border border-blue-150 rounded-2xl p-4 shadow-3xs space-y-3 relative overflow-hidden">
                                         <div className="absolute top-0 right-0 bg-blue-500 text-white text-[8px] font-black uppercase tracking-wider px-3.5 py-1 rounded-bl-xl flex items-center space-x-1">
                                           <Sparkles className="h-2.5 w-2.5 animate-pulse" />
                                           <span>Auto-Respuesta IA</span>
                                         </div>
-
                                         <div className="flex items-start justify-between border-b border-blue-100 pb-2.5">
                                           <div>
                                             <h5 className="text-xs font-black text-blue-900">Re: {mail.subject}</h5>
@@ -1997,124 +1712,84 @@ En representación de ${companyName}`
                               </div>
                             )}
 
-                            {/* 4. LLAMADAS (AUDIO + TRANSCRIPTION + SUMMARY) */}
                             {activeChannelTab === "phone" && (
-                              <div className="space-y-4">
+                              <div className="space-y-5 max-h-[500px] overflow-y-auto">
                                 {(() => {
                                   const phoneData = activeLeadChannelData as { transcript: { time: string; speaker: string; text: string }[]; summary: { objective: string; result: string; sentiment: string; action: string } };
                                   return (
-                                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-left">
-                                      {/* Columna Izquierda: Reproductor y Transcripción */}
-                                      <div className="md:col-span-7 space-y-3.5">
-                                        {/* Reproductor de Audio de alta fidelidad */}
-                                        <div className="bg-gray-900 text-white rounded-2xl p-4 border border-gray-800 shadow-sm space-y-3">
-                                          <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-2">
-                                              <Volume2 className="h-4 w-4 text-violet-400 animate-pulse" />
-                                              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Audio Grabado (Bot de Voz)</span>
+                                    <div className="space-y-5">
+                                      <div className="space-y-3">
+                                        <h5 className="text-sm font-black text-gray-900">Transcripción de llamada</h5>
+                                        {phoneData.transcript.map((entry, idx) => (
+                                          <div key={idx} className="bg-white border border-gray-150 rounded-xl p-3 space-y-1">
+                                            <div className="flex items-center justify-between">
+                                              <span className="text-[10px] font-bold" style={{ color: entry.speaker.includes("Nexor") ? "#10B981" : "#6366F1" }}>
+                                                {entry.speaker}
+                                              </span>
+                                              <span className="text-[9px] text-gray-400 font-mono">{entry.time}</span>
                                             </div>
-                                            <span className="text-xs font-mono font-bold text-violet-400">
-                                              00:{audioTime < 10 ? `0${audioTime}` : audioTime} / 00:44
-                                            </span>
+                                            <p className="text-xs text-gray-700 leading-relaxed">{entry.text}</p>
                                           </div>
-
-                                          <div className="flex items-center space-x-3 bg-gray-950/70 p-3 rounded-xl border border-gray-800">
-                                            <button
-                                              onClick={() => setIsAudioPlaying(!isAudioPlaying)}
-                                              className="p-2.5 rounded-full bg-violet-600 text-white hover:bg-violet-500 transition-transform active:scale-95 cursor-pointer flex-shrink-0"
-                                            >
-                                              {isAudioPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 pl-0.5" />}
-                                            </button>
-
-                                            {/* Barra de Ondas de Sonido animadas */}
-                                            <div className="flex-1 flex items-end justify-between h-8 px-2 space-x-0.5">
-                                              {[12, 18, 10, 24, 15, 28, 8, 20, 14, 30, 22, 10, 26, 16, 29, 12, 19, 7, 21, 15, 25, 9, 18, 14, 27, 8, 20, 11, 23, 17, 30, 10, 19, 13].map((height, i) => {
-                                                const pulse = isAudioPlaying && i % 3 === audioTime % 3;
-                                                return (
-                                                  <span
-                                                    key={i}
-                                                    style={{ height: pulse ? `${height * 1.3}px` : `${height * 0.7}px` }}
-                                                    className={`w-full rounded-xs transition-all duration-300 ${pulse ? "bg-violet-400 shadow-xs" : "bg-gray-700"
-                                                      }`}
-                                                  ></span>
-                                                );
-                                              })}
-                                            </div>
-                                          </div>
+                                        ))}
+                                      </div>
+                                      <div className="bg-violet-50/40 border border-violet-100 rounded-2xl p-4 space-y-3">
+                                        <div className="flex items-center space-x-2">
+                                          <Sparkles className="h-4 w-4 text-violet-500" />
+                                          <h5 className="text-xs font-black text-violet-900">Resumen de IA</h5>
                                         </div>
-
-                                        {/* Transcripción escrita */}
-                                        <div className="border border-gray-150 rounded-2xl p-4 bg-white space-y-3 max-h-[320px] overflow-y-auto">
-                                          <h5 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pb-1.5 border-b border-gray-50">Transcripción de la Conversación</h5>
-                                          <div className="space-y-2.5 text-[11px] leading-relaxed">
-                                            {phoneData.transcript.map((line, idx) => {
-                                              const isBot = line.speaker.includes("IA");
-                                              return (
-                                                <div key={idx} className="flex space-x-2">
-                                                  <span className="font-mono text-violet-600 font-bold flex-shrink-0">{line.time}</span>
-                                                  <p className="text-gray-700">
-                                                    <strong className={isBot ? "text-violet-700 font-bold" : "text-gray-900 font-bold"}>
-                                                      {line.speaker}:
-                                                    </strong>{" "}
-                                                    {line.text}
-                                                  </p>
-                                                </div>
-                                              );
-                                            })}
+                                        <div className="grid grid-cols-1 gap-2">
+                                          <div>
+                                            <p className="text-[10px] font-bold text-violet-400 uppercase">Objetivo</p>
+                                            <p className="text-xs text-violet-900 font-semibold">{phoneData.summary.objective}</p>
+                                          </div>
+                                          <div>
+                                            <p className="text-[10px] font-bold text-violet-400 uppercase">Resultado</p>
+                                            <p className="text-xs text-violet-900 font-semibold">{phoneData.summary.result}</p>
+                                          </div>
+                                          <div>
+                                            <p className="text-[10px] font-bold text-violet-400 uppercase">Sentimiento</p>
+                                            <p className="text-xs text-violet-900 font-semibold">{phoneData.summary.sentiment}</p>
+                                          </div>
+                                          <div>
+                                            <p className="text-[10px] font-bold text-violet-400 uppercase">Acción</p>
+                                            <p className="text-xs text-violet-900 font-semibold">{phoneData.summary.action}</p>
                                           </div>
                                         </div>
                                       </div>
-
-                                      {/* Columna Derecha: Resumen de IA */}
-                                      <div className="md:col-span-5">
-                                        <div className="bg-violet-50/50 border-2 border-dashed border-violet-200/80 rounded-2xl p-4 shadow-3xs space-y-4 h-full flex flex-col justify-between">
-                                          <div className="space-y-4">
-                                            <div className="flex items-center space-x-1.5 pb-2 border-b border-violet-100">
-                                              <Sparkles className="h-4 w-4 text-violet-600" />
-                                              <h5 className="text-xs font-black text-violet-900">Resumen de la IA Nexor</h5>
-                                            </div>
-
-                                            <div className="space-y-3 text-xs leading-relaxed">
-                                              <div>
-                                                <span className="text-[9px] font-black text-violet-600 uppercase block tracking-wider">Objetivo Detectado</span>
-                                                <p className="text-gray-800 font-bold mt-0.5">{phoneData.summary.objective}</p>
+                                      <div className="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                          <button
+                                            onClick={() => { setIsAudioPlaying(!isAudioPlaying); if (!isAudioPlaying) setAudioTime(0); }}
+                                            className="p-3 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 cursor-pointer"
+                                          >
+                                            {isAudioPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                                          </button>
+                                          <div>
+                                            <p className="text-xs font-bold text-gray-900">Grabación de llamada</p>
+                                            <div className="flex items-center gap-2 mt-1">
+                                              <div className="w-48 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                                <div className="h-full bg-violet-500 rounded-full transition-all duration-1000" style={{ width: `${(audioTime / 44) * 100}%` }} />
                                               </div>
-
-                                              <div>
-                                                <span className="text-[9px] font-black text-violet-600 uppercase block tracking-wider">Resultado Autónomo</span>
-                                                <p className="text-gray-800 font-bold mt-0.5">{phoneData.summary.result}</p>
-                                              </div>
-
-                                              <div>
-                                                <span className="text-[9px] font-black text-violet-600 uppercase block tracking-wider">Sentimiento del Lead</span>
-                                                <span className="inline-block mt-0.5 px-2.5 py-0.5 bg-violet-100 text-violet-800 rounded-md font-bold text-[10px]">
-                                                  {phoneData.summary.sentiment}
-                                                </span>
-                                              </div>
-
-                                              <div>
-                                              </div>
+                                              <span className="text-[10px] text-gray-400 font-mono">{audioTime}s / 44s</span>
                                             </div>
                                           </div>
                                         </div>
+                                        <Volume2 className={`h-4 w-4 ${isAudioPlaying ? "text-violet-500 animate-pulse" : "text-gray-300"}`} />
                                       </div>
                                     </div>
                                   );
                                 })()}
                               </div>
                             )}
-
                           </div>
-
-
-
                         </div>
-                      </div>
+                      )}
                     </div>
-                  </>
+                  </div>
                 );
               })()}
-            </>)}
+            </div>
+          )}
 
           {/* SECCIÓN 2: ALCANCÍA DE LEADS (PREPAGO) */}
           {detailTab === "alcancia" && (
@@ -2350,192 +2025,7 @@ En representación de ${companyName}`
           )}
         </div>
       ) : (
-        <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">Cartera de Clientes</h2>
-              <p className="text-sm text-gray-500 mt-1">Haz clic en cualquier empresa para ver su embudo interactivo de leads calificados por la IA.</p>
-            </div>
-
-            <button
-              onClick={() => setShowAddForm(!showAddForm)}
-              className="inline-flex items-center justify-center space-x-2 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white px-5 py-2.5 text-xs font-bold transition-transform active:scale-95 cursor-pointer"
-              id="btn-toggle-add-prospect"
-            >
-              {showAddForm ? <X className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
-              <span>{showAddForm ? "Cerrar Formulario" : "Registrar Empresa"}</span>
-            </button>
-          </div>
-
-          {/* Formulario de registro estilizado con diseño de alta calidad */}
-          {showAddForm && (
-            <form onSubmit={handleSubmit} className="mt-6 p-6 rounded-2xl bg-gray-50/80 border border-gray-150 space-y-4 animate-fade-in" id="form-add-prospect">
-              <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Registrar Nueva Empresa o Prospecto</h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="p-name" className="block text-[11px] font-bold text-gray-500 uppercase mb-1">Nombre del Contacto Comercial *</label>
-                  <input
-                    id="p-name"
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Andrés Lozano"
-                    className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 outline-none"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="p-company" className="block text-[11px] font-bold text-gray-500 uppercase mb-1">Nombre de la Empresa *</label>
-                  <input
-                    id="p-company"
-                    type="text"
-                    required
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder="Automotriz Lozano"
-                    className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="p-email" className="block text-[11px] font-bold text-gray-500 uppercase mb-1">Email del Contacto</label>
-                  <input
-                    id="p-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="andres@lozano.com"
-                    className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="p-industry" className="block text-[11px] font-bold text-gray-500 uppercase mb-1">Industria</label>
-                  <div className="relative">
-                    <select
-                      id="p-industry"
-                      value={industry}
-                      onChange={(e) => setIndustry(e.target.value)}
-                      className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 outline-none appearance-none cursor-pointer"
-                    >
-                      <option value="Automotriz">🚗 Automotriz</option>
-                      <option value="Inmobiliaria">🏢 Inmobiliaria</option>
-                      <option value="SaaS">💻 SaaS / Software</option>
-                      <option value="Salud/Estética">✨ Salud o Estética</option>
-                      <option value="Servicios B2B">🤝 Servicios B2B</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end pt-2">
-                <button
-                  type="submit"
-                  className="rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white px-5 py-3 text-xs font-bold transition-colors cursor-pointer"
-                  id="btn-save-prospect"
-                >
-                  Registrar en Cartera
-                </button>
-              </div>
-            </form>
-          )}
-
-          {/* Tabla de Prospectos Clickable */}
-          <div className="mt-6 overflow-x-auto">
-            {prospects.length === 0 ? (
-              <div className="text-center py-12 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 animate-fade-in">
-                <p className="text-xs text-gray-400">No hay prospectos en tu cartera. Comienza agregando uno arriba.</p>
-              </div>
-            ) : (
-              <table className="w-full text-left border-collapse animate-fade-in">
-                <thead>
-                  <tr className="border-b border-gray-150 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                    <th className="py-3 px-4">Empresa / Contacto</th>
-                    <th className="py-3 px-4">Industria</th>
-                    <th className="py-3 px-4">Alcancía (Prepago)</th>
-                    <th className="py-3 px-4">Facturación Real (Leads Consumidos)</th>
-                    <th className="py-3 px-4">Estado del Trato</th>
-                    <th className="py-3 px-4 text-right">Ver Leads</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 text-xs">
-                  {prospects.map((prospect) => (
-                    <tr
-                      key={prospect.id}
-                      onClick={() => setSelectedProspectId(prospect.id)}
-                      className="hover:bg-neutral-50/80 transition-all group cursor-pointer"
-                    >
-                      <td className="py-4 px-4">
-                        <div>
-                          <p className="font-bold text-gray-900 group-hover:text-neutral-900 transition-colors flex items-center space-x-1.5">
-                            <span>{prospect.company}</span>
-                            <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-neutral-500 transition-transform group-hover:translate-x-0.5" />
-                          </p>
-                          <p className="text-[10px] text-gray-400 mt-0.5">{prospect.name} · {prospect.email}</p>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="rounded-full bg-neutral-100 text-neutral-800 px-2.5 py-1 text-[10px] font-bold">
-                          {prospect.industry}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="flex items-center space-x-1.5">
-                          <span className={`h-2 w-2 rounded-full ${prospect.leadsBalance && prospect.leadsBalance > 5 ? 'bg-emerald-500 animate-pulse' : prospect.leadsBalance && prospect.leadsBalance > 0 ? 'bg-amber-500' : 'bg-red-500'}`}></span>
-                          <span className="font-mono font-bold text-gray-900">{prospect.leadsBalance ?? 0} leads</span>
-                        </div>
-                        <span className="text-[10px] text-gray-400 block mt-0.5">restantes en alcancía</span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="font-mono font-bold text-gray-900">${prospect.estimatedValue ?? 0} USD</span>
-                        <span className="text-[10px] text-gray-400 block mt-0.5">({prospect.leadsConsumed ?? 0} leads procesados)</span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="relative inline-block w-44" onClick={(e) => e.stopPropagation()}>
-                          <select
-                            value={prospect.status}
-                            disabled={readonlyMode}
-                            onChange={(e) => onUpdateStatus(prospect.id, e.target.value as Prospect["status"])}
-                            className="block w-full rounded-lg border border-gray-200 bg-white py-1.5 px-2.5 text-[10px] font-bold focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 cursor-pointer outline-none appearance-none disabled:opacity-75 disabled:cursor-not-allowed"
-                            id={`select-status-${prospect.id}`}
-                          >
-                            <option value="Link enviado">🔗 Link enviado</option>
-                            <option value="Reunión programada">📅 Reunión</option>
-                            <option value="Demo creada">🤖 Demo creada</option>
-                            <option value="Cuenta activada">✅ Cuenta activada</option>
-                            <option value="Generando comisiones">💸 Comisionando</option>
-                          </select>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4 text-right text-xs font-bold text-neutral-400 group-hover:text-neutral-900 transition-colors">
-                        <div className="flex items-center justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
-                          <span onClick={() => setSelectedProspectId(prospect.id)} className="cursor-pointer hover:underline mr-1">Ver Embudo →</span>
-                          {!readonlyMode && (
-                            <button
-                              onClick={() => setSharingProspect(prospect)}
-                              className="p-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-all active:scale-95 shadow-2xs cursor-pointer"
-                              title="Compartir Dashboard"
-                            >
-                              <Share2 className="h-3.5 w-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-        </div>
+        <div />
       )}
 
       {/* MODAL DE COMPARTIR ESTILO GOOGLE DRIVE */}
