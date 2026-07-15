@@ -375,11 +375,11 @@ export default function SalesSimulator({ prospects }: SalesSimulatorProps) {
   const lastDialogue = dialogue.length > 0 ? dialogue[dialogue.length - 1] : null;
 
   return (
-    <div className="flex flex-col text-left" id="simulator-section">
+    <div className="flex flex-col text-left h-full" id="simulator-section">
       
       {/* 1. LOBBY PRE-LLAMADA (Estilo Google Meet pre-join) */}
       {simulationState === "lobby" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden h-[calc(100vh-140px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white p-6 md:p-8 shadow-2xl relative overflow-hidden h-full">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.02)_0%,rgba(0,0,0,0)_70%)] pointer-events-none" />
 
           {/* Panel Izquierdo: Vista previa + botón Unirse */}
@@ -643,7 +643,7 @@ Reglas de comportamiento:
 
       {/* 3. LLAMADA EN VIVO (Premium - Estilo Google Meet Exacto con Altura Fluida) */}
       {simulationState === "calling" && selectedSim && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden h-[calc(100vh-140px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left bg-[#111] text-white p-6 md:p-8 shadow-2xl relative overflow-hidden h-full">
           {/* Fondo Radial de Nexor */}
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.02)_0%,rgba(0,0,0,0)_70%)] pointer-events-none" />
 

@@ -564,7 +564,7 @@ export default function SupportPage() {
       style={{
         padding: "18px 20px",
         display: "grid",
-        gridTemplateColumns: "minmax(0, 1.35fr) 340px",
+        gridTemplateColumns: "1fr",
         gap: "16px",
         alignItems: "start",
         fontFamily: "'Inter', sans-serif",
@@ -1231,9 +1231,6 @@ export default function SupportPage() {
           )}
         </div>
       </div>
-
-      {/* ── RIGHT COLUMN: Nexi Proactive ── */}
-      <NexiProactivePanel userEmail={userEmail} onCreateTicket={() => setShowForm(true)} />
     </div>
   );
 }

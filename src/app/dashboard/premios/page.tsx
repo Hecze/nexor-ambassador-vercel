@@ -178,7 +178,7 @@ export default function PremiosPage() {
   const ringCircumference = 2 * Math.PI * ringRadius;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4 text-left animate-fade-in" style={{ fontFamily: "Inter, sans-serif", color: "#111113" }}>
+    <div className="flex flex-col lg:flex-row lg:items-stretch gap-4 text-left animate-fade-in" style={{ fontFamily: "Inter, sans-serif", color: "#111113" }}>
 
       {/* ──────────────── LEFT COLUMN ──────────────── */}
       <div className="flex-1 min-w-0 flex flex-col gap-4">
@@ -591,29 +591,6 @@ export default function PremiosPage() {
               );
             })}
 
-            {/* Zona de ascenso divider */}
-            <div className="flex items-center gap-2 py-1 px-2.5">
-              <div className="flex-1 h-px bg-[#D1FAE5]" />
-              <span className="text-[8.5px] font-extrabold tracking-[1.2px] text-[#059669] uppercase flex items-center gap-1">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 15l-6-6-6 6" />
-                </svg>
-                Zona de ascenso
-              </span>
-              <div className="flex-1 h-px bg-[#D1FAE5]" />
-            </div>
-
-            {/* Zona de descenso divider */}
-            <div className="flex items-center gap-2 py-1 px-2.5">
-              <div className="flex-1 h-px bg-[#FECACA]" />
-              <span className="text-[8.5px] font-extrabold tracking-[1.2px] text-[#DC2626] uppercase flex items-center gap-1">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-                Zona de descenso
-              </span>
-              <div className="flex-1 h-px bg-[#FECACA]" />
-            </div>
           </div>
         </div>
 

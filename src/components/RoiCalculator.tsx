@@ -12,7 +12,6 @@ export default function RoiCalculator() {
   const [clientLeads, setClientLeads] = useState(400);
   const [clientTicket, setClientTicket] = useState(850);
   const [clientCloseRate, setClientCloseRate] = useState(8);
-  const [clientIndustry, setClientIndustry] = useState<"Automotriz" | "Inmobiliaria" | "SaaS">("Automotriz");
 
   const nexorLeadRate = 15;
   const activeCommissionPct = activeCount < 5 ? 0.15 : activeCount < 10 ? 0.20 : 0.25;
@@ -58,23 +57,6 @@ export default function RoiCalculator() {
         <div className="grid grid-cols-[360px_minmax(0,1fr)] gap-4 items-start">
           {/* INPUTS */}
           <div className="bg-white border border-[#E8E8EA] rounded-2xl p-5 space-y-5">
-            <div>
-              <div className="text-xs font-extrabold mb-2">Escenario del cliente</div>
-              <div className="flex bg-[#F4F4F5] rounded-xl p-0.5 gap-0.5">
-                {(["Automotriz", "Inmobiliaria", "SaaS"] as const).map((ind) => (
-                  <button
-                    key={ind}
-                    onClick={() => setClientIndustry(ind)}
-                    className={`flex-1 rounded-lg py-2 text-[11px] font-extrabold transition-all cursor-pointer ${
-                      clientIndustry === ind ? "bg-white shadow-sm text-[#111113]" : "text-[#71717A] hover:text-[#111113]"
-                    }`}
-                  >
-                    {ind}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-1.5">
