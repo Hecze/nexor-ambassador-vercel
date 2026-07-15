@@ -461,7 +461,7 @@ export default function PremiosPage() {
       </div>
 
       {/* ──────────────── RIGHT PANEL ──────────────── */}
-      <div className="w-full lg:w-[330px] flex-shrink-0 flex flex-col gap-3.5">
+      <div className="w-full lg:w-[330px] flex-shrink-0 flex flex-col gap-3.5 lg:self-stretch">
 
         {/* ── LIGA ZAFIRO ── */}
         <div className="flex-1 bg-white rounded-2xl overflow-hidden border border-[#E8E8EA] flex flex-col min-h-0">
