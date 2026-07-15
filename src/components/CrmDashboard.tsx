@@ -102,6 +102,7 @@ export default function CrmDashboard({
   onBackToSharedList,
 }: CrmDashboardProps) {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const [leadTab, setLeadTab] = useState<"detalles" | "conversacion">("detalles");
   const [leadsByProspect, setLeadsByProspect] = useState<Record<string, SimulatedLead[]>>({});
   const [simulationActive, setSimulationActive] = useState(true);
 
@@ -1364,8 +1365,6 @@ En representación de ${companyName}`
                   return amounts[idx];
                 })();
                 const interest = activeLead.productOfInterest || "Servicio Nexor";
-
-                const [leadTab, setLeadTab] = React.useState<"detalles" | "conversacion">("detalles");
 
                 return (
                   <div className="space-y-4 animate-fade-in">
