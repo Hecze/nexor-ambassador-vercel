@@ -8,7 +8,7 @@ import { Target, DollarSign, TrendingUp, CheckCircle2, Clock, Building, User, Ca
 const STAGES = [
   {
     key: "contactando",
-    label: "Contactando",
+    label: "Primer contacto",
     description: "Hiciste el primer contacto",
     color: "#52525B",
     bg: "#F4F4F5",
@@ -124,18 +124,6 @@ export default function NegociacionesPage() {
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
-              <DollarSign className="h-[14px] w-[14px] text-[#52525B]" />
-            </div>
-            <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Pipeline total</span>
-          </div>
-          <div className="text-[22px] font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            ${pipelineTotal.toLocaleString()}
-          </div>
-        </div>
-
-        <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
               <Target className="h-[14px] w-[14px] text-[#111113]" />
             </div>
             <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Negociando</span>
@@ -166,9 +154,21 @@ export default function NegociacionesPage() {
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
+              <DollarSign className="h-[14px] w-[14px] text-[#52525B]" />
+            </div>
+            <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Pipeline total</span>
+          </div>
+          <div className="text-[22px] font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            ${pipelineTotal.toLocaleString()}
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
               <Clock className="h-[14px] w-[14px] text-[#52525B]" />
             </div>
-            <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Por contactar</span>
+            <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Primer contacto</span>
           </div>
           <div className="text-[22px] font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {dealsByStage.contactando.filter((p) => {
