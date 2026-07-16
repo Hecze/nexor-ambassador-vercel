@@ -96,9 +96,9 @@ const STATUS_CONFIG = {
   },
 };
 
-/* ─── Nexi Proactive Panel ─── */
+/* ─── Sofía Proactive Panel ─── */
 
-function NexiProactivePanel({
+function SofíaProactivePanel({
   userEmail,
   onCreateTicket,
 }: {
@@ -204,7 +204,7 @@ function NexiProactivePanel({
           </svg>
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: "13px", fontWeight: 800 }}>Nexi</div>
+          <div style={{ fontSize: "13px", fontWeight: 800 }}>Sofía</div>
           <div style={{ fontSize: "10px", color: "#A1A1AA", fontWeight: 600 }}>
             Se adelantó a tu problema
           </div>
@@ -321,7 +321,7 @@ function NexiProactivePanel({
                 fontFamily: "'JetBrains Mono', monospace",
               }}
             >
-              Si Nexi lo resuelve, el ticket TK-2041 se cierra solo
+              Si Sofía lo resuelve, el ticket TK-2041 se cierra solo
             </div>
           </>
         )}
@@ -340,7 +340,7 @@ function NexiProactivePanel({
         }}
       >
         <input
-          placeholder="Cuéntale tu problema a Nexi..."
+          placeholder="Cuéntale tu problema a Sofía..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}

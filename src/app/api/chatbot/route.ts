@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const systemPrompt = partnerId ? REFERRAL_SYSTEM : `Eres Nexi, el asistente virtual de Nexor AI. Nexor es un ecosistema de automatización inteligente que califica e interactúa con leads 24/7. Ayudas a partners con dudas sobre la plataforma, estrategias de ventas, y soporte. Responde en español, sé conciso y profesional.`;
+    const systemPrompt = partnerId ? REFERRAL_SYSTEM : `Eres Sofía, el asistente virtual de Nexor AI. Nexor es un ecosistema de automatización inteligente que califica e interactúa con leads 24/7. Ayudas a partners con dudas sobre la plataforma, estrategias de ventas, y soporte. Responde en español, sé conciso y profesional.`;
 
     const contents: { role: string; parts: { text: string }[] }[] = [];
     if (history && Array.isArray(history)) {

@@ -66,7 +66,7 @@ const pageSubtitles: Record<string, string> = {
   "/dashboard/resources": "Mensajes probados por industria · copia, personaliza y envía",
   "/dashboard/videos": "Capacitación en video · termina el temario y gana XP",
   "/dashboard/facturacion": "Cuánto ganas, cuándo cobras y de dónde viene cada dólar",
-  "/dashboard/support": "Nexi resuelve primero · si no puede, se crea el ticket solo",
+  "/dashboard/support": "Sofía resuelve primero · si no puede, se crea el ticket solo",
   "/dashboard/premios": "Temporada Julio 2026 · gana XP vendiendo, no jugando",
   "/dashboard/perfil": "Tu identidad de partner, tu link de referidos y tu progreso",
 };

@@ -14,7 +14,7 @@ export default function FloatingChatbot() {
   const [isMinimized, setIsMinimized] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: "model", text: "¡Hola! 👋 Soy Nexi, tu asistente virtual de Nexor. ¿En qué puedo ayudarte hoy?" },
+    { role: "model", text: "¡Hola! 👋 Soy Sofía, tu asistente virtual de Nexor. ¿En qué puedo ayudarte hoy?" },
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
@@ -84,7 +84,7 @@ export default function FloatingChatbot() {
         <div className="flex items-center justify-between px-4 py-3 bg-neutral-900 text-white rounded-t-2xl flex-shrink-0">
           <div className="flex items-center space-x-2">
             <div className="h-6 w-6 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-bold">N</div>
-            <span className="text-xs font-bold">Nexi</span>
+            <span className="text-xs font-bold">Sofía</span>
           </div>
           <div className="flex items-center space-x-1">
             <button onClick={() => setIsMinimized(!isMinimized)} className="p-1 hover:bg-white/10 rounded cursor-pointer">
