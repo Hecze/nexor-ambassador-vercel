@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { useDashboard } from "@/lib/dashboard-context";
 import { useAuth } from "@/lib/auth-context";
+import { useSearchParams } from "next/navigation";
 import { TIERS } from "@/lib/data";
 import CrmDashboard from "@/components/CrmDashboard";
 import CompaniesPanel from "@/components/CompaniesPanel";
 
 export default function ProspectsPage() {
+  const searchParams = useSearchParams();
   const {
     prospects,
     isLoadingProspects,
@@ -21,10 +23,15 @@ export default function ProspectsPage() {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null);
 
   useEffect(() => {
+    const fromQuery = searchParams.get("selected");
+    if (fromQuery && prospects.some((p) => p.id === fromQuery)) {
+      setSelectedCompanyId(fromQuery);
+      return;
+    }
     if (prospects.length > 0 && !selectedCompanyId) {
       setSelectedCompanyId(prospects[0].id);
     }
-  }, [prospects.length]);
+  }, [prospects.length, searchParams]);
 
   const currentTier = activeCount < 5 ? TIERS[0] : activeCount < 10 ? TIERS[1] : TIERS[2];
 

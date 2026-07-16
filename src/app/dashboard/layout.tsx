@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { DashboardProvider } from "@/lib/dashboard-context";
 import { useRouter, usePathname } from "next/navigation";
 import NexorLogo from "@/components/NexorLogo";
-import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles } from "lucide-react";
+import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles, Target } from "lucide-react";
 import FloatingChatbot from "@/components/FloatingChatbot";
 import Link from "next/link";
 
@@ -13,6 +13,7 @@ const navGroups = [
   {
     label: "Vender",
     items: [
+      { id: "/dashboard/negociaciones", label: "Negociaciones", icon: Target },
       { id: "/dashboard/prospects", label: "Cartera de clientes", icon: Users },
       { id: "/dashboard/roi", label: "Calculadora de ROI", icon: DollarSign },
       { id: "/dashboard/simulator", label: "Simulador de ventas", icon: Phone },
@@ -43,6 +44,7 @@ const navGroups = [
 ];
 
 const pageTitles: Record<string, string> = {
+  "/dashboard/negociaciones": "Negociaciones",
   "/dashboard/prospects": "Cartera de clientes",
   "/dashboard/roi": "Calculadora de ROI",
   "/dashboard/simulator": "Simulador de ventas",
@@ -56,6 +58,7 @@ const pageTitles: Record<string, string> = {
 };
 
 const pageSubtitles: Record<string, string> = {
+  "/dashboard/negociaciones": "Tus deals vendiendo Nexor y en qué etapa está cada uno",
   "/dashboard/prospects": "Tus empresas, sus leads y qué falta para cerrar",
   "/dashboard/roi": "Muéstrale al cliente sus números con Nexor — y mira lo que ganarías tú",
   "/dashboard/simulator": "Practica la llamada antes de hacerla de verdad",
