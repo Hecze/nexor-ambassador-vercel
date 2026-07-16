@@ -140,7 +140,7 @@ export default function CoachPage() {
             </div>
             <div>
               <div className="text-[13px] font-extrabold text-[#111113]">Sofía</div>
-              <div className="text-[10px] text-[#56dfe0] font-bold">
+              <div className="text-[10px] text-[#111113] font-bold">
                 En línea · recuerda tus conversaciones
               </div>
             </div>
@@ -302,13 +302,13 @@ export default function CoachPage() {
                 href="/dashboard/simulator"
                 className="flex items-center gap-[10px] bg-[#FAFAFA] border border-[#F0F0F2] rounded-[11px] px-3 py-[10px] hover:border-[#C7C7CC] transition-colors"
               >
-                <div className="w-[30px] h-[30px] rounded-[9px] bg-[rgba(254,88,82,0.08)] flex items-center justify-center flex-shrink-0">
+                <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center flex-shrink-0">
                   <svg
                     width="14"
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#fe5852"
+                    stroke="#111113"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -324,7 +324,7 @@ export default function CoachPage() {
                     Objeción de quincena · 5 min
                   </div>
                 </div>
-                <span className="text-[9px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-[7px] py-[2px] flex-shrink-0">
+                <span className="text-[9px] font-extrabold text-[#111113] bg-[#F4F4F5] rounded-full px-[7px] py-[2px] flex-shrink-0">
                   +15 XP
                 </span>
               </a>
@@ -356,7 +356,7 @@ export default function CoachPage() {
                     Para Inmobiliaria Horizons
                   </div>
                 </div>
-                <span className="text-[9px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-[7px] py-[2px] flex-shrink-0">
+                <span className="text-[9px] font-extrabold text-[#111113] bg-[#F4F4F5] rounded-full px-[7px] py-[2px] flex-shrink-0">
                   +10 XP
                 </span>
               </a>
@@ -373,7 +373,7 @@ export default function CoachPage() {
             </div>
             <div className="flex flex-col gap-2 text-[11px] text-[#52525B] leading-[1.5]">
               <div className="flex gap-2">
-                <span className="text-[#56dfe0] font-extrabold flex-shrink-0">
+                <span className="text-[#111113] font-extrabold flex-shrink-0">
                   ·
                 </span>
                 <span>
@@ -382,7 +382,7 @@ export default function CoachPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[#56dfe0] font-extrabold flex-shrink-0">
+                <span className="text-[#111113] font-extrabold flex-shrink-0">
                   ·
                 </span>
                 <span>
@@ -393,7 +393,7 @@ export default function CoachPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[#fe5852] font-extrabold flex-shrink-0">
+                <span className="text-[#71717A] font-extrabold flex-shrink-0">
                   ·
                 </span>
                 <span>

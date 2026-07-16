@@ -139,7 +139,7 @@ export default function VideosPage() {
                 <div className="text-sm font-extrabold">{activeVideo.title.substring(3)}</div>
                 <div className="text-[11px] text-[#71717A] mt-[3px]">{activeVideo.description}</div>
               </div>
-              <span className="text-[9.5px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-2.5 py-1 flex-shrink-0">
+              <span className="text-[9.5px] font-extrabold text-[#111113] bg-[#F4F4F5] rounded-full px-2.5 py-1 flex-shrink-0">
                 +20 XP al terminar
               </span>
             </div>
@@ -208,8 +208,8 @@ export default function VideosPage() {
             );
           })}
 
-          <div className="m-3 mb-4 bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-xl p-3 flex items-center gap-2.5">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>
+          <div className="m-3 mb-4 bg-[#F4F4F5] border border-[#E8E8EA] rounded-xl p-3 flex items-center gap-2.5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>
             <span className="text-[10.5px] text-[#78350F] font-semibold leading-[1.5]">
               Termina los 3 videos y desbloquea la insignia <strong>Vendedor Certificado Nexor</strong> · +60 XP
             </span>

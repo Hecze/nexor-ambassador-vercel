@@ -198,7 +198,7 @@ export default function ResourcesPage() {
                         style={{ background: isWhatsApp ? "rgba(86,223,224,0.06)" : "#F4F4F5" }}
                       >
                         {isWhatsApp ? (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#56dfe0"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z" /></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#111113"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z" /></svg>
                         ) : (
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" /></svg>
                         )}

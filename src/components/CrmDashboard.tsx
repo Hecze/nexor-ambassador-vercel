@@ -1143,10 +1143,10 @@ En representación de ${companyName}`
               <span>Alcancía de Leads</span>
               {activeProspectDetails.leadsBalance !== undefined && (
                 <span className={`ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${activeProspectDetails.leadsBalance > 5
-                    ? "bg-emerald-100 text-emerald-800"
+                    ? "bg-[#F4F4F5] text-[#111113]"
                     : activeProspectDetails.leadsBalance > 0
-                      ? "bg-amber-100 text-amber-800 animate-pulse"
-                      : "bg-red-100 text-red-800"
+                      ? "bg-[#F4F4F5] text-[#111113] animate-pulse"
+                      : "bg-[#F4F4F5] text-[#111113]"
                   }`}>
                   {activeProspectDetails.leadsBalance}
                 </span>
@@ -1162,7 +1162,7 @@ En representación de ${companyName}`
               <Receipt className="h-4 w-4" />
               <span>Historial Invoices</span>
               {activeProspectDetails.invoices && activeProspectDetails.invoices.filter((inv: any) => inv.status === "pending").length > 0 && (
-                <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 animate-pulse">
+                <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F4F4F5] text-[#111113] animate-pulse">
                   {activeProspectDetails.invoices.filter((inv: any) => inv.status === "pending").length} pnd
                 </span>
               )}
@@ -1177,11 +1177,11 @@ En representación de ${companyName}`
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 overflow-x-auto pb-4" id="kanban-board">
                     {[
-                      { status: "nuevo", title: "Leads Nuevos", color: "bg-blue-100 text-blue-800 border-blue-200" },
-                      { status: "caliente", title: "Leads Calientes", color: "bg-rose-100 text-rose-800 border-rose-200" },
-                      { status: "humano", title: "Traspaso Humano", color: "bg-purple-100 text-purple-800 border-purple-200" },
-                      { status: "cerrado", title: "Agendados / Cerrados", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-                      { status: "frio", title: "Leads Fríos", color: "bg-slate-100 text-slate-800 border-slate-200" }
+                      { status: "nuevo", title: "Leads Nuevos", color: "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]" },
+                      { status: "caliente", title: "Leads Calientes", color: "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]" },
+                      { status: "humano", title: "Traspaso Humano", color: "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]" },
+                      { status: "cerrado", title: "Agendados / Cerrados", color: "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]" },
+                      { status: "frio", title: "Leads Fríos", color: "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]" }
                     ].map((column) => {
                       const currentLeads = leadsByProspect[selectedProspectId] || [];
                       const leadsInCol = currentLeads.filter(
@@ -1226,8 +1226,8 @@ En representación de ${companyName}`
                                     </div>
                                     <div className="flex flex-col items-end gap-1 flex-shrink-0">
                                       <span className={`inline-flex items-center space-x-1 border px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-wider ${getMessageDirection(lead.latestMessage) === "inbound"
-                                          ? "bg-blue-50 text-blue-700 border-blue-100/70"
-                                          : "bg-emerald-50 text-emerald-700 border-emerald-100/70"
+                                          ? "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]"
+                                          : "bg-[#F4F4F5] text-[#111113] border-[#E8E8EA]"
                                         }`}>
                                         {renderChannelIcon(lead.channel, getMessageDirection(lead.latestMessage))}
                                         <span>
@@ -1274,7 +1274,7 @@ En representación de ${companyName}`
                         <button
                           onClick={() => setSimulationActive(!simulationActive)}
                           className={`inline-flex items-center space-x-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all active:scale-95 cursor-pointer ${simulationActive
-                              ? "bg-amber-500 text-white hover:bg-amber-600"
+                              ? "bg-[#111113] text-white hover:bg-amber-600"
                               : "bg-neutral-900 text-white hover:bg-neutral-800"
                             }`}
                           id="btn-toggle-simulation"
@@ -1335,10 +1335,10 @@ En representación de ${companyName}`
                 const stageLabels: Record<string, string> = { nuevo: "Nuevo", caliente: "Caliente", cerrado: "Cerrado", humano: "Con humano", frio: "Frío" };
                 const stageColors: Record<string, { bg: string; text: string; border: string }> = {
                   nuevo: { bg: "#F4F4F5", text: "#111113", border: "#111113" },
-                  caliente: { bg: "rgba(254,88,82,0.08)", text: "#111113", border: "#fe5852" },
+                  caliente: { bg: "rgba(254,88,82,0.08)", text: "#111113", border: "#111113" },
                   cerrado: { bg: "#F4F4F5", text: "#111113", border: "#111113" },
                   humano: { bg: "#F4F4F5", text: "#111113", border: "#6366F1" },
-                  frio: { bg: "#F4F4F5", text: "#52525B", border: "#A1A1AA" },
+                  frio: { bg: "#F4F4F5", text: "#111113", border: "#111113" },
                 };
                 const sc = stageColors[activeLead.status] || stageColors.nuevo;
                 const amount = (() => {
@@ -1455,7 +1455,7 @@ En representación de ${companyName}`
                                     : "text-gray-500 hover:text-gray-900"
                                   }`}
                               >
-                                <WhatsAppIcon className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
+                                <WhatsAppIcon className="h-3.5 w-3.5 text-[#111113] flex-shrink-0" />
                                 <span>WhatsApp</span>
                               </button>
                             )}
@@ -1536,7 +1536,7 @@ En representación de ${companyName}`
                                           </p>
                                           <div className="flex justify-end items-center space-x-1 mt-1 text-[8px] text-gray-400 font-bold">
                                             <span>{msg.time}</span>
-                                            {!isBot && <span className="text-emerald-500 font-bold text-[9px]">✓✓</span>}
+                                            {!isBot && <span className="text-[#111113] font-bold text-[9px]">✓✓</span>}
                                           </div>
                                         </div>
                                       </div>
@@ -1774,7 +1774,7 @@ En representación de ${companyName}`
                     <span className="text-[11px] font-bold uppercase tracking-wider">Total cost</span>
                   </div>
                   <div className="pt-1.5 flex items-baseline space-x-1">
-                    <span className="text-3xl font-black font-mono text-emerald-400">${activeProspectDetails.estimatedValue ?? 0}</span>
+                    <span className="text-3xl font-black font-mono text-[#A1A1AA]">${activeProspectDetails.estimatedValue ?? 0}</span>
                     <span className="text-xs font-bold text-neutral-400 uppercase">USD</span>
                   </div>
                 </div>
@@ -1905,10 +1905,10 @@ En representación de ${companyName}`
                             </td>
                             <td className="py-3.5 px-3">
                               <span className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${invoice.status === "Pagado"
-                                  ? "bg-emerald-100 text-emerald-800"
-                                  : "bg-amber-100 text-amber-800 animate-pulse"
+                                  ? "bg-[#F4F4F5] text-[#111113]"
+                                  : "bg-[#F4F4F5] text-[#111113] animate-pulse"
                                 }`}>
-                                <span className={`h-1.5 w-1.5 rounded-full ${invoice.status === "Pagado" ? "bg-emerald-500" : "bg-amber-500"}`}></span>
+                                <span className={`h-1.5 w-1.5 rounded-full ${invoice.status === "Pagado" ? "bg-[#111113]" : "bg-[#111113]"}`}></span>
                                 <span>{invoice.status}</span>
                               </span>
                             </td>
@@ -1924,7 +1924,7 @@ En representación de ${companyName}`
                                   title="Copiar Link de Pago"
                                 >
                                   {copiedInvoiceId === invoice.id ? (
-                                    <><Check className="h-3 w-3 text-emerald-500" /><span className="text-emerald-600">Copiado</span></>
+                                    <><Check className="h-3 w-3 text-[#111113]" /><span className="text-emerald-600">Copiado</span></>
                                   ) : (
                                     <><Copy className="h-3 w-3" /><span>Copiar Link</span></>
                                   )}
@@ -1951,7 +1951,7 @@ En representación de ${companyName}`
                                       });
                                       alert(`¡Pago simulado con éxito! Se han abonado +${invoice.leadsAmount} leads a la alcancía del cliente y se han registrado $${invoice.amount} USD en la facturación real.`);
                                     }}
-                                    className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-neutral-950 text-[10px] font-bold transition-all"
+                                    className="px-2.5 py-1.5 rounded-lg bg-[#111113] hover:bg-emerald-400 text-neutral-950 text-[10px] font-bold transition-all"
                                   >
                                     Pagar Factura (Demo)
                                   </button>
@@ -2010,8 +2010,8 @@ En representación de ${companyName}`
                 >
                   {copySuccess ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-emerald-500" />
-                      <span className="text-emerald-500">¡Copiado!</span>
+                      <Check className="h-3.5 w-3.5 text-[#111113]" />
+                      <span className="text-[#111113]">¡Copiado!</span>
                     </>
                   ) : (
                     <>
@@ -2315,7 +2315,7 @@ En representación de ${companyName}`
                             setTopupSuccess(true);
                           }
                         }}
-                        className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className="w-full py-3 rounded-xl bg-[#111113] hover:bg-emerald-400 text-neutral-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer active:scale-95 shadow-sm"
                       >
                         Pagar ${rechargeLeadsAmount * 15} USD
                       </button>

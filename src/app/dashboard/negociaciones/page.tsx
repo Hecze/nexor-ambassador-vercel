@@ -64,11 +64,8 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
-function getInitialColor(name: string) {
-  const colors = ["#111113", "#56dfe0", "#fe5852", "#DC2626", "#7C3AED", "#0891B2", "#E11D48", "#2563EB", "#C026D3"];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return colors[Math.abs(hash) % colors.length];
+function getInitialColor() {
+  return "#3F3F46";
 }
 
 export default function NegociacionesPage() {
@@ -232,7 +229,7 @@ export default function NegociacionesPage() {
                         <div className="flex items-center gap-2.5 mb-2">
                           <div
                             className="w-[34px] h-[34px] rounded-[10px] text-white flex items-center justify-center font-extrabold text-[12px] flex-shrink-0"
-                            style={{ background: getInitialColor(prospect.company) }}
+                            style={{ background: getInitialColor() }}
                           >
                             {getInitials(prospect.company)}
                           </div>

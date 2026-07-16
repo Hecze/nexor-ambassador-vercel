@@ -168,7 +168,7 @@ export default function RoiCalculator() {
               </div>
             </div>
 
-            <div className="bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-2xl p-4 flex items-center gap-3.5">
+            <div className="bg-[#F4F4F5] border border-[#E8E8EA] rounded-2xl p-4 flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#F4F4F5] flex items-center justify-center flex-shrink-0">
                 <DollarSign className="w-5 h-5 text-[#52525B]" />
               </div>

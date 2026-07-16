@@ -85,13 +85,13 @@ const STATUS_CONFIG = {
   en_revision: {
     label: "En revisión",
     textColor: "#111113",
-    bgColor: "rgba(254,88,82,0.08)",
+    bgColor: "#F4F4F5",
     dot: "bg-amber-500",
   },
   resuelto: {
     label: "Resuelto",
     textColor: "#111113",
-    bgColor: "rgba(86,223,224,0.12)",
+    bgColor: "#F4F4F5",
     dot: "bg-emerald-500",
   },
 };
@@ -530,7 +530,7 @@ export default function SupportPage() {
       </svg>
     ),
     soporte: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M12 6v6l4 2" />
       </svg>
     ),
@@ -540,7 +540,7 @@ export default function SupportPage() {
       </svg>
     ),
     sugerencia: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#56dfe0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3" />
       </svg>
     ),
@@ -554,7 +554,7 @@ export default function SupportPage() {
   };
 
   const resolvedIcon = (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#56dfe0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3" />
     </svg>
   );
@@ -647,7 +647,7 @@ export default function SupportPage() {
               <p
                 style={{
                   fontSize: "11px",
-                  color: "#56dfe0",
+                  color: "#111113",
                   maxWidth: "300px",
                   margin: "0 auto 16px",
                   lineHeight: 1.5,
