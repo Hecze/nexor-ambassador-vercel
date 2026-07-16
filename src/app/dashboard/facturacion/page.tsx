@@ -66,10 +66,11 @@ export default function FacturacionPage() {
     const data = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const val = Math.round(totalComisiones * (0.35 + (i * 0.65) / 5));
+      const progress = (5 - i) / 5;
+      const val = Math.round(totalComisiones * (0.35 + progress * 0.65));
       data.push({
         mes: MESES[d.getMonth()].slice(0, 3),
-        ganancias: i === 5 ? totalComisiones : val,
+        ganancias: i === 0 ? totalComisiones : val,
       });
     }
     return data;
