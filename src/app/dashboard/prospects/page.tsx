@@ -32,7 +32,7 @@ export default function ProspectsPage() {
         onSelect={setSelectedCompanyId}
         onAddProspect={addProspect}
       />
-      <div className="flex-1 min-w-0 overflow-y-auto bg-[#F6F6F7] pl-4">
+      <div className="flex-1 min-w-0 overflow-y-auto bg-[#F6F6F7] -ml-5">
         <CrmDashboard
           selectedProspectId={selectedCompanyId}
           onClearSelection={() => setSelectedCompanyId(null)}

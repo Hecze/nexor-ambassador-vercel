@@ -1119,28 +1119,6 @@ En representación de ${companyName}`
       {selectedProspectId && activeProspectDetails ? (
         <div className="space-y-6 animate-fade-in">
 
-          {/* Sección de Volver a Cartera - Extraída arriba con separación del header */}
-          {!selectedLeadId && (
-          <div className="pb-2">
-            <button
-              onClick={() => {
-                setDetailTab("leads");
-                if (readonlyMode && onBackToSharedList) {
-                  onBackToSharedList();
-                } else {
-                  onClearSelection();
-                  setSelectedLeadId(null);
-                }
-              }}
-              className="inline-flex items-center space-x-2 text-xs font-bold text-gray-500 hover:text-gray-950 cursor-pointer transition-colors bg-white hover:bg-gray-50 border border-gray-150 px-4 py-2.5 rounded-xl shadow-2xs"
-              id="btn-back-to-portfolio"
-            >
-              <ArrowLeft className="h-3.5 w-3.5 text-gray-400" />
-              <span>{readonlyMode ? "← Volver a mis Dashboards Compartidos" : "Volver a la Cartera de Clientes"}</span>
-            </button>
-          </div>
-          )}
-
           {/* NAVBAR INTERNO DEL CLIENTE: Leads, Alcancía, Invoices */}
           {!selectedLeadId && (
           <div className="flex border-b border-gray-200 overflow-x-auto">
