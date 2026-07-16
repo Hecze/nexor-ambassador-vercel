@@ -5,6 +5,7 @@ import { useDashboard } from "@/lib/dashboard-context";
 import { useAuth } from "@/lib/auth-context";
 import { TIERS } from "@/lib/data";
 import Link from "next/link";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
@@ -61,19 +62,18 @@ export default function FacturacionPage() {
     return Math.max(1, Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24 * 30)));
   };
 
-  const earningsData = (() => {
-    const months = [];
+  const chartData = (() => {
+    const data = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      months.push(MESES[d.getMonth()].slice(0, 3));
-    }
-    const values = months.map((_, i) => {
       const base = totalComisiones * (0.3 + (i * 0.55) / 5);
-      if (i === 5) return totalComisiones;
-      return Math.round(base * (0.7 + Math.random() * 0.6));
-    });
-    const maxVal = Math.max(...values, 1);
-    return { months, values, maxVal };
+      const val = i === 5 ? totalComisiones : Math.round(base * (0.7 + Math.random() * 0.6));
+      data.push({
+        mes: MESES[d.getMonth()].slice(0, 3),
+        ganancias: val,
+      });
+    }
+    return data;
   })();
 
   const commissionTable = [...prospects].filter(
@@ -357,53 +357,18 @@ export default function FacturacionPage() {
           {/* EARNINGS CHART */}
           <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
             <div className="text-xs font-extrabold mb-2">Evolución de ganancias</div>
-            <svg viewBox="0 0 300 100" className="w-full h-auto block">
-              <defs>
-                <linearGradient id="earnGrad2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#059669" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#059669" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path
-                d={`M ${earningsData.values.map((v, i) => {
-                  const x = (i / (earningsData.values.length - 1)) * 300;
-                  const y = 90 - (v / earningsData.maxVal) * 75;
-                  return `${i === 0 ? "M" : "L"} ${x} ${y}`;
-                }).join(" ")}`}
-                fill="none"
-                stroke="#059669"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d={`M ${earningsData.values.map((v, i) => {
-                  const x = (i / (earningsData.values.length - 1)) * 300;
-                  const y = 90 - (v / earningsData.maxVal) * 75;
-                  return `${i === 0 ? "M" : "L"} ${x} ${y}`;
-                }).join(" ")} L 300 100 L 0 100 Z`}
-                fill="url(#earnGrad2)"
-              />
-              {earningsData.values.map((v, i) => {
-                const x = (i / (earningsData.values.length - 1)) * 300;
-                const y = 90 - (v / earningsData.maxVal) * 75;
-                return (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="2.5" fill="#fff" stroke="#059669" strokeWidth="1.5" />
-                    {i === earningsData.values.length - 1 && (
-                      <text x={x} y={y - 7} textAnchor="middle" fill="#059669" fontSize="8" fontWeight="bold" fontFamily="JetBrains Mono, monospace">
-                        ${v.toLocaleString()}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-            <div className="flex justify-between mt-1.5">
-              {earningsData.months.map((m, i) => (
-                <span key={i} className="text-[9px] font-bold text-[#A1A1AA] uppercase">{m}</span>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={140}>
+              <LineChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F2" vertical={false} />
+                <XAxis dataKey="mes" tick={{ fontSize: 9, fill: "#A1A1AA", fontWeight: 700 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 9, fill: "#A1A1AA", fontWeight: 700 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}`} />
+                <Tooltip
+                  contentStyle={{ borderRadius: 10, border: "1px solid #E8E8EA", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", fontSize: 11 }}
+                  labelFormatter={(label) => `${label}`}
+                />
+                <Line type="monotone" dataKey="ganancias" stroke="#059669" strokeWidth={2} dot={{ r: 3, fill: "#fff", stroke: "#059669", strokeWidth: 1.5 }} activeDot={{ r: 5, fill: "#059669" }} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
