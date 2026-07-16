@@ -95,13 +95,7 @@ export default function FacturacionPage() {
 
   return (
     <div className="space-y-4 animate-fade-in" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="font-bold text-base tracking-tight text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Facturación
-          </div>
-          <div className="text-[11px] text-[#71717A]">Cuánto ganas, cuándo cobras y de dónde viene cada dólar</div>
-        </div>
+      <div className="flex items-center justify-end">
         <button
           className="inline-flex items-center gap-[6px] bg-white text-[#111113] border border-[#E8E8EA] rounded-[10px] px-[14px] py-[9px] text-xs font-bold cursor-pointer hover:bg-[#FAFAFA] transition-colors"
           style={{ fontFamily: "'Inter', sans-serif" }}
