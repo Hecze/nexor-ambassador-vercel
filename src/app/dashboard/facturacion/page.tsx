@@ -4,7 +4,6 @@ import React from "react";
 import { useDashboard } from "@/lib/dashboard-context";
 import { useAuth } from "@/lib/auth-context";
 import { TIERS } from "@/lib/data";
-import Link from "next/link";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
@@ -373,12 +372,6 @@ export default function FacturacionPage() {
         </div>
       </div>
 
-      <Link
-        href="/dashboard/prospects"
-        className="block text-center w-full py-3 rounded-xl bg-neutral-900 text-white text-xs font-bold hover:bg-neutral-800 transition-all"
-      >
-        Ir a cartera de clientes
-      </Link>
     </div>
   );
 }
