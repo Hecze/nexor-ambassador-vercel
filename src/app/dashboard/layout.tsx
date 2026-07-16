@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { DashboardProvider } from "@/lib/dashboard-context";
 import { useRouter, usePathname } from "next/navigation";
 import NexorLogo from "@/components/NexorLogo";
-import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles, Target, FileText } from "lucide-react";
+import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles, Target, FileText, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import FloatingChatbot from "@/components/FloatingChatbot";
 import Link from "next/link";
 
@@ -79,6 +79,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("nexor-sidebar-collapsed") === "true";
+    return false;
+  });
+
+  const toggleCollapsed = () => {
+    const next = !isCollapsed;
+    setIsCollapsed(next);
+    if (typeof window !== "undefined") localStorage.setItem("nexor-sidebar-collapsed", String(next));
+  };
 
   useEffect(() => {
     if (!isLoading && !isLoggedIn) router.push("/");
@@ -103,12 +113,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <DashboardProvider>
       <div className="flex h-screen font-sans antialiased bg-[#F6F6F7]">
         {/* Desktop Sidebar */}
-        <aside className="hidden w-[264px] flex-col bg-[#0B0B0E] text-white lg:flex flex-shrink-0">
-          <div className="flex items-center gap-2 px-5 pt-5 pb-4">
-            <NexorLogo className="h-7 w-auto" light />
+        <aside className={`hidden flex-col bg-[#0B0B0E] text-white lg:flex flex-shrink-0 transition-all duration-200 ${isCollapsed ? "w-[60px]" : "w-[264px]"}`}>
+          <div className={`flex items-center gap-2 px-5 pt-5 pb-4 ${isCollapsed ? "justify-center px-0" : ""}`}>
+            {isCollapsed ? (
+              <button onClick={toggleCollapsed} className="p-1 rounded-lg hover:bg-white/10 text-[#A1A1AA] cursor-pointer transition-colors">
+                <PanelLeftOpen className="h-[15px] w-[15px]" />
+              </button>
+            ) : (
+              <>
+                <NexorLogo className="h-7 w-auto" light />
+                <button onClick={toggleCollapsed} className="ml-auto p-1 rounded-lg hover:bg-white/10 text-[#A1A1AA] cursor-pointer transition-colors flex-shrink-0">
+                  <PanelLeftClose className="h-[15px] w-[15px]" />
+                </button>
+              </>
+            )}
           </div>
 
           {/* User card */}
+          {!isCollapsed && (
           <div className="mx-3 mb-2 rounded-2xl bg-[#141418] border border-[#232329] p-3">
             <div className="flex items-center gap-2.5">
               <div className="relative flex-shrink-0">
@@ -141,14 +163,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
             </div>
           </div>
+          )}
 
           {/* Nav groups */}
-          <nav className="flex-1 overflow-y-auto px-3 py-1 space-y-0.5">
+          <nav className={`flex-1 overflow-y-auto py-1 space-y-0.5 ${isCollapsed ? "px-1.5" : "px-3"}`}>
             {navGroups.map((group) => (
               <div key={group.label}>
+                {!isCollapsed && (
                 <div className="text-[9px] font-extrabold uppercase tracking-[1.4px] text-[#52525B] px-3 pt-3.5 pb-1.5">
                   {group.label}
                 </div>
+                )}
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   const isActive = pathname === item.id || (item.id !== "/dashboard/prospects" && pathname?.startsWith(item.id + "/"));
@@ -156,15 +181,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <Link
                       key={item.id}
                       href={item.id}
-                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
+                      title={isCollapsed ? item.label : undefined}
+                      className={`flex items-center gap-2.5 rounded-xl text-xs font-semibold transition-colors ${
+                        isCollapsed ? "px-2 py-2.5 justify-center" : "px-3 py-2.5"
+                      } ${
                         isActive
                           ? "bg-white/7 text-white shadow-[inset_2px_0_0_#fff]"
                           : "text-[#A1A1AA] hover:bg-white/4 hover:text-[#E4E4E7]"
-                        }`}
+                      }`}
                     >
                       <Icon className={`h-[15px] w-[15px] flex-shrink-0 ${isActive ? "text-white" : "text-[#71717A]"}`} />
-                      <span className="flex-1">{item.label}</span>
-                      {item.badge && (
+                      {!isCollapsed && <span className="flex-1">{item.label}</span>}
+                      {!isCollapsed && item.badge && (
                         <span className="bg-white text-[#0B0B0E] rounded-full text-[9px] font-extrabold px-1.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                           {item.badge}
                         </span>
@@ -176,13 +204,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ))}
           </nav>
 
-          <div className="p-3 border-t border-[#1C1C21]">
+          <div className={`border-t border-[#1C1C21] ${isCollapsed ? "p-1.5" : "p-3"}`}>
             <button
               onClick={logout}
-              className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-xs font-semibold text-[#71717A] hover:bg-[#1C1C21] hover:text-red-400 transition-colors cursor-pointer"
+              className={`flex items-center gap-2.5 w-full rounded-xl text-xs font-semibold text-[#71717A] hover:bg-[#1C1C21] hover:text-red-400 transition-colors cursor-pointer ${isCollapsed ? "px-2 py-2.5 justify-center" : "px-3 py-2.5"}`}
+              title={isCollapsed ? "Cerrar sesión" : undefined}
             >
               <LogOut className="h-[15px] w-[15px]" />
-              <span>Cerrar sesión</span>
+              {!isCollapsed && <span>Cerrar sesión</span>}
             </button>
           </div>
         </aside>
