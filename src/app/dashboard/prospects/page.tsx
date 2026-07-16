@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDashboard } from "@/lib/dashboard-context";
 import { useAuth } from "@/lib/auth-context";
 import { TIERS } from "@/lib/data";
@@ -19,6 +19,12 @@ export default function ProspectsPage() {
   } = useDashboard();
   const { user } = useAuth();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (prospects.length > 0 && !selectedCompanyId) {
+      setSelectedCompanyId(prospects[0].id);
+    }
+  }, [prospects.length]);
 
   const currentTier = activeCount < 5 ? TIERS[0] : activeCount < 10 ? TIERS[1] : TIERS[2];
 
