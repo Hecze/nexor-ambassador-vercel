@@ -25,14 +25,14 @@ export default function ProspectsPage() {
   if (isLoadingProspects) return <Skeletons />;
 
   return (
-    <div className="flex h-full" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div className="flex h-full -ml-5" style={{ fontFamily: "Inter, sans-serif" }}>
       <CompaniesPanel
         prospects={prospects}
         selectedProspectId={selectedCompanyId}
         onSelect={setSelectedCompanyId}
         onAddProspect={addProspect}
       />
-      <div className="flex-1 min-w-0 overflow-y-auto bg-[#F6F6F7] -ml-5">
+      <div className="flex-1 min-w-0 overflow-y-auto bg-[#F6F6F7]">
         <CrmDashboard
           selectedProspectId={selectedCompanyId}
           onClearSelection={() => setSelectedCompanyId(null)}
