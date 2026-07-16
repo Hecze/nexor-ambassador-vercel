@@ -192,8 +192,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </button>
               </div>
               <div className="flex items-center gap-2 px-5 pt-5 pb-4">
-                <span className="font-bold text-xl tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>nexor</span>
-                <span className="rounded-full bg-white/8 border border-white/10 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-[#A1A1AA]">Portal</span>
+                <NexorLogo className="h-7 w-auto" light />
               </div>
               <nav className="flex-1 overflow-y-auto px-3 space-y-0.5">
                 {navGroups.map((group) => (
