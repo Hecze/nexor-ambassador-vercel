@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { DashboardProvider } from "@/lib/dashboard-context";
 import { useRouter, usePathname } from "next/navigation";
+import NexorLogo from "@/components/NexorLogo";
 import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles } from "lucide-react";
 import FloatingChatbot from "@/components/FloatingChatbot";
 import Link from "next/link";
@@ -98,10 +99,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Desktop Sidebar */}
         <aside className="hidden w-[264px] flex-col bg-[#0B0B0E] text-white lg:flex flex-shrink-0">
           <div className="flex items-center gap-2 px-5 pt-5 pb-4">
-            <span className="font-bold text-xl tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>nexor</span>
-            <span className="rounded-full bg-white/8 border border-white/10 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-[#A1A1AA]">
-              Portal
-            </span>
+            <NexorLogo className="h-7 w-auto" light />
           </div>
 
           {/* User card */}
