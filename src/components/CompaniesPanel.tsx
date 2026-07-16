@@ -66,7 +66,7 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
         </span>
         <div className="flex items-center gap-1.5">
           {activeCompanies > 0 && (
-            <span className="text-[10px] font-bold text-[#56dfe0] bg-[rgba(86,223,224,0.06)] rounded-full px-2 py-0.5">
+            <span className="text-[10px] font-bold text-[#111113] bg-[#F4F4F5] rounded-full px-2 py-0.5">
               {activeCompanies} activas
             </span>
           )}
@@ -144,7 +144,7 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
                 </div>
                 <span
                   className="text-[11px] font-bold font-mono flex-shrink-0"
-                  style={{ color: hasMRR ? "#56dfe0" : "#A1A1AA" }}
+                  style={{ color: hasMRR ? "#111113" : "#A1A1AA" }}
                 >
                   {mrrAmount}
                 </span>

@@ -1336,7 +1336,7 @@ En representación de ${companyName}`
                 const stageColors: Record<string, { bg: string; text: string; border: string }> = {
                   nuevo: { bg: "#F4F4F5", text: "#111113", border: "#111113" },
                   caliente: { bg: "rgba(254,88,82,0.08)", text: "#111113", border: "#fe5852" },
-                  cerrado: { bg: "rgba(86,223,224,0.12)", text: "#111113", border: "#56dfe0" },
+                  cerrado: { bg: "#F4F4F5", text: "#111113", border: "#111113" },
                   humano: { bg: "#F4F4F5", text: "#111113", border: "#6366F1" },
                   frio: { bg: "#F4F4F5", text: "#52525B", border: "#A1A1AA" },
                 };
@@ -1407,7 +1407,7 @@ En representación de ${companyName}`
                               <p className="text-[10px] font-bold text-gray-400 uppercase">Probabilidad de cierre</p>
                               <div className="flex items-center gap-2">
                                 <div className="flex-1 h-2 bg-[#F0F0F2] rounded-full overflow-hidden">
-                                  <div className="h-full rounded-full" style={{ width: `${pct}%`, background: pct >= 70 ? "#56dfe0" : pct >= 40 ? "#fe5852" : "#111113" }} />
+                                  <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "#111113" }} />
                                 </div>
                                 <span className="text-lg font-black font-mono">{pct}%</span>
                               </div>
@@ -1667,7 +1667,7 @@ En representación de ${companyName}`
                                         {phoneData.transcript.map((entry, idx) => (
                                           <div key={idx} className="bg-white border border-gray-150 rounded-xl p-3 space-y-1">
                                             <div className="flex items-center justify-between">
-                                              <span className="text-[10px] font-bold" style={{ color: entry.speaker.includes("Nexor") ? "#56dfe0" : "#6366F1" }}>
+                                              <span className="text-[10px] font-bold" style={{ color: entry.speaker.includes("Nexor") ? "#111113" : "#52525B" }}>
                                                 {entry.speaker}
                                               </span>
                                               <span className="text-[9px] text-gray-400 font-mono">{entry.time}</span>

@@ -20,8 +20,8 @@ const STAGES = [
     key: "negociando",
     label: "Negociando",
     description: "Conversaciones activas",
-    color: "#56dfe0",
-    bg: "rgba(86,223,224,0.08)",
+    color: "#3F3F46",
+    bg: "#F4F4F5",
     text: "#111113",
     border: "#E8E8EA",
     statuses: ["Reunión programada", "Demo creada"],
@@ -30,8 +30,8 @@ const STAGES = [
     key: "cerrando",
     label: "Cerrando",
     description: "Casi listo, falta activar",
-    color: "#fe5852",
-    bg: "rgba(254,88,82,0.08)",
+    color: "#3F3F46",
+    bg: "#F4F4F5",
     text: "#111113",
     border: "#E8E8EA",
     statuses: ["Cuenta activada"],
@@ -40,10 +40,10 @@ const STAGES = [
     key: "comisionando",
     label: "Comisionando",
     description: "Generando ingresos",
-    color: "#56dfe0",
-    bg: "rgba(86,223,224,0.12)",
+    color: "#111113",
+    bg: "#E8E8EA",
     text: "#111113",
-    border: "rgba(86,223,224,0.20)",
+    border: "#D4D4D8",
     statuses: ["Generando comisiones"],
   },
 ];
@@ -153,33 +153,33 @@ export default function NegociacionesPage() {
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-[30px] h-[30px] rounded-[9px] bg-[rgba(86,223,224,0.06)] flex items-center justify-center">
-              <TrendingUp className="h-[14px] w-[14px] text-[#56dfe0]" />
+            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
+              <TrendingUp className="h-[14px] w-[14px] text-[#52525B]" />
             </div>
             <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Cierres este mes</span>
           </div>
-          <div className="text-[22px] font-bold text-[#56dfe0]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <div className="text-[22px] font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {closedThisMonth.length}
           </div>
-          <div className="text-[10px] text-[#56dfe0] font-bold mt-0.5">
+          <div className="text-[10px] text-[#71717A] font-bold mt-0.5">
             {closedThisMonth.reduce((s, p) => s + (p.commissionEarned || 0), 0).toLocaleString()} USD en comisiones
           </div>
         </div>
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-[30px] h-[30px] rounded-[9px] bg-[rgba(254,88,82,0.06)] flex items-center justify-center">
-              <Clock className="h-[14px] w-[14px] text-[#fe5852]" />
+            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
+              <Clock className="h-[14px] w-[14px] text-[#52525B]" />
             </div>
             <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Por contactar</span>
           </div>
-          <div className="text-[22px] font-bold text-[#fe5852]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <div className="text-[22px] font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {dealsByStage.contactando.filter((p) => {
               const d = daysAgo(p.createdAt);
               return d !== null && d > 7;
             }).length}
           </div>
-          <div className="text-[10px] text-[#fe5852] font-bold mt-0.5">+7 días sin seguimiento</div>
+          <div className="text-[10px] text-[#71717A] font-bold mt-0.5">+7 días sin seguimiento</div>
         </div>
       </div>
 
@@ -194,9 +194,9 @@ export default function NegociacionesPage() {
               key={stage.key}
               className="bg-[#F6F6F7] border border-[#E8E8EA] rounded-2xl flex flex-col min-h-[420px]"
             >
-              <div className="px-4 py-3 border-b border-[#E8E8EA] flex items-center justify-between">
+              <div className="px-4 py-3 border-b border-[#E8E8EA] flex items-center justify-between bg-[#111113] rounded-t-2xl">
                 <div>
-                  <div className="text-xs font-extrabold text-[#111113]">{stage.label}</div>
+                  <div className="text-xs font-extrabold text-white">{stage.label}</div>
                   <div className="text-[10px] text-[#A1A1AA]">{stage.description}</div>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -204,8 +204,8 @@ export default function NegociacionesPage() {
                     ${totalStage.toLocaleString()}
                   </span>
                   <span
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white"
-                    style={{ background: stage.color }}
+                    className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold"
+                    style={{ background: "#3F3F46", color: "#fff" }}
                   >
                     {deals.length}
                   </span>
@@ -243,7 +243,7 @@ export default function NegociacionesPage() {
                             <div className="text-[10px] text-[#71717A]">{prospect.industry}</div>
                           </div>
                           {isStale && (
-                            <span className="ml-auto bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-extrabold rounded-full px-2 py-0.5 flex-shrink-0">
+                            <span className="ml-auto bg-[#F4F4F5] text-[#71717A] text-[9px] font-extrabold rounded-full px-2 py-0.5 flex-shrink-0">
                               {d}d
                             </span>
                           )}
@@ -258,21 +258,10 @@ export default function NegociacionesPage() {
                           <span className="text-[12px] font-bold text-[#111113]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                             ${prospect.estimatedValue.toLocaleString()} USD
                           </span>
-                          {isWarm && (
-                            <span
-                              className="text-[10px] font-extrabold rounded-full px-2 py-0.5"
-                              style={{ background: stage.bg, color: stage.text }}
-                            >
-                              {stage.label}
-                            </span>
-                          )}
                         </div>
 
                         <div
-                          className="h-1 rounded-full mt-2.5"
-                          style={{
-                            background: isStale ? "#fe5852" : isWarm ? stage.color : "#E8E8EA",
-                          }}
+                          className="h-1 rounded-full mt-2.5 bg-[#E8E8EA]"
                         />
                       </button>
                     );

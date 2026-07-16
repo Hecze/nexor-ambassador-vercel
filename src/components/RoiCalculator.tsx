@@ -119,9 +119,9 @@ export default function RoiCalculator() {
           {/* RESULTS */}
           <div className="space-y-3">
             <div className="bg-[#101018] rounded-2xl p-5 text-white relative overflow-hidden">
-              <div className="absolute top-[-60px] right-[-30px] w-[220px] h-[220px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.25),transparent_70%)] pointer-events-none" />
+              <div className="absolute top-[-60px] right-[-30px] w-[220px] h-[220px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_70%)] pointer-events-none" />
               <div className="relative">
-                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#56dfe0]">Revenue extra proyectado para el cliente</div>
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#A1A1AA]">Revenue extra proyectado para el cliente</div>
                 <div className="flex items-baseline gap-3 mt-1.5">
                   <span className="text-[44px] font-bold tracking-tight leading-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>+${retornoDemo.toLocaleString()}</span>
                   <span className="text-[13px] text-[#A1A1AA] font-semibold">/ mes</span>
@@ -129,7 +129,7 @@ export default function RoiCalculator() {
                 <div className="flex gap-5 mt-3.5">
                   <div>
                     <div className="text-[9.5px] font-extrabold uppercase tracking-wider text-[#71717A]">ROI</div>
-                    <div className="text-[19px] font-bold text-[#56dfe0]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{roi}x</div>
+                    <div className="text-[19px] font-bold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{roi}x</div>
                   </div>
                   <div>
                     <div className="text-[9.5px] font-extrabold uppercase tracking-wider text-[#71717A]">Ventas extra</div>
@@ -160,7 +160,7 @@ export default function RoiCalculator() {
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-[#71717A]">Revenue proyectado</span>
-                <strong className="font-mono text-[#56dfe0]">${(ventasConNexor * clientTicket).toLocaleString()}/mes</strong>
+                <strong className="font-mono text-[#111113]">${(ventasConNexor * clientTicket).toLocaleString()}/mes</strong>
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-[#71717A]">ROI</span>
@@ -169,18 +169,18 @@ export default function RoiCalculator() {
             </div>
 
             <div className="bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-2xl p-4 flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-[rgba(254,88,82,0.08)] flex items-center justify-center flex-shrink-0">
-                <DollarSign className="w-5 h-5 text-[#fe5852]" />
+              <div className="w-11 h-11 rounded-xl bg-[#F4F4F5] flex items-center justify-center flex-shrink-0">
+                <DollarSign className="w-5 h-5 text-[#52525B]" />
               </div>
               <div className="flex-1">
-                <div className="text-[12.5px] font-extrabold text-[#78350F]">Si cierras este cliente, tú ganas</div>
-                <div className="text-[11px] text-[#111113] mt-0.5">{Math.round(activeCommissionPct * 100)}% de comisión recurrente sobre ${costoNexor.toLocaleString()}/mes de consumo estimado</div>
+                <div className="text-[12.5px] font-extrabold text-[#111113]">Si cierras este cliente, tú ganas</div>
+                <div className="text-[11px] text-[#71717A] mt-0.5">{Math.round(activeCommissionPct * 100)}% de comisión recurrente sobre ${costoNexor.toLocaleString()}/mes de consumo estimado</div>
               </div>
               <div className="text-right">
-                <div className="text-[26px] font-bold text-[#fe5852] leading-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  ${Math.round(costoNexor * activeCommissionPct)}<span className="text-[13px] font-semibold text-[#111113]">/mes</span>
+                <div className="text-[26px] font-bold text-[#111113] leading-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  ${Math.round(costoNexor * activeCommissionPct)}<span className="text-[13px] font-semibold text-[#71717A]">/mes</span>
                 </div>
-                <div className="text-[10px] font-bold text-[#111113] mt-0.5">${Math.round(costoNexor * activeCommissionPct * 12).toLocaleString()} al año · recurrente</div>
+                <div className="text-[10px] font-bold text-[#71717A] mt-0.5">${Math.round(costoNexor * activeCommissionPct * 12).toLocaleString()} al año · recurrente</div>
               </div>
             </div>
           </div>
@@ -220,17 +220,17 @@ export default function RoiCalculator() {
                 />
               </div>
             </div>
-            <div className="bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-xl p-3.5">
+            <div className="bg-[#F4F4F5] border border-[#E8E8EA] rounded-xl p-3.5">
               <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#111113]">Tarifa Nexor</div>
-              <div className="text-sm font-extrabold text-[#78350F] mt-1">${nexorLeadRate} USD por lead calificado</div>
+              <div className="text-sm font-extrabold text-[#111113] mt-1">${nexorLeadRate} USD por lead calificado</div>
             </div>
           </div>
 
           <div className="space-y-3">
             <div className="bg-[#101018] rounded-2xl p-5 text-white relative overflow-hidden">
-              <div className="absolute top-[-60px] right-[-30px] w-[220px] h-[220px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.25),transparent_70%)] pointer-events-none" />
+              <div className="absolute top-[-60px] right-[-30px] w-[220px] h-[220px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_70%)] pointer-events-none" />
               <div className="relative">
-                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#56dfe0]">Facturación total de tu cartera</div>
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#A1A1AA]">Facturación total de tu cartera</div>
                 <div className="flex items-baseline gap-3 mt-1.5">
                   <span className="text-[44px] font-bold tracking-tight leading-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>${facturacionTotal.toLocaleString()}</span>
                   <span className="text-[13px] text-[#A1A1AA] font-semibold">/ mes</span>
@@ -241,8 +241,8 @@ export default function RoiCalculator() {
             <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-[rgba(86,223,224,0.06)] flex items-center justify-center">
-                    <Coins className="w-3.5 h-3.5 text-[#56dfe0]" />
+                  <div className="w-7 h-7 rounded-lg bg-[#F4F4F5] flex items-center justify-center">
+                    <Coins className="w-3.5 h-3.5 text-[#52525B]" />
                   </div>
                   <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#71717A]">Tu comisión ({(activeCommissionPct * 100).toFixed(0)}%)</span>
                 </div>
@@ -251,9 +251,9 @@ export default function RoiCalculator() {
               <div className="text-[11px] text-[#71717A] mt-1">Recurrente mientras el cliente use Nexor</div>
             </div>
 
-            <div className="bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-2xl p-4">
-              <div className="text-[11px] font-extrabold text-[#78350F]">Proyección anual</div>
-              <div className="text-[20px] font-bold text-[#fe5852] mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>${(gananciasSocio * 12).toLocaleString()} <span className="text-xs font-semibold text-[#111113]">USD al año</span></div>
+            <div className="bg-[#F4F4F5] border border-[#E8E8EA] rounded-2xl p-4">
+              <div className="text-[11px] font-extrabold text-[#111113]">Proyección anual</div>
+              <div className="text-[20px] font-bold text-[#111113] mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>${(gananciasSocio * 12).toLocaleString()} <span className="text-xs font-semibold text-[#71717A]">USD al año</span></div>
             </div>
           </div>
         </div>
