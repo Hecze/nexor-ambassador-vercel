@@ -1120,6 +1120,7 @@ En representación de ${companyName}`
         <div className="space-y-6 animate-fade-in">
 
           {/* Sección de Volver a Cartera - Extraída arriba con separación del header */}
+          {!selectedLeadId && (
           <div className="pb-2">
             <button
               onClick={() => {
@@ -1138,8 +1139,10 @@ En representación de ${companyName}`
               <span>{readonlyMode ? "← Volver a mis Dashboards Compartidos" : "Volver a la Cartera de Clientes"}</span>
             </button>
           </div>
+          )}
 
           {/* NAVBAR INTERNO DEL CLIENTE: Leads, Alcancía, Invoices */}
+          {!selectedLeadId && (
           <div className="flex border-b border-gray-200 overflow-x-auto">
             <button
               onClick={() => setDetailTab("leads")}
@@ -1187,6 +1190,7 @@ En representación de ${companyName}`
               )}
             </button>
           </div>
+          )}
 
           {detailTab === "leads" && (
             <div className="space-y-6">
