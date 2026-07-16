@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Send, Sparkles, Building, Briefcase, Users, TrendingUp, Zap, Clock } from "lucide-react";
+import { Send, Sparkles, Building, Briefcase, Users, TrendingUp, Zap, Clock, CheckCircle2 } from "lucide-react";
 import NexorLogo from "@/components/NexorLogo";
 
 interface Msg {
@@ -44,16 +44,13 @@ export default function ReferralPage() {
       const res = await fetch("/api/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: msg,
-          history,
-          partnerId,
-        }),
+        body: JSON.stringify({ message: msg, history, partnerId }),
       });
       const data = await res.json();
-      setMessages((prev) => [...prev, { role: "model", text: data.text }]);
-
-      if (data.registered && !registered) {
+      if (data.text) {
+        setMessages((prev) => [...prev, { role: "model", text: data.text }]);
+      }
+      if (data.registered) {
         setRegistered(true);
       }
     } catch {
@@ -62,6 +59,42 @@ export default function ReferralPage() {
       setIsLoading(false);
     }
   };
+
+  if (registered) {
+    return (
+      <div className="min-h-screen bg-[#F6F6F7] flex flex-col items-center justify-center p-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="bg-white border border-[#E8E8EA] rounded-3xl p-10 text-center space-y-5 shadow-sm animate-fade-in max-w-[440px] w-full">
+          <div className="w-20 h-20 rounded-full bg-[#ECFDF5] border-[3px] border-[#A7F3D0] flex items-center justify-center mx-auto">
+            <CheckCircle2 className="h-10 w-10 text-[#059669]" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              ¡Registro completado!
+            </h2>
+            <p className="text-sm text-[#71717A] max-w-sm mx-auto leading-relaxed">
+              Ya tenemos todos los datos de tu empresa. Un asesor de Nexor se pondrá en contacto contigo pronto para mostrarte una demo personalizada según tu industria y volumen de leads.
+            </p>
+          </div>
+          <div className="flex items-center justify-center gap-6 pt-2">
+            <div className="text-center">
+              <div className="text-lg font-bold text-[#059669]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>24/7</div>
+              <div className="text-[10px] text-[#71717A]">Respuesta automática</div>
+            </div>
+            <div className="w-px h-8 bg-[#E8E8EA]" />
+            <div className="text-center">
+              <div className="text-lg font-bold text-[#059669]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>+38%</div>
+              <div className="text-[10px] text-[#71717A]">Más leads calificados</div>
+            </div>
+            <div className="w-px h-8 bg-[#E8E8EA]" />
+            <div className="text-center">
+              <div className="text-lg font-bold text-[#059669]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>-70%</div>
+              <div className="text-[10px] text-[#71717A]">Tiempo del equipo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F6F6F7] flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -73,7 +106,6 @@ export default function ReferralPage() {
       <main className="flex-1 flex items-center justify-center px-4 py-6">
         <div className="w-full max-w-[720px]">
           {messages.length <= 1 ? (
-            /* ── ONBOARDING SCREEN ── */
             <div className="space-y-5">
               <div className="text-center space-y-3">
                 <span className="inline-flex items-center gap-2 rounded-full bg-amber-50 border border-amber-200 px-4 py-1.5 text-xs font-extrabold text-amber-800">
@@ -152,7 +184,6 @@ export default function ReferralPage() {
               </div>
             </div>
           ) : (
-            /* ── CHAT CONVERSATION ── */
             <div className="bg-white border border-[#E8E8EA] rounded-3xl shadow-xs overflow-hidden">
               <div className="bg-[#0B0B0E] p-4 text-white flex items-center space-x-3">
                 <div className="h-[38px] w-[38px] rounded-full bg-amber-500/20 flex items-center justify-center">
@@ -162,11 +193,6 @@ export default function ReferralPage() {
                   <p className="text-sm font-bold">Sofía</p>
                   <p className="text-[10px] text-[#71717A]">Asistente Virtual · Nexor AI</p>
                 </div>
-                {registered && (
-                  <span className="ml-auto bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold px-3 py-1 rounded-full">
-                    Registrado ✓
-                  </span>
-                )}
               </div>
 
               <div className="h-[420px] overflow-y-auto p-4 space-y-3" style={{ background: "#FAFAFA" }}>
@@ -176,9 +202,7 @@ export default function ReferralPage() {
                       msg.role === "user"
                         ? "bg-[#111113] text-white rounded-br-sm"
                         : "bg-white text-[#3F3F46] border border-[#E8E8EA] rounded-bl-sm"
-                    }`}
-                    style={{ fontFamily: msg.role === "model" ? "'Inter', sans-serif" : undefined }}
-                    >
+                    }`}>
                       {msg.text}
                     </div>
                   </div>
