@@ -215,63 +215,7 @@ export default function FacturacionPage() {
         </div>
       )}
 
-      {/* EARNINGS CHART */}
-      <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
-        <div className="text-xs font-extrabold mb-3">Evolución de ganancias</div>
-        <div className="relative h-[140px]">
-          <svg width="100%" height="100%" viewBox="0 0 500 120" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="earnGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#059669" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="#059669" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path
-              d={`M ${earningsData.values.map((v, i) => {
-                const x = (i / (earningsData.values.length - 1)) * 500;
-                const y = 110 - (v / earningsData.maxVal) * 100;
-                return `${i === 0 ? "M" : "L"} ${x} ${y}`;
-              }).join(" ")}`}
-              fill="none"
-              stroke="#059669"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d={`M ${earningsData.values.map((v, i) => {
-                const x = (i / (earningsData.values.length - 1)) * 500;
-                const y = 110 - (v / earningsData.maxVal) * 100;
-                return `${i === 0 ? "M" : "L"} ${x} ${y}`;
-              }).join(" ")} L 500 120 L 0 120 Z`}
-              fill="url(#earnGrad)"
-            />
-            {earningsData.values.map((v, i) => {
-              const x = (i / (earningsData.values.length - 1)) * 500;
-              const y = 110 - (v / earningsData.maxVal) * 100;
-              return (
-                <g key={i}>
-                  <circle cx={x} cy={y} r="4" fill="#fff" stroke="#059669" strokeWidth="2" />
-                  {i === earningsData.values.length - 1 && (
-                    <>
-                      <circle cx={x} cy={y} r="7" fill="none" stroke="#059669" strokeWidth="1" strokeOpacity="0.3" />
-                      <text x={x} y={y - 12} textAnchor="middle" fill="#059669" fontSize="10" fontWeight="bold" fontFamily="JetBrains Mono, monospace" style={{ font: "bold 10px JetBrains Mono, monospace" }}>
-                        ${v.toLocaleString()}
-                      </text>
-                    </>
-                  )}
-                </g>
-              );
-            })}
-          </svg>
-        </div>
-        <div className="flex justify-between mt-2">
-          {earningsData.months.map((m, i) => (
-            <span key={i} className="text-[9px] font-bold text-[#A1A1AA] uppercase">{m}</span>
-          ))}
-        </div>
-      </div>
-
+      {/* EARNINGS CHART — in right column, replaces payment history */}
       <div className="grid gap-3 items-start" style={{ gridTemplateColumns: "minmax(0, 1.6fr) minmax(0, 1fr)" }}>
         {/* COMMISSIONS TABLE */}
         <div className="bg-white border border-[#E8E8EA] rounded-2xl overflow-hidden">
@@ -408,6 +352,58 @@ export default function FacturacionPage() {
                 );
               })
             )}
+          </div>
+
+          {/* EARNINGS CHART */}
+          <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
+            <div className="text-xs font-extrabold mb-2">Evolución de ganancias</div>
+            <svg viewBox="0 0 300 100" className="w-full h-auto block">
+              <defs>
+                <linearGradient id="earnGrad2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#059669" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#059669" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path
+                d={`M ${earningsData.values.map((v, i) => {
+                  const x = (i / (earningsData.values.length - 1)) * 300;
+                  const y = 90 - (v / earningsData.maxVal) * 75;
+                  return `${i === 0 ? "M" : "L"} ${x} ${y}`;
+                }).join(" ")}`}
+                fill="none"
+                stroke="#059669"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d={`M ${earningsData.values.map((v, i) => {
+                  const x = (i / (earningsData.values.length - 1)) * 300;
+                  const y = 90 - (v / earningsData.maxVal) * 75;
+                  return `${i === 0 ? "M" : "L"} ${x} ${y}`;
+                }).join(" ")} L 300 100 L 0 100 Z`}
+                fill="url(#earnGrad2)"
+              />
+              {earningsData.values.map((v, i) => {
+                const x = (i / (earningsData.values.length - 1)) * 300;
+                const y = 90 - (v / earningsData.maxVal) * 75;
+                return (
+                  <g key={i}>
+                    <circle cx={x} cy={y} r="2.5" fill="#fff" stroke="#059669" strokeWidth="1.5" />
+                    {i === earningsData.values.length - 1 && (
+                      <text x={x} y={y - 7} textAnchor="middle" fill="#059669" fontSize="8" fontWeight="bold" fontFamily="JetBrains Mono, monospace">
+                        ${v.toLocaleString()}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+            <div className="flex justify-between mt-1.5">
+              {earningsData.months.map((m, i) => (
+                <span key={i} className="text-[9px] font-bold text-[#A1A1AA] uppercase">{m}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
