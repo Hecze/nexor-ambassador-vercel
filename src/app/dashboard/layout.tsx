@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { DashboardProvider } from "@/lib/dashboard-context";
 import { useRouter, usePathname } from "next/navigation";
 import NexorLogo from "@/components/NexorLogo";
-import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles, Target } from "lucide-react";
+import { LogOut, Menu, X, Phone, DollarSign, Users, BookOpen, Video, Receipt, Trophy, LifeBuoy, User, Sparkles, Target, FileText } from "lucide-react";
 import FloatingChatbot from "@/components/FloatingChatbot";
 import Link from "next/link";
 
@@ -39,6 +39,7 @@ const navGroups = [
     items: [
       { id: "/dashboard/support", label: "Soporte", icon: LifeBuoy },
       { id: "/dashboard/perfil", label: "Mi perfil", icon: User },
+      { id: "/dashboard/terminos", label: "Términos", icon: FileText },
     ],
   },
 ];
@@ -55,6 +56,7 @@ const pageTitles: Record<string, string> = {
   "/dashboard/premios": "Premios y Liga",
   "/dashboard/support": "Soporte",
   "/dashboard/perfil": "Mi perfil",
+  "/dashboard/terminos": "Términos y Condiciones",
 };
 
 const pageSubtitles: Record<string, string> = {
@@ -69,6 +71,7 @@ const pageSubtitles: Record<string, string> = {
   "/dashboard/support": "Sofía resuelve primero · si no puede, se crea el ticket solo",
   "/dashboard/premios": "Temporada Julio 2026 · gana XP vendiendo, no jugando",
   "/dashboard/perfil": "Tu identidad de partner, tu link de referidos y tu progreso",
+  "/dashboard/terminos": "Condiciones de uso del programa de partners de Nexor",
 };
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

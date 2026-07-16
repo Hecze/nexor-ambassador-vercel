@@ -159,12 +159,12 @@ export default function PremiosPage() {
   }).length;
 
   const mockRanking = [
-    { name: "Janae", xp: 1200, avatar: "J", position: 1, trend: "up" as const, isMe: false },
-    { name: "Komal Rai", xp: 950, avatar: "K", position: 2, trend: "up" as const, isMe: false },
-    { name: "Kelly", xp: 750, avatar: "K", position: 3, trend: "same" as const, isMe: false },
+    { name: "Camila Ríos", xp: 1200, avatar: "C", position: 1, trend: "up" as const, isMe: false, city: "Santiago" },
+    { name: "Diego Fernández", xp: 950, avatar: "D", position: 2, trend: "up" as const, isMe: false, city: "Lima" },
+    { name: "Valentina Soto", xp: 750, avatar: "V", position: 3, trend: "same" as const, isMe: false, city: "Bogotá" },
     { name: user?.displayName || "Tú", xp: totalXP, avatar: (user?.displayName || "T").charAt(0).toUpperCase(), position: 4, trend: "up" as const, isMe: true },
-    { name: "Javier", xp: 140, avatar: "J", position: 5, trend: "down" as const, isMe: false },
-    { name: "Brayan Capcha", xp: 95, avatar: "B", position: 6, trend: "same" as const, isMe: false },
+    { name: "Andrés Navarro", xp: 140, avatar: "A", position: 5, trend: "down" as const, isMe: false, city: "CDMX" },
+    { name: "Bryan Capcha", xp: 95, avatar: "B", position: 6, trend: "same" as const, isMe: false, city: "Lima" },
   ].sort((a, b) => b.xp - a.xp).map((item, idx) => ({ ...item, position: idx + 1 }));
 
   const currentUser = mockRanking.find((m) => m.isMe);
@@ -385,7 +385,7 @@ export default function PremiosPage() {
                     <div className="flex-1 h-[7px] bg-[#F4F4F5] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${pct}%`, background: completed && isClaimed ? "#D4D4D8" : ready ? "#D97706" : "#111113" }}
+                        style={{ width: `${pct}%`, background: completed && isClaimed ? "#D4D4D8" : ready ? "#3F3F46" : "#111113" }}
                       />
                     </div>
                     <span className="text-[10px] font-bold font-mono text-[#71717A]">
@@ -430,7 +430,7 @@ export default function PremiosPage() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="#60A5FA" stroke="#93C5FD" strokeWidth="1">
                   <path d="M6 3h12l4 6-10 13L2 9l4-6z" />
                 </svg>
-                <span className="text-[15px] font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Liga Zafiro</span>
+                <span className="text-[15px] font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Liga Zafiro · Chile</span>
               </div>
               <span
                 className="text-[9.5px] font-extrabold rounded-full px-2.5 py-0.5"
@@ -440,7 +440,7 @@ export default function PremiosPage() {
               </span>
             </div>
             <div className="text-[10.5px] text-[#BFDBFE] mt-1.5 leading-relaxed">
-              Top 3 asciende a Liga Diamante y gana <strong className="text-white">+5% de comisión</strong> en el próximo pago.
+              Ranking de partners en tu país. El Top 3 asciende a Liga Diamante y gana <strong className="text-white">+5% de comisión</strong> en el próximo pago.
             </div>
 
             {/* Podium */}
@@ -535,6 +535,7 @@ export default function PremiosPage() {
                         style={{ color: member.isMe ? "#312E81" : undefined, fontWeight: member.isMe ? 800 : 700 }}
                       >
                         {member.name}
+                        {member.city && <span className="font-medium text-[#64748B] ml-1">· {member.city}</span>}
                       </span>
                       {member.isMe && xpToTop3 > 0 && (
                         <span className="text-[9px] font-extrabold text-[#4338CA] bg-[#E0E7FF] rounded-full px-1.5 py-0.5 whitespace-nowrap">
@@ -552,47 +553,7 @@ export default function PremiosPage() {
 
           </div>
         </div>
-
-        {/* ── COFRE SEMANAL ── */}
-        <div
-          className="rounded-2xl p-4 text-white flex items-center gap-3.5 border"
-          style={{ background: "linear-gradient(160deg, #2A2010, #171208)", borderColor: "#78350F" }}
-        >
-          <div
-            className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center flex-shrink-0 border"
-            style={{ background: "rgba(251,191,36,0.12)", borderColor: "rgba(251,191,36,0.3)", animation: "glowPulse 2.5s infinite" }}
-          >
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 8v13H3V8 M1 3h22v5H1z M10 12h4" />
-            </svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-[13px] font-extrabold text-[#FDE68A]">Cofre semanal</div>
-            <div className="text-[10.5px] text-[#D6BC8A] leading-relaxed mt-0.5">
-              Reclama {WEEKLY_GOAL} misiones esta semana y ábrelo: XP doble o una plantilla premium.
-            </div>
-            <div className="flex items-center gap-1.5 mt-2">
-              <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${(weeklyClaimed / WEEKLY_GOAL) * 100}%`, background: "#FBBF24" }}
-                />
-              </div>
-              <span className="text-[10px] font-bold text-[#FBBF24]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                {weeklyClaimed}/{WEEKLY_GOAL}
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
-
-      {/* glowPulse animation */}
-      <style jsx>{`
-        @keyframes glowPulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.45); }
-          50% { box-shadow: 0 0 0 9px rgba(245,158,11,0); }
-        }
-      `}</style>
     </div>
   );
 }

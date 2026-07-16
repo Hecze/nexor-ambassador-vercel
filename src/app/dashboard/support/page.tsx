@@ -40,59 +40,64 @@ const TICKET_TYPES: {
   iconColor: string;
   badgeClass: string;
   description: string;
+  urgency: number;
 }[] = [
   {
     id: "queja",
     label: "Queja",
     icon: AlertTriangle,
-    iconColor: "text-red-500",
-    badgeClass: "text-red-700 bg-red-50 border-red-200",
+    iconColor: "text-[#111113]",
+    badgeClass: "text-[#111113] bg-[#F4F4F5] border border-[#E8E8EA]",
     description: "Reportar un problema grave o mala experiencia",
+    urgency: 4,
   },
   {
     id: "soporte",
     label: "Soporte Técnico",
     icon: Wrench,
-    iconColor: "text-blue-500",
-    badgeClass: "text-blue-700 bg-blue-50 border-blue-200",
+    iconColor: "text-[#111113]",
+    badgeClass: "text-[#111113] bg-[#F4F4F5] border border-[#E8E8EA]",
     description: "Ayuda con el funcionamiento de la plataforma",
+    urgency: 3,
   },
   {
     id: "facturacion",
     label: "Facturación",
     icon: Receipt,
-    iconColor: "text-amber-500",
-    badgeClass: "text-amber-700 bg-amber-50 border-amber-200",
+    iconColor: "text-[#111113]",
+    badgeClass: "text-[#111113] bg-[#F4F4F5] border border-[#E8E8EA]",
     description: "Preguntas sobre pagos, invoices o cobros",
+    urgency: 2,
   },
   {
     id: "sugerencia",
     label: "Sugerencia",
     icon: Lightbulb,
-    iconColor: "text-emerald-500",
-    badgeClass: "text-emerald-700 bg-emerald-50 border-emerald-200",
+    iconColor: "text-[#111113]",
+    badgeClass: "text-[#111113] bg-[#F4F4F5] border border-[#E8E8EA]",
     description: "Proponer mejoras o nuevas funcionalidades",
+    urgency: 1,
   },
 ];
 
 const STATUS_CONFIG = {
   abierto: {
     label: "Abierto",
-    textColor: "#B91C1C",
-    bgColor: "#FEE2E2",
-    dot: "bg-red-500 animate-pulse",
+    textColor: "#111113",
+    bgColor: "#F4F4F5",
+    dot: "bg-[#111113]",
   },
   en_revision: {
     label: "En revisión",
     textColor: "#111113",
     bgColor: "#F4F4F5",
-    dot: "bg-amber-500",
+    dot: "bg-[#3F3F46]",
   },
   resuelto: {
     label: "Resuelto",
     textColor: "#111113",
     bgColor: "#F4F4F5",
-    dot: "bg-emerald-500",
+    dot: "bg-[#A1A1AA]",
   },
 };
 
@@ -639,7 +644,7 @@ export default function SupportPage() {
                   margin: "0 auto 16px",
                 }}
               >
-                <CheckCircle2 className="h-6 w-6 text-emerald-600" />
+                <CheckCircle2 className="h-6 w-6 text-[#111113]" />
               </div>
               <h3 style={{ fontSize: "13px", fontWeight: 800, color: "#111113", marginBottom: "6px" }}>
                 ¡Ticket {successTicketId} creado!
@@ -802,6 +807,19 @@ export default function SupportPage() {
                             >
                               {t.description}
                             </p>
+                            <div style={{ display: "flex", gap: "3px", marginTop: "8px" }}>
+                              {[1, 2, 3, 4].map((n) => (
+                                <div
+                                  key={n}
+                                  style={{
+                                    flex: 1,
+                                    height: "3px",
+                                    borderRadius: "2px",
+                                    background: n <= t.urgency ? (isSelected ? "rgba(255,255,255,0.4)" : "#111113") : (isSelected ? "rgba(255,255,255,0.1)" : "#E8E8EA"),
+                                  }}
+                                />
+                              ))}
+                            </div>
                           </button>
                         );
                       })}
@@ -851,9 +869,9 @@ export default function SupportPage() {
                               gap: "6px",
                               padding: "6px 12px",
                               borderRadius: "999px",
-                              border: `1px solid ${selectedType === "queja" ? "#FECACA" : selectedType === "facturacion" ? "#E8E8EA" : selectedType === "sugerencia" ? "rgba(86,223,224,0.20)" : "#BFDBFE"}`,
-                              background: selectedType === "queja" ? "#FEF2F2" : selectedType === "facturacion" ? "rgba(254,88,82,0.06)" : selectedType === "sugerencia" ? "rgba(86,223,224,0.06)" : "#EFF6FF",
-                              color: selectedType === "queja" ? "#B91C1C" : selectedType === "facturacion" ? "#111113" : selectedType === "sugerencia" ? "#111113" : "#1E40AF",
+                              border: "1px solid #E8E8EA",
+                              background: "#F4F4F5",
+                              color: "#111113",
                               fontSize: "10px",
                               fontWeight: 800,
                             }}
@@ -1116,11 +1134,7 @@ export default function SupportPage() {
                         width: "34px",
                         height: "34px",
                         borderRadius: "10px",
-                        background: isResolved
-                          ? "rgba(86,223,224,0.06)"
-                          : ticket.type === "facturacion" || ticket.type === "queja"
-                          ? "#FEF2F2"
-                          : "rgba(254,88,82,0.06)",
+                        background: "#F4F4F5",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
