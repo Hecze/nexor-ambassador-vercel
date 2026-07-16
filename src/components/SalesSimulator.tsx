@@ -666,7 +666,7 @@ Reglas de comportamiento:
               
               {/* Microfono indicador y estado superior */}
               <div className="absolute top-4 right-4 bg-neutral-900/80 px-2.5 py-1 rounded-full text-[9px] font-bold text-neutral-400 border border-neutral-850 flex items-center space-x-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#56dfe0] animate-pulse" />
                 <span>Voz Conectada</span>
               </div>
 
@@ -736,9 +736,9 @@ Reglas de comportamiento:
                     >
                       {isUserSpeakingSim && !isMuted && !isMicHovered ? (
                         <div className="flex items-end space-x-0.5 h-3.5 w-3.5 mr-0.5 transition-all">
-                          <span className="w-0.5 bg-[#10b981] animate-pulse h-2" />
-                          <span className="w-0.5 bg-[#10b981] animate-pulse h-3.5" />
-                          <span className="w-0.5 bg-[#10b981] animate-pulse h-2.5" />
+                          <span className="w-0.5 bg-[#56dfe0] animate-pulse h-2" />
+                          <span className="w-0.5 bg-[#56dfe0] animate-pulse h-3.5" />
+                          <span className="w-0.5 bg-[#56dfe0] animate-pulse h-2.5" />
                         </div>
                       ) : (
                         <ChevronUp className="h-3.5 w-3.5 text-neutral-300" />

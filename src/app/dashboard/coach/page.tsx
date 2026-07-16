@@ -124,7 +124,7 @@ export default function CoachPage() {
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center"
                 style={{
-                  background: "linear-gradient(135deg, #4F46E5, #A855F7)",
+                  background: "linear-gradient(135deg, #111113, #A855F7)",
                 }}
               >
                 <svg
@@ -136,11 +136,11 @@ export default function CoachPage() {
                   <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
                 </svg>
               </div>
-              <span className="absolute right-0 bottom-0 w-[9px] h-[9px] rounded-full bg-[#10B981] border-2 border-white" />
+              <span className="absolute right-0 bottom-0 w-[9px] h-[9px] rounded-full bg-[#56dfe0] border-2 border-white" />
             </div>
             <div>
               <div className="text-[13px] font-extrabold text-[#111113]">Sofía</div>
-              <div className="text-[10px] text-[#059669] font-bold">
+              <div className="text-[10px] text-[#56dfe0] font-bold">
                 En línea · recuerda tus conversaciones
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function CoachPage() {
                       className="w-[26px] h-[26px] rounded-full flex-shrink-0 flex items-center justify-center"
                       style={{
                         background:
-                          "linear-gradient(135deg, #4F46E5, #A855F7)",
+                          "linear-gradient(135deg, #111113, #A855F7)",
                       }}
                     >
                       <svg
@@ -193,7 +193,7 @@ export default function CoachPage() {
                   <div
                     className="w-[26px] h-[26px] rounded-full flex-shrink-0 flex items-center justify-center"
                     style={{
-                      background: "linear-gradient(135deg, #4F46E5, #A855F7)",
+                      background: "linear-gradient(135deg, #111113, #A855F7)",
                     }}
                   >
                     <svg
@@ -262,12 +262,12 @@ export default function CoachPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Pregúntale a Sofía sobre técnicas de cierre..."
-                className="flex-1 border border-[#E8E8EA] rounded-[11px] px-[14px] py-[11px] text-[12.5px] font-sans outline-none bg-[#FAFAFA] focus:border-[#4F46E5] focus:bg-white transition-colors"
+                className="flex-1 border border-[#E8E8EA] rounded-[11px] px-[14px] py-[11px] text-[12.5px] font-sans outline-none bg-[#FAFAFA] focus:border-[#111113] focus:bg-white transition-colors"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isCoachLoading}
-                className="w-[42px] h-[42px] rounded-[11px] bg-[#4F46E5] border-none flex items-center justify-center cursor-pointer flex-shrink-0 hover:bg-[#4338CA] transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-[42px] h-[42px] rounded-[11px] bg-[#111113] border-none flex items-center justify-center cursor-pointer flex-shrink-0 hover:bg-[#111113] transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
                   width="16"
@@ -302,13 +302,13 @@ export default function CoachPage() {
                 href="/dashboard/simulator"
                 className="flex items-center gap-[10px] bg-[#FAFAFA] border border-[#F0F0F2] rounded-[11px] px-3 py-[10px] hover:border-[#C7C7CC] transition-colors"
               >
-                <div className="w-[30px] h-[30px] rounded-[9px] bg-[#FEF3C7] flex items-center justify-center flex-shrink-0">
+                <div className="w-[30px] h-[30px] rounded-[9px] bg-[rgba(254,88,82,0.08)] flex items-center justify-center flex-shrink-0">
                   <svg
                     width="14"
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#D97706"
+                    stroke="#fe5852"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -324,7 +324,7 @@ export default function CoachPage() {
                     Objeción de quincena · 5 min
                   </div>
                 </div>
-                <span className="text-[9px] font-extrabold text-[#92400E] bg-[#FEF3C7] rounded-full px-[7px] py-[2px] flex-shrink-0">
+                <span className="text-[9px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-[7px] py-[2px] flex-shrink-0">
                   +15 XP
                 </span>
               </a>
@@ -333,13 +333,13 @@ export default function CoachPage() {
                 href="/dashboard/resources"
                 className="flex items-center gap-[10px] bg-[#FAFAFA] border border-[#F0F0F2] rounded-[11px] px-3 py-[10px] hover:border-[#C7C7CC] transition-colors cursor-pointer"
               >
-                <div className="w-[30px] h-[30px] rounded-[9px] bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
+                <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center flex-shrink-0">
                   <svg
                     width="14"
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#4F46E5"
+                    stroke="#111113"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -356,7 +356,7 @@ export default function CoachPage() {
                     Para Inmobiliaria Horizons
                   </div>
                 </div>
-                <span className="text-[9px] font-extrabold text-[#92400E] bg-[#FEF3C7] rounded-full px-[7px] py-[2px] flex-shrink-0">
+                <span className="text-[9px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-[7px] py-[2px] flex-shrink-0">
                   +10 XP
                 </span>
               </a>
@@ -373,7 +373,7 @@ export default function CoachPage() {
             </div>
             <div className="flex flex-col gap-2 text-[11px] text-[#52525B] leading-[1.5]">
               <div className="flex gap-2">
-                <span className="text-[#059669] font-extrabold flex-shrink-0">
+                <span className="text-[#56dfe0] font-extrabold flex-shrink-0">
                   ·
                 </span>
                 <span>
@@ -382,7 +382,7 @@ export default function CoachPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[#059669] font-extrabold flex-shrink-0">
+                <span className="text-[#56dfe0] font-extrabold flex-shrink-0">
                   ·
                 </span>
                 <span>
@@ -393,7 +393,7 @@ export default function CoachPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[#D97706] font-extrabold flex-shrink-0">
+                <span className="text-[#fe5852] font-extrabold flex-shrink-0">
                   ·
                 </span>
                 <span>
@@ -408,13 +408,13 @@ export default function CoachPage() {
           </div>
 
           {/* Mission prompt */}
-          <div className="bg-[#EEF2FF] border border-[#C7D2FE] rounded-2xl p-[14px] flex items-center gap-[11px]">
+          <div className="bg-[#F4F4F5] border border-[#E8E8EA] rounded-2xl p-[14px] flex items-center gap-[11px]">
             <svg
               width="18"
               height="18"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#4F46E5"
+              stroke="#111113"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -423,7 +423,7 @@ export default function CoachPage() {
               <path d="M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z" />
               <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" />
             </svg>
-            <div className="text-[10.5px] text-[#3730A3] leading-[1.5] font-semibold">
+            <div className="text-[10.5px] text-[#111113] leading-[1.5] font-semibold">
               Completa 10 chats con Sofía y desbloquea la misión{" "}
               <strong>Alumno estrella</strong> · vas 7/10
             </div>

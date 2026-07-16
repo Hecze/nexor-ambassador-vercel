@@ -53,10 +53,10 @@ export default function PerfilPage() {
           <div className="absolute top-[-70px] right-[-40px] w-[240px] h-[240px] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.3),transparent_70%)] pointer-events-none" />
           <div className="flex items-center gap-4 relative">
             <div className="relative flex-shrink-0">
-              <div className="w-[72px] h-[72px] rounded-full bg-[linear-gradient(135deg,#4F46E5,#7C3AED)] flex items-center justify-center text-2xl font-bold border-[3px] border-white/[0.15]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              <div className="w-[72px] h-[72px] rounded-full bg-[linear-gradient(135deg,#111113,#7C3AED)] flex items-center justify-center text-2xl font-bold border-[3px] border-white/[0.15]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 {initial}
               </div>
-              <div className="absolute -right-1 -bottom-1 bg-[#D97706] border-[3px] border-[#101018] rounded-[9px] text-white text-[11px] font-extrabold px-[7px] py-[2px]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              <div className="absolute -right-1 -bottom-1 bg-[#fe5852] border-[3px] border-[#101018] rounded-[9px] text-white text-[11px] font-extrabold px-[7px] py-[2px]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                 4
               </div>
             </div>
@@ -66,11 +66,11 @@ export default function PerfilPage() {
               </div>
               <div className="text-[11.5px] text-[#A1A1AA] mt-px">{displayEmail} · partner desde mayo 2026</div>
               <div className="flex gap-1.5 mt-2">
-                <span className="text-[9.5px] font-extrabold uppercase tracking-[0.6px] bg-[rgba(251,191,36,0.15)] text-[#FBBF24] border border-[rgba(251,191,36,0.3)] rounded-full px-2.5 py-[3px]">
+                <span className="text-[9.5px] font-extrabold uppercase tracking-[0.6px] bg-[rgba(251,191,36,0.15)] text-[#fe5852] border border-[rgba(251,191,36,0.3)] rounded-full px-2.5 py-[3px]">
                   Explorer Partner · 15%
                 </span>
-                <span className="inline-flex items-center gap-1 text-[9.5px] font-extrabold bg-[rgba(251,146,60,0.12)] text-[#FB923C] border border-[rgba(251,146,60,0.3)] rounded-full px-2.5 py-[3px]">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#FB923C">
+                <span className="inline-flex items-center gap-1 text-[9.5px] font-extrabold bg-[rgba(254,88,82,0.12)] text-[#fe5852] border border-[rgba(254,88,82,0.3)] rounded-full px-2.5 py-[3px]">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#fe5852">
                     <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
                   </svg>
                   Racha de 5 días
@@ -85,7 +85,7 @@ export default function PerfilPage() {
             </div>
             <div className="bg-white/[0.05] border border-white/[0.09] rounded-[12px] p-[11px_13px]">
               <div className="text-[8.5px] font-extrabold tracking-[1px] text-[#71717A] uppercase">Comisión julio</div>
-              <div className="text-[19px] font-bold text-[#34D399]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>$195</div>
+              <div className="text-[19px] font-bold text-[#56dfe0]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>$195</div>
             </div>
             <div className="bg-white/[0.05] border border-white/[0.09] rounded-[12px] p-[11px_13px]">
               <div className="text-[8.5px] font-extrabold tracking-[1px] text-[#71717A] uppercase">Liga Zafiro</div>
@@ -210,7 +210,7 @@ export default function PerfilPage() {
         {/* REFERRAL LINK */}
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-2">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
             </svg>
             <span className="text-[12.5px] font-extrabold">Tu link de referidos</span>
@@ -250,7 +250,7 @@ export default function PerfilPage() {
             </div>
             <div>
               <div className="text-[9px] font-extrabold tracking-[1px] text-[#A1A1AA] uppercase">Cierres</div>
-              <div className="text-[17px] font-bold text-[#059669]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>1</div>
+              <div className="text-[17px] font-bold text-[#56dfe0]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>1</div>
             </div>
           </div>
         </div>
@@ -259,16 +259,16 @@ export default function PerfilPage() {
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="text-[12.5px] font-extrabold mb-3">Vitrina de insignias</div>
           <div className="grid grid-cols-3 gap-2">
-            <div className="flex flex-col items-center gap-[5px] bg-[#FFFBEB] border border-[#FDE68A] rounded-xl p-3">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex flex-col items-center gap-[5px] bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-xl p-3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12 M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4" />
               </svg>
               <span className="text-[9px] font-extrabold text-[#78350F] text-center leading-tight">
                 Primera<br />venta
               </span>
             </div>
-            <div className="flex flex-col items-center gap-[5px] bg-[#FFFBEB] border border-[#FDE68A] rounded-xl p-3">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex flex-col items-center gap-[5px] bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-xl p-3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
               <span className="text-[9px] font-extrabold text-[#78350F] text-center leading-tight">

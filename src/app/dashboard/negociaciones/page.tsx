@@ -10,40 +10,40 @@ const STAGES = [
     key: "contactando",
     label: "Contactando",
     description: "Hiciste el primer contacto",
-    color: "#0284C7",
-    bg: "#E0F2FE",
-    text: "#0369A1",
-    border: "#BAE6FD",
+    color: "#52525B",
+    bg: "#F4F4F5",
+    text: "#111113",
+    border: "#E8E8EA",
     statuses: ["Link enviado"],
   },
   {
     key: "negociando",
     label: "Negociando",
     description: "Conversaciones activas",
-    color: "#F59E0B",
-    bg: "#FEF3C7",
-    text: "#92400E",
-    border: "#FDE68A",
+    color: "#56dfe0",
+    bg: "rgba(86,223,224,0.08)",
+    text: "#111113",
+    border: "#E8E8EA",
     statuses: ["Reunión programada", "Demo creada"],
   },
   {
     key: "cerrando",
     label: "Cerrando",
     description: "Casi listo, falta activar",
-    color: "#8B5CF6",
-    bg: "#EDE9FE",
-    text: "#6D28D9",
-    border: "#C4B5FD",
+    color: "#fe5852",
+    bg: "rgba(254,88,82,0.08)",
+    text: "#111113",
+    border: "#E8E8EA",
     statuses: ["Cuenta activada"],
   },
   {
     key: "comisionando",
     label: "Comisionando",
     description: "Generando ingresos",
-    color: "#059669",
-    bg: "#D1FAE5",
-    text: "#065F46",
-    border: "#A7F3D0",
+    color: "#56dfe0",
+    bg: "rgba(86,223,224,0.12)",
+    text: "#111113",
+    border: "rgba(86,223,224,0.20)",
     statuses: ["Generando comisiones"],
   },
 ];
@@ -65,7 +65,7 @@ function getInitials(name: string) {
 }
 
 function getInitialColor(name: string) {
-  const colors = ["#4F46E5", "#059669", "#D97706", "#DC2626", "#7C3AED", "#0891B2", "#E11D48", "#2563EB", "#C026D3"];
+  const colors = ["#111113", "#56dfe0", "#fe5852", "#DC2626", "#7C3AED", "#0891B2", "#E11D48", "#2563EB", "#C026D3"];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
   return colors[Math.abs(hash) % colors.length];
@@ -138,48 +138,48 @@ export default function NegociacionesPage() {
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#EEF2FF] flex items-center justify-center">
-              <Target className="h-[14px] w-[14px] text-[#4F46E5]" />
+            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#F4F4F5] flex items-center justify-center">
+              <Target className="h-[14px] w-[14px] text-[#111113]" />
             </div>
             <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Negociando</span>
           </div>
           <div className="text-[22px] font-bold text-[#111113]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {dealsByStage.negociando.length}
           </div>
-          <div className="text-[10px] text-[#92400E] font-bold mt-0.5">
+          <div className="text-[10px] text-[#111113] font-bold mt-0.5">
             {dealsByStage.negociando.reduce((s, p) => s + (p.estimatedValue || 0), 0).toLocaleString()} USD en juego
           </div>
         </div>
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#ECFDF5] flex items-center justify-center">
-              <TrendingUp className="h-[14px] w-[14px] text-[#059669]" />
+            <div className="w-[30px] h-[30px] rounded-[9px] bg-[rgba(86,223,224,0.06)] flex items-center justify-center">
+              <TrendingUp className="h-[14px] w-[14px] text-[#56dfe0]" />
             </div>
             <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Cierres este mes</span>
           </div>
-          <div className="text-[22px] font-bold text-[#059669]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <div className="text-[22px] font-bold text-[#56dfe0]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {closedThisMonth.length}
           </div>
-          <div className="text-[10px] text-[#059669] font-bold mt-0.5">
+          <div className="text-[10px] text-[#56dfe0] font-bold mt-0.5">
             {closedThisMonth.reduce((s, p) => s + (p.commissionEarned || 0), 0).toLocaleString()} USD en comisiones
           </div>
         </div>
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-[30px] h-[30px] rounded-[9px] bg-[#FFFBEB] flex items-center justify-center">
-              <Clock className="h-[14px] w-[14px] text-[#D97706]" />
+            <div className="w-[30px] h-[30px] rounded-[9px] bg-[rgba(254,88,82,0.06)] flex items-center justify-center">
+              <Clock className="h-[14px] w-[14px] text-[#fe5852]" />
             </div>
             <span className="text-[10px] font-extrabold tracking-[1px] uppercase text-[#A1A1AA]">Por contactar</span>
           </div>
-          <div className="text-[22px] font-bold text-[#B45309]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <div className="text-[22px] font-bold text-[#fe5852]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {dealsByStage.contactando.filter((p) => {
               const d = daysAgo(p.createdAt);
               return d !== null && d > 7;
             }).length}
           </div>
-          <div className="text-[10px] text-[#B45309] font-bold mt-0.5">+7 días sin seguimiento</div>
+          <div className="text-[10px] text-[#fe5852] font-bold mt-0.5">+7 días sin seguimiento</div>
         </div>
       </div>
 
@@ -271,7 +271,7 @@ export default function NegociacionesPage() {
                         <div
                           className="h-1 rounded-full mt-2.5"
                           style={{
-                            background: isStale ? "#FBBF24" : isWarm ? stage.color : "#E8E8EA",
+                            background: isStale ? "#fe5852" : isWarm ? stage.color : "#E8E8EA",
                           }}
                         />
                       </button>

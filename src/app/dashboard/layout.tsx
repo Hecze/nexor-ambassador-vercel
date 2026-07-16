@@ -109,20 +109,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="mx-3 mb-2 rounded-2xl bg-[#141418] border border-[#232329] p-3">
             <div className="flex items-center gap-2.5">
               <div className="relative flex-shrink-0">
-                <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white font-extrabold text-sm">
+                <div className="w-[38px] h-[38px] rounded-full bg-[#3F3F46] flex items-center justify-center text-white font-extrabold text-sm">
                   {(user?.displayName || "S").charAt(0).toUpperCase()}
                 </div>
-                <div className="absolute -right-[-3px] -bottom-[-3px] bg-amber-600 border-2 border-[#141418] rounded-md text-white text-[8px] font-extrabold px-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                <div className="absolute -right-[-3px] -bottom-[-3px] bg-[#56dfe0] border-2 border-[#141418] rounded-md text-[#0B0B0E] text-[8px] font-extrabold px-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                   4
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-bold text-white truncate">{user?.displayName || "Santiago V."}</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[9px] font-extrabold uppercase tracking-wide text-amber-400">Explorer</span>
+                  <span className="text-[9px] font-extrabold uppercase tracking-wide text-[#56dfe0]">Explorer</span>
                   <span className="text-[#3F3F46] text-[9px]">·</span>
-                  <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-orange-400">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="#FB923C"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                  <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#A1A1AA]">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="#56dfe0"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
                     5 días
                   </span>
                 </div>
@@ -134,7 +134,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <span className="text-[#A1A1AA]">540 / 800 XP</span>
               </div>
               <div className="h-[5px] bg-[#232329] rounded-full overflow-hidden">
-                <div className="w-[67%] h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-300" />
+                <div className="w-[67%] h-full rounded-full bg-gradient-to-r from-[#56dfe0] to-[#56dfe0]/50" />
               </div>
             </div>
           </div>
@@ -155,14 +155,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       href={item.id}
                       className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                         isActive
-                          ? "bg-white/7 text-white shadow-[inset_2px_0_0_#FBBF24]"
+                          ? "bg-white/7 text-white shadow-[inset_2px_0_0_#56dfe0]"
                           : "text-[#A1A1AA] hover:bg-white/4 hover:text-[#E4E4E7]"
                       }`}
                     >
-                      <Icon className={`h-[15px] w-[15px] flex-shrink-0 ${isActive ? "text-amber-400" : "text-[#71717A]"}`} />
+                      <Icon className={`h-[15px] w-[15px] flex-shrink-0 ${isActive ? "text-[#56dfe0]" : "text-[#71717A]"}`} />
                       <span className="flex-1">{item.label}</span>
                       {item.badge && (
-                        <span className="bg-amber-600 text-white rounded-full text-[9px] font-extrabold px-1.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                        <span className="bg-[#56dfe0] text-[#0B0B0E] rounded-full text-[9px] font-extrabold px-1.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                           {item.badge}
                         </span>
                       )}
@@ -214,7 +214,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         >
                           <Icon className="h-[15px] w-[15px]" />
                           <span>{item.label}</span>
-                          {item.badge && <span className="bg-amber-600 text-white rounded-full text-[9px] font-extrabold px-1.5 ml-auto font-mono">{item.badge}</span>}
+                          {item.badge && <span className="bg-[#56dfe0] text-[#0B0B0E] rounded-full text-[9px] font-extrabold px-1.5 ml-auto font-mono">{item.badge}</span>}
                         </Link>
                       );
                     })}
@@ -243,8 +243,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
             </div>
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3 py-1.5 text-[11px] font-extrabold text-amber-900">
-                <Trophy className="h-3 w-3 text-amber-600" />
+              <div className="flex items-center gap-1.5 rounded-full bg-[#56dfe0]/[0.06] border border-[#56dfe0]/20 px-3 py-1.5 text-[11px] font-extrabold text-[#111113]">
+                <Trophy className="h-3 w-3 text-[#56dfe0]" />
                 <span>Explorer · 15%</span>
               </div>
             </div>

@@ -84,14 +84,14 @@ const STATUS_CONFIG = {
   },
   en_revision: {
     label: "En revisión",
-    textColor: "#92400E",
-    bgColor: "#FEF3C7",
+    textColor: "#111113",
+    bgColor: "rgba(254,88,82,0.08)",
     dot: "bg-amber-500",
   },
   resuelto: {
     label: "Resuelto",
-    textColor: "#065F46",
-    bgColor: "#D1FAE5",
+    textColor: "#111113",
+    bgColor: "rgba(86,223,224,0.12)",
     dot: "bg-emerald-500",
   },
 };
@@ -530,7 +530,7 @@ export default function SupportPage() {
       </svg>
     ),
     soporte: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M12 6v6l4 2" />
       </svg>
     ),
@@ -540,7 +540,7 @@ export default function SupportPage() {
       </svg>
     ),
     sugerencia: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#56dfe0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3" />
       </svg>
     ),
@@ -554,7 +554,7 @@ export default function SupportPage() {
   };
 
   const resolvedIcon = (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#56dfe0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3" />
     </svg>
   );
@@ -577,7 +577,7 @@ export default function SupportPage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
           <StatCard label="Abiertos" value={openTickets || 1} />
           <StatCard label="En revisión" value={reviewTickets || 1} />
-          <StatCard label="Resueltos" value={resolvedTickets || 4} valueColor="#059669" />
+          <StatCard label="Resueltos" value={resolvedTickets || 4} valueColor="#56dfe0" />
         </div>
 
         {/* Tickets card */}
@@ -632,7 +632,7 @@ export default function SupportPage() {
                   height: "48px",
                   width: "48px",
                   borderRadius: "50%",
-                  background: "#ECFDF5",
+                  background: "rgba(86,223,224,0.06)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -641,13 +641,13 @@ export default function SupportPage() {
               >
                 <CheckCircle2 className="h-6 w-6 text-emerald-600" />
               </div>
-              <h3 style={{ fontSize: "13px", fontWeight: 800, color: "#065F46", marginBottom: "6px" }}>
+              <h3 style={{ fontSize: "13px", fontWeight: 800, color: "#111113", marginBottom: "6px" }}>
                 ¡Ticket {successTicketId} creado!
               </h3>
               <p
                 style={{
                   fontSize: "11px",
-                  color: "#059669",
+                  color: "#56dfe0",
                   maxWidth: "300px",
                   margin: "0 auto 16px",
                   lineHeight: 1.5,
@@ -661,7 +661,7 @@ export default function SupportPage() {
                 style={{
                   padding: "10px 20px",
                   borderRadius: "10px",
-                  background: "#059669",
+                  background: "#56dfe0",
                   color: "#fff",
                   border: "none",
                   fontSize: "11px",
@@ -851,9 +851,9 @@ export default function SupportPage() {
                               gap: "6px",
                               padding: "6px 12px",
                               borderRadius: "999px",
-                              border: `1px solid ${selectedType === "queja" ? "#FECACA" : selectedType === "facturacion" ? "#FDE68A" : selectedType === "sugerencia" ? "#A7F3D0" : "#BFDBFE"}`,
-                              background: selectedType === "queja" ? "#FEF2F2" : selectedType === "facturacion" ? "#FFFBEB" : selectedType === "sugerencia" ? "#ECFDF5" : "#EFF6FF",
-                              color: selectedType === "queja" ? "#B91C1C" : selectedType === "facturacion" ? "#92400E" : selectedType === "sugerencia" ? "#065F46" : "#1E40AF",
+                              border: `1px solid ${selectedType === "queja" ? "#FECACA" : selectedType === "facturacion" ? "#E8E8EA" : selectedType === "sugerencia" ? "rgba(86,223,224,0.20)" : "#BFDBFE"}`,
+                              background: selectedType === "queja" ? "#FEF2F2" : selectedType === "facturacion" ? "rgba(254,88,82,0.06)" : selectedType === "sugerencia" ? "rgba(86,223,224,0.06)" : "#EFF6FF",
+                              color: selectedType === "queja" ? "#B91C1C" : selectedType === "facturacion" ? "#111113" : selectedType === "sugerencia" ? "#111113" : "#1E40AF",
                               fontSize: "10px",
                               fontWeight: 800,
                             }}
@@ -1117,10 +1117,10 @@ export default function SupportPage() {
                         height: "34px",
                         borderRadius: "10px",
                         background: isResolved
-                          ? "#ECFDF5"
+                          ? "rgba(86,223,224,0.06)"
                           : ticket.type === "facturacion" || ticket.type === "queja"
                           ? "#FEF2F2"
-                          : "#FFFBEB",
+                          : "rgba(254,88,82,0.06)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",

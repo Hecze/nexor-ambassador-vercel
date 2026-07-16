@@ -9,8 +9,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
 const COLORS = [
-  "#111113", "#4F46E5", "#059669", "#D97706", "#DC2626", "#7C3AED", "#0891B2", "#E11D48",
-  "#2563EB", "#C026D3", "#0D9488", "#CA8A04", "#BE123C", "#3730A3", "#15803D", "#B45309",
+  "#111113", "#56dfe0", "#fe5852", "#52525B", "#71717A",
+  "#A1A1AA", "#3F3F46", "#27272A", "#18181B", "#E8E8EA",
 ];
 
 function getInitialColor(name: string) {
@@ -115,9 +115,9 @@ export default function FacturacionPage() {
 
       {/* HERO + NEXT PAYMENT + PENDING */}
       <div className="grid gap-3" style={{ gridTemplateColumns: "minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr)" }}>
-        <div className="bg-[#0F1712] rounded-2xl p-[18px] text-white relative overflow-hidden">
-          <div className="absolute top-[-60px] right-[-30px] w-[200px] h-[200px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(16,185,129,0.25), transparent 70%)" }} />
-          <div className="text-[10px] font-extrabold tracking-[1.2px] uppercase text-[#6EE7B7] relative">
+        <div className="bg-[#0B0B0E] rounded-2xl p-[18px] text-white relative overflow-hidden">
+          <div className="absolute top-[-60px] right-[-30px] w-[200px] h-[200px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(86,223,224,0.15), transparent 70%)" }} />
+          <div className="text-[10px] font-extrabold tracking-[1.2px] uppercase text-[#56dfe0] relative">
             Comisión acumulada · {monthName.charAt(0).toUpperCase() + monthName.slice(1)}
           </div>
           <div className="flex items-baseline gap-[10px] mt-[6px] relative">
@@ -125,23 +125,23 @@ export default function FacturacionPage() {
               ${totalComisiones.toLocaleString()}
             </span>
             {totalComisiones > 0 && (
-              <span className="inline-flex items-center gap-[3px] text-[11px] font-extrabold text-[#34D399] rounded-full px-[9px] py-[3px]" style={{ background: "rgba(16,185,129,0.12)" }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <span className="inline-flex items-center gap-[3px] text-[11px] font-extrabold text-[#56dfe0] rounded-full px-[9px] py-[3px]" style={{ background: "rgba(86,223,224,0.12)" }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#56dfe0" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 15l-6-6-6 6" />
                 </svg>
                 {clientesGenerando.length} {clientesGenerando.length === 1 ? "cliente" : "clientes"} activo{clientesGenerando.length !== 1 ? "s" : ""}
               </span>
             )}
           </div>
-          <div className="text-[11px] text-[#86C7A8] mt-[8px] relative">
+          <div className="text-[11px] text-[#56dfe0]/80 mt-[8px] relative">
             {(activeCommissionPct * 100).toFixed(0)}% de comisión ({currentTier.name.replace(" Partner", "")}) · {clientesGenerando.length} {clientesGenerando.length === 1 ? "cliente generando MRR" : "clientes generando MRR"}
           </div>
         </div>
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-[7px]">
-            <div className="w-7 h-7 rounded-[9px] bg-[#ECFDF5] flex items-center justify-center">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round">
+            <div className="w-7 h-7 rounded-[9px] bg-[rgba(86,223,224,0.06)] flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#56dfe0" strokeWidth="2" strokeLinecap="round">
                 <path d="M8 2v4 M16 2v4 M3 10h18 M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
               </svg>
             </div>
@@ -155,8 +155,8 @@ export default function FacturacionPage() {
 
         <div className="bg-white border border-[#E8E8EA] rounded-2xl p-4">
           <div className="flex items-center gap-[7px]">
-            <div className="w-7 h-7 rounded-[9px] bg-[#FFFBEB] flex items-center justify-center">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-7 h-7 rounded-[9px] bg-[rgba(254,88,82,0.06)] flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M12 6v6l4 2" />
               </svg>
             </div>
@@ -166,7 +166,7 @@ export default function FacturacionPage() {
             ${pendingTotal.toLocaleString()}
           </div>
           {pendingInvoices.length > 0 ? (
-            <div className="text-[11px] text-[#B45309] mt-[2px] font-bold">
+            <div className="text-[11px] text-[#fe5852] mt-[2px] font-bold">
               {pendingInvoices.length} factura{pendingInvoices.length !== 1 ? "s" : ""} · {prospects.find((p) => (p.invoices || []).some((inv) => inv.status === "Pendiente"))?.company || ""}
             </div>
           ) : (
@@ -180,34 +180,34 @@ export default function FacturacionPage() {
         <div className="bg-white border border-[#E8E8EA] rounded-2xl px-[18px] py-4">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" />
               </svg>
               <span className="text-xs font-extrabold">Camino a {nextTier.name}</span>
-              <span className="text-[10px] font-bold text-[#4338CA] bg-[#EEF2FF] rounded-full px-[9px] py-[2px]">
+              <span className="text-[10px] font-bold text-[#111113] bg-[#F4F4F5] rounded-full px-[9px] py-[2px]">
                 Tu comisión sube de {(activeCommissionPct * 100).toFixed(0)}% → {(nextTierPct! * 100).toFixed(0)}%
               </span>
             </div>
             {extraAtNextTier > 0 && (
               <span className="text-[11px] font-bold text-[#71717A]">
-                Con tu MRR actual serían <strong className="text-[#059669]">+${extraAtNextTier}/mes</strong>
+                Con tu MRR actual serían <strong className="text-[#56dfe0]">+${extraAtNextTier}/mes</strong>
               </span>
             )}
           </div>
           <div className="flex items-center gap-[10px] mt-3">
-            <span className="text-[10px] font-extrabold text-[#92400E] bg-[#FEF3C7] rounded-full px-[10px] py-[3px] flex-shrink-0">
+            <span className="text-[10px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-[10px] py-[3px] flex-shrink-0">
               {currentTier.name.replace(" Partner", "")} · {(activeCommissionPct * 100).toFixed(0)}%
             </span>
             <div className="flex-1 h-[9px] bg-[#F4F4F5] rounded-full overflow-hidden relative">
               <div
                 className="h-full rounded-full"
-                style={{ width: `${tierProgress}%`, background: "linear-gradient(90deg, #F59E0B, #FBBF24)" }}
+                style={{ width: `${tierProgress}%`, background: "linear-gradient(90deg, #fe5852, #fe5852)" }}
               />
             </div>
-            <span className="text-[11px] font-bold text-[#B45309] flex-shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="text-[11px] font-bold text-[#fe5852] flex-shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               {activeCount}/{currentTierIdx === 0 ? 5 : 10} cuentas activas
             </span>
-            <span className="text-[10px] font-extrabold text-[#3730A3] bg-[#E0E7FF] rounded-full px-[10px] py-[3px] flex-shrink-0">
+            <span className="text-[10px] font-extrabold text-[#111113] bg-[#F4F4F5] rounded-full px-[10px] py-[3px] flex-shrink-0">
               {nextTier.name.replace(" Partner", "")} · {(nextTierPct! * 100).toFixed(0)}%
             </span>
           </div>
@@ -264,7 +264,7 @@ export default function FacturacionPage() {
                     {((p.invoices || [])[0]?.concept) || "Prepago"}
                   </span>
                   {hasPending && !isGenerating ? (
-                    <span className="text-[11.5px] font-bold text-[#B45309]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                    <span className="text-[11.5px] font-bold text-[#fe5852]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                       ${p.estimatedValue.toLocaleString()} pend.
                     </span>
                   ) : (
@@ -276,7 +276,7 @@ export default function FacturacionPage() {
                     {monthsSince(p.createdAt)} {monthsSince(p.createdAt) === 1 ? "mes" : "meses"}
                   </span>
                   {isGenerating ? (
-                    <span className="text-xs font-bold text-[#059669] text-right" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                    <span className="text-xs font-bold text-[#56dfe0] text-right" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                       ${(p.commissionEarned || 0).toLocaleString()}
                     </span>
                   ) : (
@@ -291,7 +291,7 @@ export default function FacturacionPage() {
 
           <div className="flex justify-between px-[18px] py-3 bg-[#FAFAFA] border-t border-[#F0F0F2]">
             <span className="text-[11px] font-extrabold text-[#52525B]">Total del mes</span>
-            <span className="text-[13px] font-bold text-[#059669]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="text-[13px] font-bold text-[#56dfe0]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               ${totalComisiones.toLocaleString()}
             </span>
           </div>
@@ -316,13 +316,13 @@ export default function FacturacionPage() {
                   <div
                     key={inv.id}
                     className="flex items-center justify-between px-4 py-[11px] border-b border-[#F6F6F7]"
-                    style={{ background: isPending ? "#FFFBEB" : "transparent" }}
+                    style={{ background: isPending ? "rgba(254,88,82,0.06)" : "transparent" }}
                   >
                     <div>
                       <div className="text-[11px] font-bold" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                         {inv.id.length > 10 ? `FAC-${inv.id.slice(0, 4).toUpperCase()}` : inv.id}
                       </div>
-                      <div className="text-[10px]" style={{ color: isPending ? "#B45309" : "#71717A" }}>
+                      <div className="text-[10px]" style={{ color: isPending ? "#fe5852" : "#71717A" }}>
                         {inv.company} · {day} {shortMonth}
                       </div>
                     </div>
@@ -331,7 +331,7 @@ export default function FacturacionPage() {
                         ${inv.amount.toLocaleString()}
                       </span>
                       {inv.status === "Pagado" ? (
-                        <span className="text-[9px] font-extrabold text-[#065F46] bg-[#D1FAE5] rounded-full px-2 py-[2px]">
+                        <span className="text-[9px] font-extrabold text-[#111113] bg-[rgba(86,223,224,0.12)] rounded-full px-2 py-[2px]">
                           Pagado
                         </span>
                       ) : (
@@ -365,7 +365,7 @@ export default function FacturacionPage() {
                   contentStyle={{ borderRadius: 10, border: "1px solid #E8E8EA", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", fontSize: 11 }}
                   labelFormatter={(label) => `${label}`}
                 />
-                <Line type="monotone" dataKey="ganancias" stroke="#059669" strokeWidth={2} dot={{ r: 3, fill: "#fff", stroke: "#059669", strokeWidth: 1.5 }} activeDot={{ r: 5, fill: "#059669" }} />
+                <Line type="monotone" dataKey="ganancias" stroke="#56dfe0" strokeWidth={2} dot={{ r: 3, fill: "#fff", stroke: "#56dfe0", strokeWidth: 1.5 }} activeDot={{ r: 5, fill: "#56dfe0" }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

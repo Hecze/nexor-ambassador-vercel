@@ -195,12 +195,12 @@ export default function ResourcesPage() {
                     <div className="flex items-center gap-2 min-w-0">
                       <div
                         className="w-[30px] h-[30px] rounded-[9px] flex items-center justify-center flex-shrink-0"
-                        style={{ background: isWhatsApp ? "#ECFDF5" : "#EEF2FF" }}
+                        style={{ background: isWhatsApp ? "rgba(86,223,224,0.06)" : "#F4F4F5" }}
                       >
                         {isWhatsApp ? (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z" /></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#56dfe0"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z" /></svg>
                         ) : (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" /></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" /></svg>
                         )}
                       </div>
                       <div className="min-w-0">
@@ -213,8 +213,8 @@ export default function ResourcesPage() {
                         <span
                           className="text-[9px] font-extrabold rounded-full px-2 py-0.5"
                           style={{
-                            background: stat.color === "green" ? "#D1FAE5" : "#E0E7FF",
-                            color: stat.color === "green" ? "#065F46" : "#3730A3",
+                            background: stat.color === "green" ? "rgba(86,223,224,0.12)" : "#F4F4F5",
+                            color: stat.color === "green" ? "#111113" : "#111113",
                           }}
                         >
                           {stat.text}
@@ -277,12 +277,12 @@ export default function ResourcesPage() {
         })}
       </div>
 
-      <div className="bg-[#EEF2FF] border border-[#C7D2FE] rounded-[14px] px-4 py-[13px] flex items-center gap-[11px]">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /></svg>
-        <span className="text-[11.5px] text-[#3730A3] font-semibold flex-1">¿Ninguna encaja con tu prospecto? Pídele a Sofía que genere un copy a medida con los datos de tu lead.</span>
+      <div className="bg-[#F4F4F5] border border-[#E8E8EA] rounded-[14px] px-4 py-[13px] flex items-center gap-[11px]">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111113" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /></svg>
+        <span className="text-[11.5px] text-[#111113] font-semibold flex-1">¿Ninguna encaja con tu prospecto? Pídele a Sofía que genere un copy a medida con los datos de tu lead.</span>
         <Link
           href="/dashboard/coach"
-          className="bg-[#4F46E5] text-white rounded-[9px] px-3.5 py-2 text-[11px] font-extrabold transition-colors hover:bg-[#4338CA] no-underline"
+          className="bg-[#111113] text-white rounded-[9px] px-3.5 py-2 text-[11px] font-extrabold transition-colors hover:bg-[#111113] no-underline"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           Pedir a Sofía

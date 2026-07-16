@@ -12,10 +12,10 @@ interface CompaniesPanelProps {
 }
 
 const statusConfig: Record<string, { bg: string; text: string; border: string; label: string }> = {
-  "Generando comisiones": { bg: "#D1FAE5", text: "#065F46", border: "#A7F3D0", label: "Generando comisiones" },
-  "Cuenta activada": { bg: "#E0E7FF", text: "#3730A3", border: "#C7D2FE", label: "Cuenta activada" },
-  "Demo creada": { bg: "#E0F2FE", text: "#0369A1", border: "#BAE6FD", label: "Demo creada" },
-  "Reunión programada": { bg: "#FEF3C7", text: "#92400E", border: "#FDE68A", label: "Reunión programada" },
+  "Generando comisiones": { bg: "rgba(86,223,224,0.12)", text: "#111113", border: "rgba(86,223,224,0.20)", label: "Generando comisiones" },
+  "Cuenta activada": { bg: "#F4F4F5", text: "#111113", border: "#E8E8EA", label: "Cuenta activada" },
+  "Demo creada": { bg: "#F4F4F5", text: "#111113", border: "#E8E8EA", label: "Demo creada" },
+  "Reunión programada": { bg: "rgba(254,88,82,0.08)", text: "#111113", border: "#E8E8EA", label: "Reunión programada" },
   "Link enviado": { bg: "#F4F4F5", text: "#52525B", border: "#E4E4E7", label: "Link enviado" },
 };
 
@@ -66,7 +66,7 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
         </span>
         <div className="flex items-center gap-1.5">
           {activeCompanies > 0 && (
-            <span className="text-[10px] font-bold text-[#059669] bg-[#ECFDF5] rounded-full px-2 py-0.5">
+            <span className="text-[10px] font-bold text-[#56dfe0] bg-[rgba(86,223,224,0.06)] rounded-full px-2 py-0.5">
               {activeCompanies} activas
             </span>
           )}
@@ -131,8 +131,8 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
               className="w-full text-left rounded-xl p-3 transition-all cursor-pointer border"
               style={{
                 background: isSelected ? "#F5F3FF" : "#fff",
-                borderColor: isSelected ? "#C7D2FE" : "#E8E8EA",
-                boxShadow: isSelected ? "inset 3px 0 0 #4F46E5" : "none",
+                borderColor: isSelected ? "#E8E8EA" : "#E8E8EA",
+                boxShadow: isSelected ? "inset 3px 0 0 #111113" : "none",
               }}
             >
               <div className="flex justify-between items-start gap-2">
@@ -144,7 +144,7 @@ export default function CompaniesPanel({ prospects, selectedProspectId, onSelect
                 </div>
                 <span
                   className="text-[11px] font-bold font-mono flex-shrink-0"
-                  style={{ color: hasMRR ? "#059669" : "#A1A1AA" }}
+                  style={{ color: hasMRR ? "#56dfe0" : "#A1A1AA" }}
                 >
                   {mrrAmount}
                 </span>

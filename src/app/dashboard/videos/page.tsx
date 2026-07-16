@@ -122,7 +122,7 @@ export default function VideosPage() {
                 <div className="absolute left-0 right-0 bottom-0 px-4 py-[14px]" style={{ background: "linear-gradient(transparent,rgba(0,0,0,0.75))" }}>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-1 bg-white/25 rounded-full overflow-hidden">
-                      <div className="w-[38%] h-full bg-[#FBBF24] rounded-full" />
+                      <div className="w-[38%] h-full bg-[#fe5852] rounded-full" />
                     </div>
                     <span className="text-[10px] font-bold text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                       {activeIndex === 1 ? "12:24 / 32:10" : `0:00 / ${activeVideo.duration}`}
@@ -139,7 +139,7 @@ export default function VideosPage() {
                 <div className="text-sm font-extrabold">{activeVideo.title.substring(3)}</div>
                 <div className="text-[11px] text-[#71717A] mt-[3px]">{activeVideo.description}</div>
               </div>
-              <span className="text-[9.5px] font-extrabold text-[#92400E] bg-[#FEF3C7] rounded-full px-2.5 py-1 flex-shrink-0">
+              <span className="text-[9.5px] font-extrabold text-[#111113] bg-[rgba(254,88,82,0.08)] rounded-full px-2.5 py-1 flex-shrink-0">
                 +20 XP al terminar
               </span>
             </div>
@@ -170,7 +170,7 @@ export default function VideosPage() {
                   setIsPlaying(false);
                 }}
                 className="flex gap-[11px] px-4 py-3 border-b border-[#F6F6F7] cursor-pointer transition-colors hover:bg-[#FAFAFA]"
-                style={isSelected && status === "viendo" ? { background: "#EEF2FF", boxShadow: "inset 3px 0 0 #4F46E5" } : undefined}
+                style={isSelected && status === "viendo" ? { background: "#F4F4F5", boxShadow: "inset 3px 0 0 #111113" } : undefined}
               >
                 <div className="relative w-[92px] flex-shrink-0">
                   <img
@@ -179,13 +179,13 @@ export default function VideosPage() {
                     className="w-[92px] aspect-video object-cover rounded-lg block"
                   />
                   {status === "visto" && (
-                    <div className="absolute right-1 bottom-1 bg-[#059669] rounded-[5px] px-[5px] py-px flex items-center gap-[3px]">
+                    <div className="absolute right-1 bottom-1 bg-[#56dfe0] rounded-[5px] px-[5px] py-px flex items-center gap-[3px]">
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
                       <span className="text-[8px] font-extrabold text-white">VISTO</span>
                     </div>
                   )}
                   {status === "viendo" && (
-                    <div className="absolute right-1 bottom-1 bg-[#4F46E5] rounded-[5px] px-[5px] py-px">
+                    <div className="absolute right-1 bottom-1 bg-[#111113] rounded-[5px] px-[5px] py-px">
                       <span className="text-[8px] font-extrabold text-white">VIENDO</span>
                     </div>
                   )}
@@ -199,7 +199,7 @@ export default function VideosPage() {
                   </div>
                   <div
                     className="text-[9.5px] mt-[3px]"
-                    style={{ color: status === "viendo" ? "#4338CA" : "#71717A", fontWeight: status === "viendo" ? 700 : 400 }}
+                    style={{ color: status === "viendo" ? "#111113" : "#71717A", fontWeight: status === "viendo" ? 700 : 400 }}
                   >
                     {status === "viendo" ? "32 min · vas en 12:24" : `${video.totalMinutes} · ${video.category}`}
                   </div>
@@ -208,8 +208,8 @@ export default function VideosPage() {
             );
           })}
 
-          <div className="m-3 mb-4 bg-[#FFFBEB] border border-[#FDE68A] rounded-xl p-3 flex items-center gap-2.5">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>
+          <div className="m-3 mb-4 bg-[rgba(254,88,82,0.06)] border border-[#E8E8EA] rounded-xl p-3 flex items-center gap-2.5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe5852" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>
             <span className="text-[10.5px] text-[#78350F] font-semibold leading-[1.5]">
               Termina los 3 videos y desbloquea la insignia <strong>Vendedor Certificado Nexor</strong> · +60 XP
             </span>
